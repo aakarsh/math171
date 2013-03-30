@@ -1,0 +1,256 @@
+MATHEMATICS
+
+MATH 003A	INTENSIVE LEARN I	01	 41565	4	SEM 97	        		21/25	    							DH 303	    	T FISH         
+MATH 003A	INTENSIVE LEARN I	02	 40558	4	SEM 97	        		12/25	    							DH 219	    	M ZOUBEIDI     
+MATH 003A	INTENSIVE LEARN I	05	 40560	4	SEM 97	        		21/25	    							DH 219	    	M ZOUBEIDI     
+MATH 003A	INTENSIVE LEARN I	08	 40563	4	SEM 97	        		21/25	    							DH 219	    	Q TRAN         
+MATH 003A	INTENSIVE LEARN I	11	 44945	4	SEM 97	        		21/25	    							DH 303	    	A TRAN         
+MATH 003A	INTENSIVE LEARN I	12	 45541	4	SEM 97	        		17/25	    							DH 303	    	A TRAN         
+MATH 003A	INTENSIVE LEARN I	16	 50311	4	SEM 	        		16/25	    							DH 303	    	T NGUYEN       
+MATH 003A	INTENSIVE LEARN I	18	 50313	4	SEM 				11/25	    							DH 219	    	Q TRAN         
+MATH 003A	INTENSIVE LEARN I	19	 50777	4	SEM 				0/25	    							MH 233      	
+MATH 003B	INTENSIVE LEARN II	01	 50809	4	SEM 				19/25	    							DH 303	    	T NGUYEN                                   
+MATH 003B	INTENSIVE LEARN II	02	 50810	4	SEM 				14/25	    							DH 219	    	M ZOUBEIDI                                 
+MATH 003B	INTENSIVE LEARN II	03	 50811	4	SEM 				16/25	    							DH 303	    	T NGUYEN                                   
+MATH 006A	ENTRY LEVEL MATH I	10	 42163	3	SEM 97	        		89/150	    							SCI 142	    	P TANNIRU                                  
+MATH 006A	ENTRY LEVEL MATH I	11	 42164	0	ACT 				21/25	    							SCI 321	    	Y LI                                       
+MATH 006A	ENTRY LEVEL MATH I	12	 40566	0	ACT 				19/25	    							SCI 321	    	Y LI                                       
+MATH 006A	ENTRY LEVEL MATH I	13	 40567	0	ACT 				20/25	    							SCI 321	    	Y LI                                       
+MATH 006A	ENTRY LEVEL MATH I	14	 40568	0	ACT 				13/25	    							SCI 321	    	S CHEN                                     
+MATH 006A	ENTRY LEVEL MATH I	15	 42346	0	ACT 				16/25	    							SCI 321	    	L MITCHELL                                 
+MATH 006A	ENTRY LEVEL MATH I	20	 43005	3	SEM 97	        		112/150	    							SCI 142	    	P TANNIRU                                  
+MATH 006A	ENTRY LEVEL MATH I	21	 40570	0	ACT 				16/25	    							DH 181	    	D GOULETTE                                 
+MATH 006A	ENTRY LEVEL MATH I	22	 40571	0	ACT 				19/25	    							DH 181	    	R MILLER                                   
+MATH 006A	ENTRY LEVEL MATH I	23	 42347	0	ACT 				22/25	    							DH 181	    	A CHEN                                     
+MATH 006A	ENTRY LEVEL MATH I	24	 42348	0	ACT 				17/25	    							DH 181	    	A CHEN                                     
+MATH 006A	ENTRY LEVEL MATH I	25	 42349	0	ACT 				20/25	    							DH 181	    	A CHEN                                     
+MATH 006A	ENTRY LEVEL MATH I	26	 40569	0	ACT 				18/25	    							DH 181	    	A CHEN                                     
+MATH 006L	ENTRY LEVEL MATH	10	 41483	5	SEM 97	        		197/225	    							SCI 142	    	S DESOUSA                                  
+MATH 006L	ENTRY LEVEL MATH	11	 41484	0	LAB 				23/25	    							DH 181	    	X YIN                                      
+MATH 006L	ENTRY LEVEL MATH	12	 40572	0	LAB 				24/25	    							SCI 321	    	J WANG                                     
+MATH 006L	ENTRY LEVEL MATH	13	 40573	0	LAB 				23/25	    							DH 181	    	X YIN                                      
+MATH 006L	ENTRY LEVEL MATH	14	 40574	0	LAB 				24/25	    							DH 181	    	R ORTIZ                                    
+MATH 006L	ENTRY LEVEL MATH	15	 42350	0	LAB 				23/25	    							DH 181	    	R ORTIZ                                    
+MATH 006L	ENTRY LEVEL MATH	16	 42351	0	LAB 				18/25	    							SCI 321	    	X YIN                                      
+MATH 006L	ENTRY LEVEL MATH	17	 42662	0	LAB 				16/25	    							DH 181	    	R ORTIZ                                    
+MATH 006L	ENTRY LEVEL MATH	18	 46320	0	LAB 				23/25	    							DH 181	    	J WANG                                     
+MATH 006L	ENTRY LEVEL MATH	19	 46321	0	LAB 				23/25	    							DH 181	    	J WANG                                     
+MATH 006L	ENTRY LEVEL MATH	         50898	 5	                		                        MW      0900-1015    08/22/12-12/10/12	MH 233	    	Q TRAN                               
+MATH 006L	ENTRY LEVEL MATH	21	 50899	 0	SEM 				21/25	                TR      0900-0950    08/22/12-12/10/12	MH 323	    	Q TRAN                               
+MATH 008	COLLEGE ALGEBRA	        02	 41092	 3	LAB 				21/25	                MW      0900-1015    08/22/12-12/10/12	SH 347	    	D GOULETTE                           
+MATH 008	COLLEGE ALGEBRA	        03	 41514	 3	SEM  B4	 39,52			41/40	                MW      1500-1615    08/22/12-12/10/12	DH 318	    	L MITCHELL                           
+MATH 008	COLLEGE ALGEBRA	        04	 41553	 3	SEM  B4	 39,52			45/40	                MW      1630-1745    08/22/12-12/10/12	MH 423	    	A JIRU                               
+MATH 008	COLLEGE ALGEBRA	        06	 43275	 3	SEM  B4	 39,52			41/40	                TR      0900-1015    08/22/12-12/10/12	MH 423	    	D GOLDSTON                           
+MATH 008	COLLEGE ALGEBRA	        07	 44962	 3	SEM  B4	 39,52			42/40	                TR      1030-1145    08/22/12-12/10/12	MH 423	    	D ADAMS                              
+MATH 008	COLLEGE ALGEBRA	        08	 46450	 3	SEM  B4				39/40	                TR      1200-1315    08/22/12-12/10/12	MH 423	    	A DREILING                           
+MATH 008	COLLEGE ALGEBRA	        09	 46872	 3	SEM  B4				38/40	                TR      1630-1745    08/22/12-12/10/12	DMH 164	    	K RUIZ                               
+MATH 008	COLLEGE ALGEBRA	        10	 50553	 3	SEM  B4				42/50	                MW      1330-1445    08/22/12-12/10/12	CL 234	    	S CHEN                               
+MATH 008	COLLEGE ALGEBRA	        11	 50683	 3	SEM  B4				39/40	                TR      1330-1445    08/22/12-12/10/12	SH 239	    	K JENSEN                             
+MATH 008	COLLEGE ALGEBRA	        12	 50795	 3	SEM  B4				40/40	                MW      1030-1145    08/22/12-12/10/12	MH 320	    	M BODAS                              
+MATH 008W	COLL ALGEBRA WKSHP	01	 44963	 1	SEM  B4	 97			37/40	                MW      1200-1315    08/22/12-12/10/12	MH 234	    	F RIVERA                             
+MATH 008W	COLL ALGEBRA WKSHP	02	 44964	 1	LAB 				26/32	                MW      1330-1445    08/22/12-12/10/12	WSQ 001	    	M CAYCO-GAJIC                        
+MATH 008W	COLL ALGEBRA WKSHP	03	 44965	 1	LAB 				7/32	                TR      1030-1145    08/22/12-12/10/12	MH 234	    	S CRUNK                              
+MATH 010	MATH FOR GEN ED	        01	 40578	 3	LAB 				26/32	                MW      1030-1145    08/22/12-12/10/12	SH 347	    	P TANNIRU                            
+MATH 010	MATH FOR GEN ED	        03	 40580	 3	SEM  B4	 39,52			40/40	                MW      1500-1615    08/22/12-12/10/12	MH 423	    	M VAN DER POEL                       
+MATH 010	MATH FOR GEN ED	        04	 40982	 3	SEM  B4	 39,52			37/40	                MW      1630-1745    08/22/12-12/10/12	MH 224	    	K JENSEN                             
+MATH 010	MATH FOR GEN ED	        05	 41136	 3	SEM  B4	 39,52			36/40	                TR      0730-0845    08/22/12-12/10/12	MH 323	    	V NGUYEN                             
+MATH 010	MATH FOR GEN ED	        06	 41297	 3	SEM  B4	 39,52			36/40	                TR      0900-1015    08/22/12-12/10/12	MH 320	    	V NGUYEN                             
+MATH 010	MATH FOR GEN ED	        07	 41535	 3	SEM  B4	 39,52			36/40	                TR      1030-1145    08/22/12-12/10/12	CL 234	    	V NGUYEN                             
+MATH 010	MATH FOR GEN ED	        08	 44005	 3	SEM  B4	 39,52			39/40	                TR      1200-1315    08/22/12-12/10/12	DH 318	    	L SEGA                               
+MATH 010	MATH FOR GEN ED	        09	 43273	 3	SEM  B4				41/40	                TR      1330-1445    08/22/12-12/10/12	SH 347	    	L SEGA                               
+MATH 012	NUMBER SYSTEMS	        01	 40581	 3	SEM  B4				38/40	                MW      1200-1315    08/22/12-12/10/12	MH 425	    	W NEWBALL                            
+MATH 012	NUMBER SYSTEMS	        02	 40582	 3	SEM  B4	 39,52,97	        32/32	                MW      1600-1715    08/22/12-12/10/12	MH 426	    	J TRUBEY                             
+MATH 012	NUMBER SYSTEMS	        03	 40583	 3	SEM  B4	 39,52,97	        25/32	                TR      1200-1315    08/22/12-12/10/12	MH 425	    	L ROPER                              
+MATH 012	NUMBER SYSTEMS	        04	 40584	 3	SEM  B4	 39,52	                34/32	                TR      1330-1445    08/22/12-12/10/12	MH 425	    	L ROPER                              
+MATH 015A	STATWAY A	        01	 50528	 5	SEM  B4	 39,97	                33/32	                MTWR    1030-1145    08/22/12-12/10/12	CL 225	    	S VERGARA                            
+MATH 015A	STATWAY A	        02	 50529	 5	LEC 		                0/30	                MTWR    1200-1315    08/22/12-12/10/12	CL 225	    	S VERGARA                            
+MATH 015A	STATWAY A	        03	 50530	 5	LEC 		                0/30	                MTWR    1330-1445    08/22/12-12/10/12	CL 225	    	S DESOUSA                            
+MATH 019	PRECALCULUS	        01	 40585	 5	LEC 		                0/30	                MTWR    0730-0835    08/22/12-12/10/12	DH 243	    	J WANG                               
+MATH 019	PRECALCULUS	        02	 40586	 5	SEM  B4	 39,52	                37/37	                MTWR    0900-1005    08/22/12-12/10/12	DH 243	    	S ARABHI                             
+MATH 019	PRECALCULUS	        03	 43565	 5	SEM  B4	 39,52,97               33/37                   MTWR    1030-1135    08/22/12-12/10/12	DH 243	    	T SMITH                              
+MATH 019	PRECALCULUS	        04	 40587	 5	SEM  B4	 39,52	                38/37	                MTWR    1200-1305    08/22/12-12/10/12	DH 243	    	E ZABRIC                             
+MATH 019	PRECALCULUS	        05	 40588	 5	SEM  B4	 39,52	                37/37	                MTWR    1330-1435    08/22/12-12/10/12	DH 243	    	E ZABRIC                             
+MATH 019	PRECALCULUS	        06	 40589	 5	SEM  B4	 39,52	                38/37	                MTWR    1500-1605    08/22/12-12/10/12	DH 243	    	K JENSEN                             
+MATH 019	PRECALCULUS	        07	 40590	 5	SEM  B4	 39,52	                38/37	                MTWR    1630-1735    08/22/12-12/10/12	DH 243	    	A NGUYEN                             
+MATH 019	PRECALCULUS	        08	 41518	 5	SEM  B4	 39,52			39/50	                MTR     1800-1920    08/22/12-12/10/12	DH 515	    	A TALEBI                             
+MATH 019	PRECALCULUS	        09	 41536	 5	SEM  B4	 39,52			37/37	                MWF     0730-0850    08/22/12-12/10/12	SH 347	    	W NEWBALL                            
+MATH 019	PRECALCULUS	        10	 44007	 5	SEM  B4				40/40	                MWF     0900-1020    08/22/12-12/10/12	CL 234	    	R PFIEFER                            
+MATH 019	PRECALCULUS	        11	 44008	 5	SEM  B4				38/40	                MWF     1030-1150    08/22/12-12/10/12	CL 234	    	R PFIEFER                            
+MATH 019	PRECALCULUS	        12	 43566	 5	SEM  B4	 39,52			42/42	                MWF     1200-1320    08/22/12-12/10/12	SH 347	    	T HSU                                
+MATH 019	PRECALCULUS	        13	 44176	 5	SEM  B4				37/37	                MWF     1330-1450    08/22/12-12/10/12	SH 347	    	M VAN DER POEL                       
+MATH 019	PRECALCULUS	        14	 44191	 5	SEM  B4	 97			35/37	                MWR     1500-1620    08/22/12-12/10/12	CL 234	    	A JIRU                               
+MATH 019	PRECALCULUS	        15	 46695	 5	SEM  B4				42/37	                MWR     1630-1750    08/22/12-12/10/12	CL 234	    	L SEGA                               
+MATH 019W	PRECALCULUS WORKSHOP	01	 44971	 1	LAB 				29/32	                MW      0730-0845    08/22/12-12/10/12	WSQ 001	    	M CAYCO-GAJIC                        
+MATH 019W	PRECALCULUS WORKSHOP	02	 44972	 1	LAB 				34/32	                MW      0900-1015    08/22/12-12/10/12	WSQ 001	    	L FOSTER                             
+MATH 019W	PRECALCULUS WORKSHOP	03	 44974	 1	LAB 				35/32	                MW      1030-1145    08/22/12-12/10/12	WSQ 001	    	F RIVERA                             
+MATH 019W	PRECALCULUS WORKSHOP	04	 44975	 1	LAB 				33/32	                MW      1200-1315    08/22/12-12/10/12	WSQ 001	    	K RUIZ                               
+MATH 019W	PRECALCULUS WORKSHOP	05	 44976	 1	LAB 				31/32	                MW      1330-1445    08/22/12-12/10/12	WSQ 001	    	T HSU                                
+MATH 019W	PRECALCULUS WORKSHOP	06	 44977	 1	LAB 				34/32	                MW      1500-1615    08/22/12-12/10/12	WSQ 001	    	W SO                                 
+MATH 019W	PRECALCULUS WORKSHOP	07	 44978	 1	LAB 				29/32	                MW      1630-1745    08/22/12-12/10/12	WSQ 001	    	T HSU                                
+MATH 019W	PRECALCULUS WORKSHOP	10	 44981	 1	LAB 	61			31/32	                TR      0900-1015    08/22/12-12/10/12	WSQ 001	    	R DODD                               
+MATH 019W	PRECALCULUS WORKSHOP	11	 44982	 1	LAB 				33/32	                TR      1030-1145    08/22/12-12/10/12	WSQ 001	    	R DODD                               
+MATH 019W	PRECALCULUS WORKSHOP	12	 44983	 1	LAB 				31/32	                TR      1200-1315    08/22/12-12/10/12	WSQ 001	    	S CRUNK                              
+MATH 019W	PRECALCULUS WORKSHOP	13	 44984	 1	LAB 				33/32	                TR      1330-1445    08/22/12-12/10/12	WSQ 001	    	M SALEEM                             
+MATH 019W	PRECALCULUS WORKSHOP	14	 44985	 1	LAB 				30/32	                TR      1500-1615    08/22/12-12/10/12	WSQ 001	    	M SALEEM                             
+MATH 019W	PRECALCULUS WORKSHOP	15	 44986	 1	LAB 				21/32	                TR      1630-1745    08/22/12-12/10/12	WSQ 001	    	J MARUSKIN                           
+MATH 019W	PRECALCULUS WORKSHOP	16	 46696	 1	LAB 				17/32	                TR      1800-1915    08/22/12-12/10/12	WSQ 001	    	J MARUSKIN                           
+MATH 019W	PRECALCULUS WORKSHOP	17	 46697	 1	LAB 				34/32	                TR      0900-1015    08/22/12-12/10/12	MH 234	    	E SCHMEICHEL                         
+MATH 019W	PRECALCULUS WORKSHOP	18	 46698	 1	LAB 				30/32	                MW      1200-1315    08/22/12-12/10/12	MH 233	    	A GOTTLIEB                           
+MATH 019W	PRECALCULUS WORKSHOP	19	 50604	 1	LAB 				27/32	                MW      1030-1145    08/22/12-12/10/12	DH 547	    	J BECKER                             
+MATH 019W	PRECALCULUS WORKSHOP	20	 50605	 1	LAB 				29/32	                TR      1500-1615    08/22/12-12/10/12	DH 547	    	D GOLDSTON                           
+MATH 030	CALCULUS I	        01	 42376	 3	SEM 	39,42,52	        54/55	                MW      1030-1145    08/22/12-12/10/12	DH 351	    	M BEESON                             
+MATH 030	CALCULUS I	        02	 42814	 3	SEM 	39,42,52	        49/55	                MW      1200-1315    08/22/12-12/10/12	DH 351	    	M BEESON                             
+MATH 030	CALCULUS I	        03	 42434	 3	SEM 	39,42,52,97	        48/40	                TR      0900-1015    08/22/12-12/10/12	SPXE 077    	M VARTANIAN                          
+MATH 030	CALCULUS I	        04	 43577	 3	SEM 	39,42,52,97	        60/55	                TR      1030-1145    08/22/12-12/10/12	DH 318	    	D GOLDSTON                           
+MATH 030	CALCULUS I	        05	         3	SEM 	38/40						TR	1330-1445   08/22/12-12/10/12	IS 113		S VERGARA                            
+MATH 030P	CAL I WITH PRECAL	 02	         5	SEM 	42/42						MTWR	0900-1005   08/22/12-12/10/12	MH 224		S OBAID                              
+MATH 030P	CAL I WITH PRECAL	 03	         5	SEM 	39/40						MTWR	1200-1305   08/22/12-12/10/12	MH 224		A STRONG                             
+MATH 030P	CAL I WITH PRECAL	 04	         5	SEM 	40/42						MTWR	1330-1435   08/22/12-12/10/12	MH 224		B PETERSON                           
+MATH 030P	CAL I WITH PRECAL	 05	         5	SEM 	44/40						MTWR	1500-1605   08/22/12-12/10/12	MH 224		W NEWBALL                            
+MATH 030P	CAL I WITH PRECAL	 07	         5	SEM 	43/40						MTWR	0730-0835   08/22/12-12/10/12	MH 423		M VARTANIAN                          
+MATH 030P	CAL I WITH PRECAL	 08	         5	SEM 	27/35						MWF	1030-1150   08/22/12-12/10/12	DMH 167		S AHMED                              
+MATH 030W	CALCULUS I WORKSHOP	 02	         1	LAB 	34/32						MW	0900-1015   08/22/12-12/10/12	WSQ 001		R KUBELKA                            
+MATH 030W	CALCULUS I WORKSHOP	 03	         1	LAB 	33/32						MW	1030-1145   08/22/12-12/10/12	WSQ 001		S SIMIC                              
+MATH 030W	CALCULUS I WORKSHOP	 04	         1	LAB 	30/32						MW	1330-1445   08/22/12-12/10/12	WSQ 001		K KELLUM                             
+MATH 030W	CALCULUS I WORKSHOP	 05	         1	LAB 	30/32						MW	1500-1615   08/22/12-12/10/12	WSQ 001		C RODDICK                            
+MATH 030W	CALCULUS I WORKSHOP	 06	         1	LAB 	31/32						MW	1630-1745   08/22/12-12/10/12	WSQ 001		C RODDICK                            
+MATH 030W	CALCULUS I WORKSHOP	 07	         1	LAB 	17/32						MW	1800-1915   08/22/12-12/10/12	WSQ 001		M BEESON                             
+MATH 030W	CALCULUS I WORKSHOP	 08	         1	LAB 	22/32						TR	0730-0845   08/22/12-12/10/12	WSQ 001		E SCHMEICHEL                         
+MATH 030W	CALCULUS I WORKSHOP	 09	         1	LAB 	33/32						TR	0900-1015   08/22/12-12/10/12	WSQ 001		H NG                                 
+MATH 030W	CALCULUS I WORKSHOP	 10	         1	LAB 	31/32						TR	1030-1145   08/22/12-12/10/12	WSQ 001		J YU                                 
+MATH 030W	CALCULUS I WORKSHOP	 11	         1	LAB 	32/32						TR	1200-1315   08/22/12-12/10/12	WSQ 001		B LEE                                
+MATH 030W	CALCULUS I WORKSHOP	 12	         1	LAB 	30/32						TR	1500-1615   08/22/12-12/10/12	WSQ 001		J YU                                 
+MATH 030W	CALCULUS I WORKSHOP	 13	         1	LAB 	30/32						TR	1630-1745   08/22/12-12/10/12	WSQ 001		J YU                                 
+MATH 030W	CALCULUS I WORKSHOP	 15	         1	LAB 	36/32						MW	1200-1315   08/22/12-12/10/12	DH 547		S SIMIC                              
+MATH 030W	CALCULUS I WORKSHOP	 16	         1	LAB 	31/32						TR	1200-1315   08/22/12-12/10/12	DH 547		M BLOCKUS                            
+MATH 031	CALCULUS II	         01	         4	SEM 	42/37						MTWR	0730-0820   08/22/12-12/10/12	MH 424		J LUM                                
+MATH 031	CALCULUS II	         02	         4	SEM 	41/37						MTWR	0830-0920   08/22/12-12/10/12	MH 424		T SMITH                              
+MATH 031	CALCULUS II	         03	         4	SEM 	42/42						MTWR	0930-1020   08/22/12-12/10/12	MH 424		K KELLUM                             
+MATH 031	CALCULUS II	         04	         4	SEM 	42/42						MTWR	1030-1120   08/22/12-12/10/12	MH 424		K KELLUM                             
+MATH 031	CALCULUS II	         05	         4	SEM 	41/42						MTWR	1130-1220   08/22/12-12/10/12	MH 424		B PETERSON                           
+MATH 031	CALCULUS II	         06	         4	SEM 	42/37						MTWR	1230-1320   08/22/12-12/10/12	MH 424		T SMITH                              
+MATH 031	CALCULUS II	         07	         4	SEM 	42/42						MTWR	1330-1420   08/22/12-12/10/12	MH 424		S OBAID                              
+MATH 031	CALCULUS II	         08	         4	SEM 	32/37						MTWR	1430-1520   08/22/12-12/10/12	MH 424		R LOW                                
+MATH 031	CALCULUS II	         09	         4	SEM 	36/37						MTWR	1530-1620   08/22/12-12/10/12	MH 424		R LOW                                
+MATH 031	CALCULUS II	         11	         4	SEM 	36/37						MWR	1800-1910   08/22/12-12/10/12	MH 424		R LOW                                
+MATH 031	CALCULUS II	         12	         4	SEM 	40/37						MWF	0730-0840   08/22/12-12/10/12	MH 323		M BODAS                              
+MATH 031	CALCULUS II	         13	         4	SEM 	37/37						MWF	1030-1140   08/22/12-12/10/12	DH 318		M CAYCO-GAJIC                        
+MATH 031W	CALCULUS II WORKSHOP	 01	         1	LAB 	11/32						MW	0730-0845   08/22/12-12/10/12	WSQ 001		L ROPER                              
+MATH 031W	CALCULUS II WORKSHOP	 02	         1	LAB 	31/32						MW	0900-1015   08/22/12-12/10/12	WSQ 001		L ROPER                              
+MATH 031W	CALCULUS II WORKSHOP	 03	         1	LAB 	34/32						MW	1030-1145   08/22/12-12/10/12	WSQ 001		L ROPER                              
+MATH 031W	CALCULUS II WORKSHOP	 04	         1	LAB 	29/32						MW	1200-1315   08/22/12-12/10/12	WSQ 001		L ROPER                              
+MATH 031W	CALCULUS II WORKSHOP	 05	         1	LAB 	28/32						MW	1500-1615   08/22/12-12/10/12	WSQ 001		M SALEEM                             
+MATH 031W	CALCULUS II WORKSHOP	 06	         1	LAB 	33/32						MW	1630-1745   08/22/12-12/10/12	WSQ 001		M SALEEM                             
+MATH 031W	CALCULUS II WORKSHOP	 09	         1	LAB 	31/32						TR	1030-1145   08/22/12-12/10/12	WSQ 001		M STANLEY                            
+MATH 031W	CALCULUS II WORKSHOP	 10	         1	LAB 	29/32						TR	1330-1445   08/22/12-12/10/12	WSQ 001		K RUIZ                               
+MATH 031W	CALCULUS II WORKSHOP	 11	         1	LAB 	33/32						TR	1200-1315   08/22/12-12/10/12	WSQ 001		M STANLEY                            
+MATH 031W	CALCULUS II WORKSHOP	 12	         1	LAB 	29/32						TR	1500-1615   08/22/12-12/10/12	WSQ 001		B LEE                                
+MATH 031W	CALCULUS II WORKSHOP	 13	         1	LAB 	24/32						TR	1630-1745   08/22/12-12/10/12	WSQ 001		H NG                                 
+MATH 031W	CALCULUS II WORKSHOP	 14	         1	LAB 	13/32						TR	1800-1915   08/22/12-12/10/12	WSQ 001		K RUIZ                               
+MATH 031W	CALCULUS II WORKSHOP	 15	         1	LAB 	23/32						TR	1330-1445   08/22/12-12/10/12	SH 345		D GOLDSTON                           
+MATH 031W	CALCULUS II WORKSHOP	 16	         1	LAB 	21/32						MW	0900-1015   08/22/12-12/10/12	DH 547		R SANDERS                            
+MATH 031W	CALCULUS II WORKSHOP	 17	         1	LAB 	15/32						MW	1330-1445   08/22/12-12/10/12	DH 547		R SANDERS                            
+MATH 032	CALCULUS III	         02	         3	SEM 	40/42						MW	0900-1015   08/22/12-12/10/12	MH 320		M SALEEM                             
+MATH 032	CALCULUS III	         05	         3	SEM 	37/40						MW	1500-1615   08/22/12-12/10/12	MH 323		A STRONG                             
+MATH 032	CALCULUS III	         07	         3	SEM 	42/40						TR	1200-1315   08/22/12-12/10/12	MH 320		P KOEV                               
+MATH 032	CALCULUS III	         08	         3	SEM 	42/40						TR	1330-1445   08/22/12-12/10/12	MH 320		P KOEV                               
+MATH 032	CALCULUS III	         09	         3	SEM 	34/40						TR	1630-1745   08/22/12-12/10/12	MH 323		H KATSUURA                           
+MATH 032	CALCULUS III	         10	         3	SEM 	37/40						MW	1030-1145   08/22/12-12/10/12	DMH 358		A STRONG                             
+MATH 032	CALCULUS III	         11	         3	SEM 	39/42						TR	1030-1145   08/22/12-12/10/12	MH 224		H KATSUURA                           
+MATH 032	CALCULUS III	         12	         3	SEM 	40/40						TR	1500-1615   08/22/12-12/10/12	SH 240		H KATSUURA                           
+MATH 032	CALCULUS III	         13	         3	SEM 	44/50						MW	1330-1445   08/22/12-12/10/12	MH 523		C FAN                                
+MATH 032W	CALCULUS III WKSHP	 01	         1	LAB 	31/32						MW	0900-1015   08/22/12-12/10/12	MH 235		W SO                                 
+MATH 032W	CALCULUS III WKSHP	 02	         1	LAB 	34/32						MW	1030-1145   08/22/12-12/10/12	MH 234		L FOSTER                             
+MATH 032W	CALCULUS III WKSHP	 03	         1	LAB 	29/32						TR	0900-1015   08/22/12-12/10/12	WSQ 001		N KHORLIN                            
+MATH 032W	CALCULUS III WKSHP	 04	         1	LAB 	31/32						TR	1200-1315   08/22/12-12/10/12	MH 234		N KHORLIN                            
+MATH 042	DISCRETE MATH	         01	         3	SEM 	37/37						MW	0900-1015   08/22/12-12/10/12	MH 423		M BLOCKUS                            
+MATH 042	DISCRETE MATH	         02	         3	SEM 	37/37						MW	1030-1145   08/22/12-12/10/12	MH 423		M BLOCKUS                            
+MATH 042	DISCRETE MATH	         03	         3	SEM 	39/40						TR	1030-1145   08/22/12-12/10/12	MH 320		E SCHMEICHEL                         
+MATH 042	DISCRETE MATH	         04	         3	SEM 	38/40						TR	1200-1315   08/22/12-12/10/12	MH 323		E SCHMEICHEL                         
+MATH 042	DISCRETE MATH	         05	         3	SEM 	51/50						TR	1630-1745   08/22/12-12/10/12	DH 515		A TALEBI                             
+MATH 042W	DISCRETE MATH WKSP	 01	         1	LAB 	20/30						MW	1200-1315   08/22/12-12/10/12	WSQ 001		R SANDERS                            
+MATH 042W	DISCRETE MATH WKSP	 02	45084	1	LAB 	25/30						TR	1330-1445   08/22/12-12/10/12	WSQ 001	        J BECKER                   
+MATH 050	SCI COMPUTING I	         01	50233	2	LEC 	6/24						R	1315-1405   08/22/12-12/10/12	DH 614	        B HABTEZION                
+MATH 050	SCI COMPUTING I	         02	50234	0	LAB 	6/24						T	1030-1315   08/22/12-12/10/12	DH 614	        B HABTEZION                
+MATH 070	FINITE MATH	         04	49522	3	SEM 	38/40						MW	0900-1015   08/22/12-12/10/12	SH 239	        T FISH                     
+MATH 070	FINITE MATH	         05	49523	3	SEM 	44/46						TR	0900-1015   08/22/12-12/10/12	SH 347	        J WANG                     
+MATH 070	FINITE MATH	         06	50684	3	SEM 	38/40						MW	1330-1445   08/22/12-12/10/12	MH 323	        L PAPAY                    
+MATH 070	FINITE MATH	         08	51009	3	SEM	31/40						MW	1200-1315   08/22/12-12/10/12	IS 113	        L PAPAY                    
+MATH 071	CALC FOR BUS/AVIAT	 01	43783	3	SEM	39,52 47/40	        		        MW	0900-1015   08/22/12-12/10/12	DH 318	        M BODAS                    
+MATH 071	CALC FOR BUS/AVIAT	 02	48008	3	SEM	58/60						MW	1200-1315   08/22/12-12/10/12	DH 318	        L FOSTER                   
+MATH 071	CALC FOR BUS/AVIAT	 03	43784	3	SEM	39,52 55/60             		        MW	1330-1445   08/22/12-12/10/12	DH 318	        L FOSTER                   
+MATH 071	CALC FOR BUS/AVIAT	 04	48019	3	SEM	21/40						MW	1630-1745   08/22/12-12/10/12	DH 318	        J JORDAN                   
+MATH 071	CALC FOR BUS/AVIAT	 05	45200	3	SEM	32/40						MW	1800-1915   08/22/12-12/10/12	DH 318	        T HUYNH                    
+MATH 071	CALC FOR BUS/AVIAT	 07	45202	3	SEM	35/40						TR	0900-1015   08/22/12-12/10/12	DH 318	        H KATSUURA                 
+MATH 071	CALC FOR BUS/AVIAT	 08	46451	3	SEM	39/40						TR	1030-1145   08/22/12-12/10/12	MH 323	        E ZABRIC                   
+MATH 071	CALC FOR BUS/AVIAT	 09	48009	3	SEM	41/40						TR	1200-1315   08/22/12-12/10/12	CL 234	        H NG                       
+MATH 071	CALC FOR BUS/AVIAT	 10	48010	3	SEM	24/40						TR	1330-1445   08/22/12-12/10/12	DH 318	        S AHMED                    
+MATH 071W	CALC WKSHP BUS/AVI	 03	45225	1	LAB	29/32						MW	1030-1145   08/22/12-12/10/12	MH 233	        A GOTTLIEB                 
+MATH 071W	CALC WKSHP BUS/AVI	 04	48027	1	LAB	25/32						MW	1330-1445   08/22/12-12/10/12	MH 233	        R KUBELKA                  
+MATH 071W	CALC WKSHP BUS/AVI	 06	48029	1	LAB	18/32						MW	1500-1615   08/22/12-12/10/12	DH 547	        M BEESON                   
+MATH 071W	CALC WKSHP BUS/AVI	 09	48032	1	LAB	28/32						TR	1030-1145   08/22/12-12/10/12	DH 547	        A DREILING                 
+MATH 071W	CALC WKSHP BUS/AVI	 11	48034	1	LAB	13/32						TR	1330-1445   08/22/12-12/10/12	DH 547	        M BLOCKUS                  
+MATH 100W	WRITING WORKSHOP	 01	49551	3	SEM Z	31/28						MW	1330-1445   08/22/12-12/10/12	ENG 401	        J HILLIARD                 
+MATH 105	CONCEPTS IN MATH	 01	40607	3	SEM 97	29/32						MW	0900-1015   08/22/12-12/10/12	MH 425	        C RODDICK                  
+MATH 105	CONCEPTS IN MATH	 02	41523	3	SEM 97	29/32						MW	1030-1145   08/22/12-12/10/12	MH 425	        C RODDICK                  
+MATH 105	CONCEPTS IN MATH	 03	41354	3	SEM 102	14/32						TR	1730-1845   08/22/12-12/10/12	MH 425	        P ROGERS                   
+MATH 106	INTUITIVE GEOMETRY	 01	40608	3	SEM 97	16/32						TR	0900-1030   08/22/12-12/10/12	MH 425	        B PENCE                    
+MATH 106	INTUITIVE GEOMETRY	 02	41524	3	SEM 97	23/32						TR	1030-1145   08/22/12-12/10/12	MH 425	        B PENCE                    
+MATH 106	INTUITIVE GEOMETRY	 80	40609	3	SEM 101	25/32						TBA	TBA	    08/22/12-12/10/12	                F RIVERA                   
+MATH 107A	EXPLOR IN ALGEBRA	 01	40610	3	SEM 102	11/28						TR	1600-1715   08/22/12-12/10/12	MH 425	        B PENCE                    
+MATH 108	INTRO TO PROOFS	         01	41356	3	SEM	23/32						MW	1030-1145   08/22/12-12/10/12	MH 235	        T HSU                      
+MATH 110L	MATH COMPUTING LAB	 01	40611	1	LAB	8/10						TBA	TBA	    08/22/12-12/10/12	MH 221	        S DESOUSA                  
+MATH 110L	MATH COMPUTING LAB	 02	40612	1	LAB	10/10						TBA	TBA	    08/22/12-12/10/12	MH 221	        S VERGARA                  
+MATH 110L	MATH COMPUTING LAB	 03	40613	1	LAB	7/10						TBA	TBA	    08/22/12-12/10/12	MH 221	        L ROPER                    
+MATH 110L	MATH COMPUTING LAB	 04	40614	1	LAB	8/10						TBA	TBA	    08/22/12-12/10/12	MH 221	        S SIMIC                    
+MATH 110L	MATH COMPUTING LAB	 05	40615	1	LAB	10/10						TBA	TBA	    08/22/12-12/10/12	MH 221	        S SIMIC                    
+MATH 112	VECTOR CALCULUS	         01	43787	3	LEC	24/32						MW	0730-0845   08/22/12-12/10/12	MH 235	        M SALEEM                   
+MATH 113	DIFFERENTIAL GEOM	 01	48248	3	SEM	13/32						TR	1330-1445   08/22/12-12/10/12	MH 235	        S SIMIC                    
+MATH 115	MOD GEOM & TRANS	 01	48250	3	SEM	17/32						MW	1330-1445   08/22/12-12/10/12	MH 235	        R PFIEFER                  
+MATH 123	DIFF EQ AND LINEAR ALG	 01	45284	3	SEM	40/40						MW	1200-1315   08/22/12-12/10/12	CL 234	        K KELLUM                   
+MATH 126	THEORY OF NUM I	         01	41357	3	SEM	26/32						TR	0900-1015   08/22/12-12/10/12	MH 235	        B PETERSON                 
+MATH 128A	ABSTRACT ALGEBRA I	 01	40619	3	SEM	27/28						TR	1030-1145   08/22/12-12/10/12	MH 235	        M BLOCKUS                  
+MATH 129A	LINEAR ALGEBRA I	 02	41526	3	SEM 75,97 44/50						MW	1730-1845   08/22/12-12/10/12	DMH 234	        J MARUSKIN                 
+MATH 129A	LINEAR ALGEBRA I	 05	44250	3	SEM	40/42						TR	1330-1445   08/22/12-12/10/12	MH 423	        M STANLEY                  
+MATH 129A	LINEAR ALGEBRA I	 06	48257	3	SEM	39/42						TR	1500-1615   08/22/12-12/10/12	MH 423	        M STANLEY                  
+MATH 129A	LINEAR ALGEBRA I	 07	49524	3	SEM	30/44						MW	1330-1445   08/22/12-12/10/12	CL 238	        W SO                       
+MATH 129A	LINEAR ALGEBRA I	 08	49525	3	SEM	40/42						MW	1200-1315   08/22/12-12/10/12	SH 345	        W SO                       
+MATH 129B	LINEAR ALGEBRA II	 01	45293	3	SEM	12/32						TR	1730-1845   08/22/12-12/10/12	MH 235	        M STANLEY                  
+MATH 132	ADV CALC I	         01	44006	3	LEC	19/28						MW	1200-1315   08/22/12-12/10/12	MH 235	        S OBAID                    
+MATH 133A	ORD DIFF EQ	         01	40621	3	SEM	38/40						MW	0900-1015   08/22/12-12/10/12	MH 323	        M BEESON                   
+MATH 133A	ORD DIFF EQ	         02	40622	3	SEM	40/42						MW	1030-1145   08/22/12-12/10/12	MH 323	        R KUBELKA                  
+MATH 133A	ORD DIFF EQ	         03	40623	3	SEM	33/42						MW	1200-1315   08/22/12-12/10/12	MH 323	        R KUBELKA                  
+MATH 133A	ORD DIFF EQ	         05	40625	3	SEM	44/42						TR	1330-1445   08/22/12-12/10/12	MH 323	        R DODD                     
+MATH 133A	ORD DIFF EQ	         06	41528	3	SEM	41/42						TR	1500-1615   08/22/12-12/10/12	MH 323	        R DODD                     
+MATH 133A	ORD DIFF EQ	         07	48260	3	SEM	37/40						TR	1800-1915   08/22/12-12/10/12	MH 323	        R DODD                     
+MATH 142	INTRO TO COMB	         01	48271	3	SEM	20/28						TR	1600-1715   08/22/12-12/10/12	MH 320	        E SCHMEICHEL               
+MATH 143M	NUM ANALY SCI COMP	 01	48272	3	SEM	17/32						MW	1900-2015   08/22/12-12/10/12	MH 235	        L FOSTER                   
+MATH 161A	APPLIED STATS I	         01	43006	3	SEM 97	36/37						MW	1200-1315   08/22/12-12/10/12	MH 320	        O KOVALEVA                 
+MATH 161A	APPLIED STATS I	         02	40626	3	SEM 97	33/37						MW	1330-1445   08/22/12-12/10/12	MH 320	        B LEE                      
+MATH 161A	APPLIED STATS I	         03	40627	3	SEM 97	40/37						TR	1200-1315   08/22/12-12/10/12	SH 347	        O KOVALEVA                 
+MATH 161B	APPLIED STATS II	 01	40628	3	SEM 	15/28						TR	1030-1145   08/22/12-12/10/12	SH 347	        O KOVALEVA                 
+MATH 163	PROBABILITY THEORY	 01	40629	3	SEM 97	33/28						MW	1330-1445   08/22/12-12/10/12	MH 234	        A GOTTLIEB                 
+MATH 163	PROBABILITY THEORY	 02	46499	3	SEM	26/28						MW	1600-1715   08/22/12-12/10/12	MH 234	        A GOTTLIEB                 
+MATH 167	PROGRAMMING IN SAS	 01	43791	3	SEM	24/28						TR	0730-0845   08/22/12-12/10/12	CL 234	        H NG                       
+MATH 167	PROGRAMMING IN SAS	 02	46500	3	SEM	28/28						TR	1330-1445   08/22/12-12/10/12	CL 234	        H NG                       
+MATH 177	LIN NONLIN OPTIM	 01	48362	3	SEM	24/50						MW	1600-1715   08/22/12-12/10/12	DMH 149B	J MARUSKIN                 
+MATH 180H	IND STUDIES/HONORS	 05	44297	3	SEM	1/1						TBA	TBA	    08/22/12-12/10/12	                M CAYCO-GAJIC              
+MATH 203	APPL MATH,COMP&STAT PROJ 01	45133	3	SEM	6/10						TBA	TBA	    08/22/12-12/10/12	DH 280	        M CAYCO-GAJIC              
+MATH 203	APPL MATH,COMP&STAT PROJ 02	43792	3	SEM	0/10						TBA	TBA	    08/22/12-12/10/12	DH 280	                                               
+MATH 229	ADV MATRIX THEORY	 01	48368	3	SEM	13/28						MW	1730-1845   08/22/12-12/10/12	MH 233	                                               
+MATH 243A	ADV NUMERICAL ANALYSIS	 01	48369	3	SEM	10/28						TR	1730-1845   08/22/12-12/10/12	MH 234	                                               
+MATH 258	CATEGORICAL DATA	 01	50555	3	LEC	18/30						MW	1730-1845   08/22/12-12/10/12	SH 344	                                               
+MATH 261B	DESIGN ANALY EXPTS	 01	48489	3	LEC	21/30						MW	1600-1715   08/22/12-12/10/12	MH 320	                                               
+MATH 265	TIME SERIES	         01	45142	3	SEM	22/20						TR	1730-1845   08/22/12-12/10/12	MH 320	                                               
+MATH 269	STAT CONSULTING	         01	48490	3	LEC	12/30						TR	1900-2015   08/22/12-12/10/12	MH 320	                                               
+MATH 275	TOPOLOGY	         01	48492	3	SEM	7/15						MW	1600-1715   08/22/12-12/10/12	MH 233	                                               
+MATH 298	SPECIAL STUDY	         04	43860	2	SUP	0/10						TBA	TBA	    08/22/12-12/10/12                                                              
+MATH 298	SPECIAL STUDY	         05	43861	3	SUP	0/10						TBA	TBA	    08/22/12-12/10/12                                                              
+MATH 298	SPECIAL STUDY	         07	43862	3	SUP	1/10						TBA	TBA	    08/22/12-12/10/12		                                               
+MATH 298	SPECIAL STUDY	         08	43863	3	SUP	1/10						TBA	TBA	    08/22/12-12/10/12		                                               
+MATH 299	MASTERS THESIS	         03	43864	2	SUP	0/10						TBA	TBA	    08/22/12-12/10/12                                                              
+MATH 299	MASTERS THESIS	         04	43865	2	SUP	0/10						TBA	TBA	    08/22/12-12/10/12                                                              
+MATH 299	MASTERS THESIS	         07	43866	3	SUP	0/10						TBA	TBA	    08/22/12-12/10/12                                                              
+MATH 299	MASTERS THESIS	         08	43867	3	SUP	0/10						TBA	TBA	    08/22/12-12/10/12                                                              
+
+
