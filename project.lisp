@@ -20,7 +20,7 @@
 (defvar *sample-graph-file*
   "/home/aakarsh/src/prv/common-lisp/clisp-sample/sample-graph.lisp")
 
-(defvar *tg* "/home/aakarsh/src/prv/common-lisp/clisp-sample/simple.txt")
+(defvar *tg* "/home/aakarsh/src/prv/common-lisp/graphs/simple.txt")
 
 (defclass edge()
   ((start :initarg :start-node)
@@ -29,7 +29,7 @@
 
 (defclass node()
   ((name :initarg :name)
-   (color :initarg :color :initform "W")
+   (color :initarg :color :initform :white)
    (neighbours :initarg :adj :initform '())))
 
 (defclass graph()
@@ -38,6 +38,12 @@
 
 (defun graph-edges(g)
   (slot-value g 'edges))
+
+(defun graph-find-edges(v1 v2 g)
+  (dolist (edge (graph-edges g))
+    (if (and (string= (slot-value edge 'start) v1)
+             (string= (slot-value edge 'end) v2))
+        (return edge))))
 
 (defun graph-nodes(g)
   (slot-value g 'nodes))
@@ -56,6 +62,16 @@
                (push (slot-value e 'end) adjv)))
     (remove-duplicates adjv :test #'string=)))
 
+(defun bfs(start target graph)
+  (loop for node in (graph-nodes graph)
+        do   
+        (setf (slot-value node 'color) :white))
+  (loop for tail  in (graph-nodes graph)
+        do 
+        (        )
+))
+
+
 (defun find-node(name nodes)
   (loop 
      for node in nodes 
@@ -63,6 +79,9 @@
      (if (string= name (slot-value node 'name))
          (progn
            (return node)))))
+
+(defun node-name(node)
+  (slot-value node 'name))
 
 (defun node-names(nodes)
   (loop 
@@ -91,8 +110,15 @@
                (setq end_node (make-instance 'node :name end_vertex_name))
                (push end_node nodes)))
          (progn
-           (push end_node (slot-value cur_node 'neighbours))))
+           (node-add-neighbour cur_node end_node)))
            nodes))
+
+(defun node-has-neighbourp(node neighbour)  
+  (position (node-name neighbour) (node-neighbours node) :test #'string= :key #'node-name))
+
+(defun node-add-neighbour(node neighbour)
+  (if (not (node-has-neighbourp node neighbour))
+        (push neighbour (slot-value node 'neighbours))))
 
  (defun split-by-one-space (str)
     "Returns a list of substrs of str divided by ONE space each.
@@ -111,10 +137,6 @@ str between them."
       (push (slot-value e 'end) node-names))
     (setq node-names (remove-duplicates node-names :test #'string= ))))
 
-
-(defvar *g* (parse-graph *tg*))
-(defvar es (graph-edges *g*))
-
 (defun read-edge-file(fn)
   (let ((in (open fn :if-does-not-exist nil))
         (edges '()))
@@ -132,7 +154,6 @@ str between them."
     (close in)
     (nreverse edges)))
 
-
 (defun an/read-sample-graph()
   (let ((in (open *sample-graph-file* :if-does-not-exist nil)))
     (when in
@@ -141,10 +162,28 @@ str between them."
             (format t "~a~%" line)))
     (close in)))
 
-
 (defun parse-graph(fn)
   (let* ((edges (read-edge-file fn))
-         (nodes (edges->node-names edges)))
+         (nodes (edges->nodes edges)))
     (make-instance 'graph 
                    :nodes nodes
                    :edges edges)))
+
+(defparameter *g* (parse-graph *tg*))
+(defparameter es (graph-edges *g*))
+
+(defun print-edge(edge)
+  (if edge 
+      (format t "~a -> ~a [~a] ~%" 
+              (slot-value edge 'start) 
+              (slot-value edge 'end) 
+              (slot-value edge 'capacity))))
+
+(defun take(n ls)
+  (loop for i from 0 to n
+        for l  = ls then (cdr l)
+        while (< i n)
+        collect (car l)))
+
+(defun print-graph-edges(g)
+  (mapcar #'print-edge (graph-edges g)))
