@@ -35,7 +35,6 @@ int pred[MAX_NODES];  // array to store augmenting path
 int min (int x, int y) {
     return x<y ? x : y;  // returns minimum of x and y
 }
-
 A Queue for Breadth-First Search
 
 int head,tail;
@@ -60,7 +59,7 @@ int bfs (int start, int target) {
     int u,v;
     for (u=0; u<n; u++) {
     /* start out with white color */
-
+	color[u] = WHITE; 
     }   
 
     head = tail = 0;
@@ -70,21 +69,16 @@ int bfs (int start, int target) {
     pred[start] = -1;
     while (head!=tail) {
 	u = dequeue();
-
-        // Search all adjacent white nodes v. 
-        // If the capacity
-        // from u to v in the residual network
-        //  is positive, enqueue v.
-
+        // Search all adjacent white nodes v. If the capacity
+        // from u to v in the residual network is positive,
+        // enqueue v.
 	for (v=0; v<n; v++) {
-	    if (color[v]==WHITE 
-                      && capacity[u][v]-flow[u][v]>0) {
+	    if (color[v]==WHITE && capacity[u][v]-flow[u][v]>0) {
 		enqueue(v);
 		pred[v] = u;
 	    }
 	}
     }
-    
     // If the color of the target node is black now,
     // it means that we reached it.
     return color[target]==BLACK;
