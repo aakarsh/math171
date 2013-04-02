@@ -52,10 +52,12 @@ str between them."
 
 (defclass graph()
   ((nodes :initarg :nodes)
-   (edges :initarg :edges)))
+   (edges :initarg :edges)
+   (flow :initarg :flow)))
 
 (defun graph-edges(g)
   (slot-value g 'edges))
+
 
 (defun graph-find-edge(v1 v2 g)
   (dolist (edge (graph-edges g))
@@ -66,6 +68,13 @@ str between them."
 (defun graph-nodes(g)
   (slot-value g 'nodes))
 
+(defun node-name->index(name g)
+  (position name (graph-nodes g) 
+            :test #'string= :key #'node-name))
+
+(defun node->index(node g)
+  (node-name->index (node-name node) g))
+
 
 (defun find-node(name nodes)
   (loop 
@@ -75,11 +84,9 @@ str between them."
          (progn
            (return node)))))
 
-
-
-
 (defun node-name(node)
-  (slot-value node 'name))
+  (if node
+      (slot-value node 'name)))
 
 (defun node-color(node)
   (slot-value node 'color))
@@ -90,6 +97,7 @@ str between them."
 (defun node-names(nodes)
   (loop 
     for node in nodes
+    when node
     collect (slot-value node 'name)))
 
 (defun node-neighbours(node)
@@ -111,18 +119,47 @@ str between them."
 (defun edge-count(g)
   (length (graph-edges g)))
 
+
+(defun edge-start(e)  
+  (slot-value e 'start))
+
+(defun edge-end(e)
+  (slot-value e 'end))
+
 (defun edge-capacity(v1 v2 g)
   (let ((edge (graph-find-edge v1 v2 g)))
     (if edge
         (slot-value edge 'capacity))))
 
+(defun graph-flow(g)
+  (slot-value g 'flow))
+
+(defun edge-flow(v1 v2 g)
+  (let ((flow (graph-flow g))
+         (i1  (node->index v1 g))
+         (i2  (node->index v2 g)))
+    (aref flow i1 i2)))
+
+(defun edge->flow(e g)
+  (edge-flow (edge-start e) (edge-end e)g))
+
+(defun edge-flow-inc(v1 v2 inc g)
+  (incf (aref (graph-flow g) 
+              (node-name->index v1 g) 
+              (node-name->index v2 g)) inc))
+
+(defun edge-flow-increment(e inc g)
+  (edge-print e)
+  (incf (aref (graph-flow g)
+               (node-name->index(edge-start e) g)
+               (node-name->index (edge-end e) g)) inc))
+
+(defun edge-available-capacity(e g)
+  (- (slot-value e 'capacity) (edge->flow e g)))
+
 (defun edge-flow-to-capacity(v1 v2 g)
   (>= (- (edge-capacity v1 v2  g ) (edge-flow v1 v2 g)) 0))
 
-(defun edge-flow(v1 v2 g)
-  (let ((edge (graph-find-edge v1 v2 g)))
-    (if edge
-        (slot-value edge 'flow))))
 
 (defun edges->node-neighbours(n edges)
   (let ((adjv '()))
@@ -132,6 +169,10 @@ str between them."
                (push (slot-value e 'end) adjv)))
     (remove-duplicates adjv :test #'string=)))
 
+(defun edges-funcall(g f)
+  (loop for e in (graph-edges)
+        do 
+        (funcall f e)))
 
 (defun bfs-enqueue(n q)
   (push n q)
@@ -147,42 +188,90 @@ str between them."
         (setf (slot-value node 'color) :white))
   (loop with nodes = (graph-nodes graph)
         for node in nodes
+        with debug = nil
         with start_node = (find-node start nodes)
         with end_node   = (find-node end nodes)
         with queue = (bfs-enqueue start_node '())
-
-        for cur = (bfs-dequeue queue)        
-        for path = (list cur) then (push cur path)
+        for cur = (bfs-dequeue queue)
+        with path = (list start_node) 
         while (and (> (length queue) 0)
-                  (not (string= (node-name cur) end)))
-        finally (return (nreverse path))
+                  (not (string= (node-name cur) end))) 
+        finally (if (not (string= (node-name cur) end))
+                    nil
+                  (progn                    
+                    (push cur path)   
+                    (delete-duplicates path :key #'node-name :test #'string=)
+                    (return (nreverse path))))
         do   
-;;      (format t "queue [~a] ~%" (mapcar #'node-name queue))
+        (if debug
+            (format t "Queue [~a] ~%" (mapcar #'node-name queue)))
         (loop for neighbour  in (node-neighbours cur)
               when (and 
                     (node-colorp neighbour :white)
                     (edge-flow-to-capacity cur neighbour graph))
               do 
+              (if debug
+                  (format t "Found path [~a]->[~a] ~%" 
+                          (node-name cur) 
+                          (node-name neighbour)))
               (setf queue (bfs-enqueue neighbour queue))
-              ;; (format t "Found path [~a]->[~a] ~%" 
-              ;;         (node-name cur)
-              ;;         (node-name neighbour))
-              ;;(push neighbour path)
-)))
+              (push cur path))))
+
+
+;;path-flow-increment while (and v1 v2 )
 
 (defun path->string(path)
   (format nil "~{~A~^->~}" (node-names path)))
 
-(defun path-flow-increment(path inc g)
+
+(defun path->edges(path g f)
   (loop for ls = path then (cdr ls)
         for (v1 v2) = (take 2 ls)
         for e = (graph-find-edge v1 v2 g)
-;;PATH-FLOW-INCREMENT        while (and v1 v2 )
-   do 
-   (format t "Flow  ~a ~a  ~%" (node-name v1) (node-name v2))
-   (incf (slot-value e 'flow) inc)))
+        while (and v1 v2)
+        do
+        (if e
+            (funcall f e))))
 
+(defun test-path->edges()
+  (path->edges (bfs "s" "t" *g*)  *g* #'edge-print))
 
+(defun edge-print(e )
+  (format t "(~a)->(~a) [c:~a] [f:??] <??>~%" 
+            (slot-value e 'start) 
+            (slot-value e 'end) 
+            (slot-value e 'capacity)  
+;;            (edge->flow e)
+;;            (edge-available-capacity e)
+))
+
+;; (defun edge-increment-flow(e inc)
+;;      (edge-print e)
+;;      (incf (slot-value e 'flow) inc))
+
+(defun path-flow-increment(path inc g )
+  (path->edges path  g 
+               #'(lambda(e) (edge-flow-increment e inc g))))
+
+(defvar *max-increment* 1000000000)
+
+(defun find-path-increment(path g)
+  (let* ((min *max-increment*)
+         (cur-min min))
+    (path->edges path g 
+          #'(lambda(e)                     
+              (setf cur-min (edge-available-capacity e g))
+              (if (< cur-min min)
+                  (setf min cur-min)))) min))
+
+(defun max-flow(start end g)
+  (loop edge in (graph-edges g)
+        do 
+        (setf (slot-value edge 'flow) 0))  
+  (loop path = (bfs start end g)
+        while path
+        do 
+        (path-flow-increment path (find-path-increment path g) g)))
 
 (defun edges->nodes(edges)
   (let ((nodes '())
@@ -204,7 +293,7 @@ str between them."
                (push end_node nodes)))
          (progn
            (node-add-neighbour cur_node end_node)))
-           nodes))
+           (sort nodes  #'string< :key #'node-name )))
 
 (defun edges->node-names(edges)
   (let ((node-names '()))
@@ -238,12 +327,14 @@ str between them."
             (format t "~a~%" line)))
     (close in)))
 
+
 (defun parse-graph(fn)
   (let* ((edges (read-edge-file fn))
          (nodes (edges->nodes edges)))
     (make-instance 'graph 
                    :nodes nodes
-                   :edges edges)))
+                   :edges edges
+                   :flow (make-array (list (length nodes) (length nodes))))))
 
 (defparameter *g* (parse-graph *tg*))
 (defparameter es (graph-edges *g*))

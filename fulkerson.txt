@@ -69,7 +69,8 @@ int bfs (int start, int target) {
     pred[start] = -1;
     while (head!=tail) {
 	u = dequeue();
-        // Search all adjacent white nodes v. If the capacity
+        // Search all adjacent white nodes v. 
+        //If the capacity
         // from u to v in the residual network is positive,
         // enqueue v.
 	for (v=0; v<n; v++) {
@@ -100,14 +101,18 @@ int max_flow (int source, int sink) {
     while (bfs(source,sink)) {
         // Determine the amount by which we can increment the flow.
 	int increment = oo;
-	for (u=n-1; pred[u]>=0; u=pred[u]) {
-	    increment = min(increment,capacity[pred[u]][u]-flow[pred[u]][u]);
+	
+        for (u=n-1; pred[u] >= 0; u = pred[u]) {
+	    increment = 
+min(increment,capacity[pred[u]][u]-flow[pred[u]][u]);
 	}
+        
         // Now increment the flow.
 	for (u=n-1; pred[u]>=0; u=pred[u]) {
 	    flow[pred[u]][u] += increment;
 	    flow[u][pred[u]] -= increment;
 	}
+
 	max_flow += increment;
     }
     // No augmenting path anymore. We are done.
