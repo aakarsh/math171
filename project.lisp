@@ -38,7 +38,6 @@ str between them."
           collect (subseq str i j)
           while j)))
 
-
 (defclass edge()
   ((start :initarg :start-node)
    (end :initarg :end-node)
@@ -119,7 +118,6 @@ str between them."
 (defun edge-count(g)
   (length (graph-edges g)))
 
-
 (defun edge-start(e)  
   (slot-value e 'start))
 
@@ -141,24 +139,48 @@ str between them."
     (aref flow i1 i2)))
 
 (defun edge->flow(e g)
-  (edge-flow (edge-start e) (edge-end e)g))
+  (let ((flow (graph-flow g))
+         (i1  (node-name->index (edge-start e) g))
+         (i2  (node-name->index (edge-end e) g)))
+    (aref flow i1 i2)))
 
 (defun edge-flow-inc(v1 v2 inc g)
   (incf (aref (graph-flow g) 
               (node-name->index v1 g) 
               (node-name->index v2 g)) inc))
 
+(defun graph-flow-setf(v1 v2 i g)
+  (setf (aref (graph-flow g) 
+              (node-name->index v1 g) 
+              (node-name->index v2 g)) i))
+
+(defun node-pair-flow-increment(v1 v2 inc g)
+ (incf (aref (graph-flow g)
+               (node->index v1 g)
+               (node->index v2 g)) inc))
+
 (defun edge-flow-increment(e inc g)
-  (edge-print e)
+  (edge-print e g)
   (incf (aref (graph-flow g)
                (node-name->index(edge-start e) g)
                (node-name->index (edge-end e) g)) inc))
+
+(defun edge->string(e g)
+  (format nil "(~a)->(~a) [c:~a] [f:~a] <~a>" 
+            (slot-value e 'start) 
+            (slot-value e 'end) 
+            (slot-value e 'capacity)  
+            (edge->flow e g)
+            (edge-available-capacity e g)))
+
+(defun edge-print(e g)
+  (format t "~a~%"  (edge->string e g)))
 
 (defun edge-available-capacity(e g)
   (- (slot-value e 'capacity) (edge->flow e g)))
 
 (defun edge-flow-to-capacity(v1 v2 g)
-  (>= (- (edge-capacity v1 v2  g ) (edge-flow v1 v2 g)) 0))
+  (> (- (edge-capacity v1 v2  g ) (edge-flow v1 v2 g)) 0))
 
 
 (defun edges->node-neighbours(n edges)
@@ -181,14 +203,21 @@ str between them."
 (defun bfs-dequeue(q)
   (let ((n (pop q)))
     (setf (slot-value n 'color) :black) n))
+;; need to leave a breadcrumb so that we can reverse to get the path
+;; each node in bfs path should contain a pointer to its predecessor
+;; finally when hit the terminal node then we need to reconstruct the 
+;; path going backward
 
+(defun push-node-and-predecessor(node path path_queue)
+  (push (list node path) path_queue))
+  
 (defun bfs(start end graph)
   (loop for node in (graph-nodes graph)
         do 
         (setf (slot-value node 'color) :white))
   (loop with nodes = (graph-nodes graph)
         for node in nodes
-        with debug = nil
+        with debug = t
         with start_node = (find-node start nodes)
         with end_node   = (find-node end nodes)
         with queue = (bfs-enqueue start_node '())
@@ -203,17 +232,13 @@ str between them."
                     (delete-duplicates path :key #'node-name :test #'string=)
                     (return (nreverse path))))
         do   
-        (if debug
-            (format t "Queue [~a] ~%" (mapcar #'node-name queue)))
+        (format t "~a ~%" (node-name cur))
         (loop for neighbour  in (node-neighbours cur)
               when (and 
                     (node-colorp neighbour :white)
                     (edge-flow-to-capacity cur neighbour graph))
               do 
-              (if debug
-                  (format t "Found path [~a]->[~a] ~%" 
-                          (node-name cur) 
-                          (node-name neighbour)))
+              (format t "[~a] ~%" (node-name neighbour))
               (setf queue (bfs-enqueue neighbour queue))
               (push cur path))))
 
@@ -223,6 +248,13 @@ str between them."
 (defun path->string(path)
   (format nil "~{~A~^->~}" (node-names path)))
 
+(defun path->on_vertex_pair(path g f)
+  (loop for ls = path then (cdr ls)
+        for (v1 v2) = (take 2 ls)
+        while (and v1 v2)
+        do
+        (if (and v1 v2)
+            (funcall f v1 v2))))
 
 (defun path->edges(path g f)
   (loop for ls = path then (cdr ls)
@@ -233,25 +265,19 @@ str between them."
         (if e
             (funcall f e))))
 
-(defun test-path->edges()
-  (path->edges (bfs "s" "t" *g*)  *g* #'edge-print))
 
-(defun edge-print(e )
-  (format t "(~a)->(~a) [c:~a] [f:??] <??>~%" 
-            (slot-value e 'start) 
-            (slot-value e 'end) 
-            (slot-value e 'capacity)  
-;;            (edge->flow e)
-;;            (edge-available-capacity e)
-))
-
-;; (defun edge-increment-flow(e inc)
-;;      (edge-print e)
-;;      (incf (slot-value e 'flow) inc))
 
 (defun path-flow-increment(path inc g )
   (path->edges path  g 
-               #'(lambda(e) (edge-flow-increment e inc g))))
+               #'(lambda(e) 
+                   (format t "Before ~a ~%" (edge->string e g))
+                   (edge-flow-increment e inc g)
+                   (format t "After  ~a ~%" (edge->string e g))
+                   ))
+  (path->on_vertex_pair (reverse path) g
+             #'(lambda(v1 v2) 
+                 (node-pair-flow-increment v1 v2 (- inc) g))))
+
 
 (defvar *max-increment* 1000000000)
 
@@ -265,13 +291,18 @@ str between them."
                   (setf min cur-min)))) min))
 
 (defun max-flow(start end g)
-  (loop edge in (graph-edges g)
+  (loop for e in (graph-edges g)
         do 
-        (setf (slot-value edge 'flow) 0))  
-  (loop path = (bfs start end g)
-        while path
-        do 
-        (path-flow-increment path (find-path-increment path g) g)))
+        (graph-flow-setf (edge-start e) (edge-end e) 0 g))
+   (loop for path = (bfs start end g)
+         while path
+         for increment =  (find-path-increment path g)
+         for max_flow = increment then (+ max_flow increment)
+         finally (return max_flow)
+         do 
+         (format t "Path ~a increment ~a ~%" (path->string path) increment)
+         (path-flow-increment path increment g)))
+
 
 (defun edges->nodes(edges)
   (let ((nodes '())
