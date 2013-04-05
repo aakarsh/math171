@@ -74,6 +74,19 @@ str between them."
    (edges :initarg :edges)
    (flow :initarg :flow)))
 
+(defclass course-data ()
+  ((name :initarg :course-name)
+   (title :initarg :course-title)
+   (section :initarg :course-section)
+   (code :initarg :course-code)
+   (type :initarg :course-type)
+   (notes :initarg :course-notes)
+   (capacity :initarg :course-capacity)
+   (dates :initarg :course-dates)
+   (location :initarg :course-location)
+   (professor :initarg :course-professor)))
+
+
 (defun make-graph-simple (nodes edges)
   (make-instance 'graph 
                  :nodes nodes
@@ -523,11 +536,14 @@ str between them."
 
 
 
-(pair-list->matching-graph '(("a1" "b1") ("a2" "b2")))
-(maximal-matching '(("A" "d") ("A" "h") ("A" "t")
-                    ("B" "g")  ("B" "p") ("B" "t")
-                    ("C" "a")   ("C" "g")   ("C" "h")  
-                    ("D" "h")   ("D" "p")   ("D" "t")  
-                    ("E" "a")   ("E" "c")   ("E" "d")  
-                    ("F" "c")   ("F" "d")   ("F" "p")))
+
+(defun test-maximal-matching ()
+  (eql 6 (length  (maximal-matching '(("A" "d") ("A" "h") ("A" "t")
+                                      ("B" "g")  ("B" "p") ("B" "t")
+                                      ("C" "a")   ("C" "g")   ("C" "h")  
+                                      ("D" "h")   ("D" "p")   ("D" "t")  
+                                      ("E" "a")   ("E" "c")   ("E" "d")  
+                                      ("F" "c")   ("F" "d")   ("F" "p"))))))
+
+;;(test-maximal-matching)
 
