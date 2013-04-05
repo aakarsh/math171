@@ -103,8 +103,7 @@ int max_flow (int source, int sink) {
 	int increment = oo;
 	
         for (u=n-1; pred[u] >= 0; u = pred[u]) {
-	    increment = 
-min(increment,capacity[pred[u]][u]-flow[pred[u]][u]);
+	    increment = min(increment,capacity[pred[u]][u]-flow[pred[u]][u]);
 	}
         
         // Now increment the flow.
