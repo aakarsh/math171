@@ -55,10 +55,24 @@ str between them."
    (color :initarg :color :initform :white)
    (neighbours :initarg :adj :initform '())))
 
+(defclass node-neighbour ()
+  ((node :initarg :node)
+   (capacity :initarg :capacity :initform 0)
+   (flow :initarg :flow :initform 0)))
+
+
+
 (defclass graph()
   ((nodes :initarg :nodes)
    (edges :initarg :edges)
    (flow :initarg :flow)))
+
+
+(defun nodes->edges (g)
+  
+)
+(defun make-flow (n)
+  (make-array (list n n)))
 
 (defun graph-edges(g)
   (slot-value g 'edges))
@@ -66,8 +80,8 @@ str between them."
 
 (defun graph-find-edge(v1 v2 g)
   (dolist (edge (graph-edges g))
-    (if (and (string=  (slot-value edge 'start) (node-name v1))
-             (string= (slot-value edge 'end)   (node-name v2)))
+    (if (and (string=  (edge-start edge) (node-name v1))
+             (string= (edge-end edge)  (node-name v2)))
         (return edge))))
 
 (defun graph-nodes(g)
@@ -317,10 +331,7 @@ str between them."
 
                       (bfs-enqueue! neighbour queue)
                       (format t "bfs-queue[~a] ~%" (node-names queue))
-                      (push-node-and-predecessor! neighbour cur_node  path)
-))))))
-
-
+                      (push-node-and-predecessor! neighbour cur_node  path)))))))
 
 
 (defun path->string(path)
@@ -369,27 +380,25 @@ str between them."
 (defun node-list-neighbours(node-name g)
   (node-names (node-neighbours (find-node node-name (graph-nodes g)))))
 
+(defmacro make-node-conditionally (node_name nodes)
+  (let ((n (gensym "n"))) 
+    `(let ((,n (find-node ,node_name ,nodes)))
+       (if (not ,n)
+           (progn
+             (setq ,n (make-instance 'node :name ,node_name))
+             (push ,n ,nodes)))
+       ,n)))
+
 (defun edges->nodes(edges)
   (let ((nodes '())
         (cur_node '()))    
     (loop 
        for edge in edges 
-       for end_vertex_name    = (slot-value edge 'end)
-       for start_vertex_name  =  (slot-value edge 'start)
-       for cur_node = (find-node start_vertex_name nodes)
-       for end_node = (find-node end_vertex_name nodes)
+       for cur_node = (make-node-conditionally (edge-start edge) nodes)
+       for end_node = (make-node-conditionally (edge-end edge) nodes) 
       do
-         (if (not cur_node)
-             (progn
-               (setq cur_node (make-instance 'node :name start_vertex_name))
-               (push cur_node nodes)))         
-         (if (not end_node)
-             (progn
-               (setq end_node (make-instance 'node :name end_vertex_name))
-               (push end_node nodes)))
-         (progn
-           (node-add-neighbour cur_node end_node)))
-           (sort nodes  #'string< :key #'node-name )))
+      (node-add-neighbour cur_node end_node))
+    (sort nodes  #'string< :key #'node-name)))
 
 (defun edges->node-names(edges)
   (let ((node-names '()))
@@ -398,20 +407,27 @@ str between them."
       (push (slot-value e 'end) node-names))
     (setq node-names (remove-duplicates node-names :test #'string= ))))
 
-(defun read-edge-file(fn)
-  (let ((in (open fn :if-does-not-exist nil))
+
+(defun make-edge (start end capacity)
+  (make-instance 'edge :start-node start  :end-node end :capacity capacity))
+
+(defun make-edge-string-list(ls)
+  (make-edge (first ls ) (second ls) (parse-integer (third ls))))
+
+(defun make-edges-from-pairs (pair-list)
+  (loop for (v1 v2) in pair-list
+        collect (make-edge v1 v2 1)))
+
+
+(defun read-edge-file(file-name)
+  (let ((in (open file-name :if-does-not-exist nil))
         (edges '()))
     (when in
       (loop for line = (read-line in nil)
          while line do 
            (let ((l (str/split-by-one-space line)))
              (when (eql (length l) 3)
-               (push 
-                (make-instance 'edge 
-                               :start-node (nth 0 l) 
-                               :end-node (nth 1 l)
-                               :capacity (parse-integer (nth 2 l)))
-                edges)))))
+               (push (make-edge-string-list l) edges)))))
     (close in)
     (nreverse edges)))
 
@@ -423,14 +439,23 @@ str between them."
             (format t "~a~%" line)))
     (close in)))
 
-
-(defun parse-graph(fn)
-  (let* ((edges (read-edge-file fn))
+(defun parse-graph(file-name)
+  (let* ((edges (read-edge-file file-name))
          (nodes (edges->nodes edges)))
     (make-instance 'graph 
                    :nodes nodes
                    :edges edges
-                   :flow (make-array (list (length nodes) (length nodes))))))
+                   :flow (make-flow (length nodes)))))
+
+(defun pair-list->matching-graph (pairs)
+  (let* ((edges  (make-edges-from-pairs pairs))
+         (nodes (edges->nodes edges)))
+    
+    
+        
+))
+
+
 
 
 (defun print-edge(edge)
@@ -459,6 +484,7 @@ str between them."
 
 (defparameter *g* (parse-graph *tg*))
 (defparameter es (graph-edges *g*))
+
 
 (defun test-max-flow ()
   (eql 23 (max-flow "s" "t" *g*)))
