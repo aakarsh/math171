@@ -22,6 +22,9 @@
 
 (defvar *tg* "/home/aakarsh/src/prv/common-lisp/graphs/simple.txt")
 
+(defun hash-keys (hash-table)
+  (loop for key being the hash-keys of hash-table collect key))
+
 (defun take(n ls)
   (loop for i from 0 to n
         for l  = ls then (cdr l)
@@ -45,10 +48,10 @@ str between them."
 
 
 (defclass edge()
-  ((start :initarg :start-node)
-   (end :initarg :end-node)
+  ((start :initarg :start-node :accessor edge-start)
+   (end :initarg :end-node :accessor edge-end )
    (flow :initarg :flow :initform 0)
-   (capacity :initarg :capacity :initform 0)))
+   (capacity :initarg :capacity :initform 0 :accessor edge-capacity1)))
 
 (defun make-edge (start end capacity)
   (make-instance 'edge :start-node start  :end-node end :capacity capacity))
@@ -56,36 +59,79 @@ str between them."
 (defun make-edge-string-list(ls)
   (make-edge (first ls ) (second ls) (parse-integer (third ls))))
 
-
 (defclass node()
-  ((name :initarg :name)
-   (color :initarg :color :initform :white)
-   (neighbours :initarg :adj :initform '())))
+  ((name :initarg :name )
+   (color :initarg :color :initform :white :accessor node-color)
+   (neighbours :initarg :adj :initform '() :accessor node-neighbours)))
 
 (defclass node-neighbour ()
   ((node :initarg :node)
    (capacity :initarg :capacity :initform 0)
    (flow :initarg :flow :initform 0)))
 
-
-
 (defclass graph()
-  ((nodes :initarg :nodes)
-   (edges :initarg :edges)
-   (flow :initarg :flow)))
-
+  ((nodes :initarg :nodes :accessor graph-nodes)
+   (edges :initarg :edges :accessor graph-edges)
+   (flow :initarg :flow :accessor graph-flow)))
+;; Simplify
 (defclass course-data ()
-  ((name :initarg :course-name)
-   (title :initarg :course-title)
-   (section :initarg :course-section)
-   (code :initarg :course-code)
-   (type :initarg :course-type)
-   (notes :initarg :course-notes)
-   (capacity :initarg :course-capacity)
-   (dates :initarg :course-dates)
-   (location :initarg :course-location)
-   (professor :initarg :course-professor)))
+  ((name :initarg :course-name 
+         :accessor course-name)
+   (title :initarg :course-title
+          :accessor course-title)
+   (section :initarg :course-section
+            :accessor course-section)
+   (code :initarg :course-code
+         :accessor course-code)
+   (type :initarg :course-type
+         :accessor course-type)
+   (time :initarg :course-time
+         :accessor course-time)
+   (notes :initarg :course-notes
+          :accessor course-notes)
+   (capacity :initarg :course-capacity
+             :accessor course-capacity)
+   (dates :initarg :course-dates
+          :accessor course-dates)
+   (location :initarg :course-location
+             :accessor course-location)
+   (professor :initarg :course-professor
+              :accessor course-professor)))
 
+
+(defun ass/val (key ls)
+  (let ((pair (assoc key ls)))
+    (if pair
+        (cadr pair)
+      nil)))
+
+(defun assoc->course (ls)
+  (make-instance 'course-data
+                 :course-name (ass/val :course-name ls)
+                 :course-title (ass/val :course-title ls)
+                 :course-section (ass/val :course-section ls)
+                 :course-code (ass/val :course-code ls)
+                 :course-type (ass/val :course-type ls)
+                 :course-notes (ass/val :course-notes ls)
+                 :course-capacity (ass/val :course-capacity ls)
+                 :course-dates (ass/val :course-dates ls)
+                 :course-time (ass/val :course-time ls)
+                 :course-location (ass/val :course-location ls)
+                 :course-professor (ass/val :course-professor ls)))
+
+
+(defun professor-coures-map (courses)
+  (loop for course in courses
+        for prof = (course-professor course)
+        with map = (make-hash-table :test 'equal)        
+        for map-slot = (gethash prof map)
+        while course
+        finally (return map)
+        do
+        (if (not map-slot)
+            (progn 
+              (setf (gethash prof map) '())))        
+        (push course (gethash prof map))))
 
 (defun make-graph-simple (nodes edges)
   (make-instance 'graph 
@@ -102,18 +148,11 @@ str between them."
 (defun make-flow (n)
   (make-array (list n n)))
 
-(defun graph-edges(g)
-  (slot-value g 'edges))
-
-
 (defun graph-find-edge(v1 v2 g)
   (dolist (edge (graph-edges g))
     (if (and (string=  (edge-start edge) (node-name v1))
              (string= (edge-end edge)  (node-name v2)))
         (return edge))))
-
-(defun graph-nodes(g)
-  (slot-value g 'nodes))
 
 (defun node-index->node (i g)
   (nth i (graph-nodes g)))
@@ -136,9 +175,6 @@ str between them."
 (defun node-name(node)
   (if node
       (slot-value node 'name)))
-
-(defun node-color(node)
-  (slot-value node 'color))
 
 (defun node-colorp(n c)
   (eql (node-color n) c))
@@ -165,10 +201,7 @@ str between them."
   (loop 
     for node in nodes
     when node
-    collect (slot-value node 'name)))
-
-(defun node-neighbours(node)
-  (slot-value node 'neighbours))
+    collect (node-name node)))
 
 (defun node-count(g)
   (length (graph-nodes g)))
@@ -183,25 +216,10 @@ str between them."
   (if (not (node-has-neighbourp node neighbour))
         (push neighbour (slot-value node 'neighbours))))
 
-;; (defun edge-count(g)
-;;   (length (graph-edges g)))
-
-(defun edge-start(e)  
-  (slot-value e 'start))
-
-(defun edge-end(e)
-  (slot-value e 'end))
-
-(defun edge-capacity1 ( e)
-  (slot-value e 'capacity))
-
 (defun edge-capacity(v1 v2 g)
   (let ((edge (graph-find-edge v1 v2 g)))
     (if edge
-        (slot-value edge 'capacity))))
-
-(defun graph-flow(g)
-  (slot-value g 'flow))
+        (edge-capacity1 edge))))
 
 (defun edge-flow(v1 v2 g)
   (let ((flow (graph-flow g))
@@ -238,9 +256,9 @@ str between them."
 
 (defun edge->string(e g)
   (format nil "(~a)->(~a) [c:~a] [f:~a] <~a>" 
-            (slot-value e 'start) 
-            (slot-value e 'end) 
-            (slot-value e 'capacity)  
+            (edge-start e) 
+            (edge-end e) 
+            (edge-capacity1 e)  
             (edge->flow e g)
             (edge-available-capacity e g)))
 
@@ -248,7 +266,7 @@ str between them."
   (format t "~a~%"  (edge->string e g)))
 
 (defun edge-available-capacity(e g)
-  (- (slot-value e 'capacity) (edge->flow e g)))
+  (- (edge-capacity1 e) (edge->flow e g)))
 
 (defun edge-flow-to-capacity(v1 v2 g)
   (> (- (edge-capacity v1 v2  g ) (edge-flow v1 v2 g)) 0))
@@ -257,8 +275,8 @@ str between them."
   (let ((adjv '()))
     (loop 
        for e in edges do
-         (if (string= n (slot-value e 'start))
-               (push (slot-value e 'end) adjv)))
+         (if (string= n (edge-start e ))
+               (push (edge-end e) adjv)))
     (remove-duplicates adjv :test #'string=)))
 
 (defun edges-funcall(g f)
@@ -279,7 +297,6 @@ str between them."
      (if n
          (node-set-black n))
      n))
-
 
 (defmacro push-node-and-predecessor!(node prev path)
   `(progn      
@@ -458,6 +475,25 @@ str between them."
     (close in)
     (nreverse edges)))
 
+(defun read-course-data(file-name)
+  (let ((in (open file-name :if-does-not-exist nil))
+        (parsed-data '()))
+    (when in
+      (loop for term =  (read in nil)
+            for course-data = '()
+            while term
+            do
+            (loop for ls = term then (cddr ls)
+                  for p1 = (car ls)
+                  for p2 = (string-trim '(#\Space) (cadr ls))
+                  for pair = (list p1 p2)
+                  while (first pair)
+                  do 
+                  (push pair course-data))      
+            (push (assoc->course course-data) parsed-data))      
+            (close in))    
+    parsed-data))
+
 (defun parse-graph(file-name)
   (let* ((edges (read-edge-file file-name))
          (nodes (edges->nodes edges)))
@@ -479,9 +515,6 @@ str between them."
           (push (make-edge  r sink_name 1) new-edges))
     (setq nodes (add-nodes-from-edges new-edges nodes))
     (make-graph-simple nodes (concatenate 'list edges new-edges))))
-
-
-
 
 (defun print-edge(edge)
   (if edge 
@@ -509,20 +542,18 @@ str between them."
 
 (defparameter *g* (parse-graph *tg*))
 (defparameter es (graph-edges *g*))
+(defparameter *courses* (read-course-data "data.lisp"))
 
-(defun test-max-flow ()
+(defun test-max-flow()
   (eql 23 (max-flow "s" "t" *g*)))
 
 (defun maximal-matching (pair-list)
   (let* ((matching-graph (pair-list->matching-graph pair-list))
         (match-size 0)
-        (nodes (graph-nodes matching-graph))
+        (nodes (graph-nodes matchinnng-graph))
         (num_nodes (length nodes))
         (matching '()))
-
-
-    (setq match-size (max-flow "Source" "Sink" matching-graph))
-    
+    (setq match-size (max-flow "Source" "Sink" matching-graph))    
     (loop for n1 in nodes
           do 
           (loop for n2 in nodes
@@ -534,9 +565,6 @@ str between them."
     matching))
 
 
-
-
-
 (defun test-maximal-matching ()
   (eql 6 (length  (maximal-matching '(("A" "d") ("A" "h") ("A" "t")
                                       ("B" "g")  ("B" "p") ("B" "t")
@@ -544,6 +572,3 @@ str between them."
                                       ("D" "h")   ("D" "p")   ("D" "t")  
                                       ("E" "a")   ("E" "c")   ("E" "d")  
                                       ("F" "c")   ("F" "d")   ("F" "p"))))))
-
-;;(test-maximal-matching)
-

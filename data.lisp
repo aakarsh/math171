@@ -1,4 +1,3 @@
-'(
 (:course-name "math 003a" :course-title	"intensive learn i"	:course-section "01" :course-code	 "41565"  :course-credit	"4"	:course-type "sem" :course-notes "97"	        		:course-capacity "21/25"	    							:course-location "dh 303"	    	:course-professor "t fish"         )
 (:course-name "math 003a" :course-title	"intensive learn i"	:course-section "02" :course-code	 "40558"  :course-credit	"4"	:course-type "sem" :course-notes "97"	        		:course-capacity "12/25"	    							:course-location "dh 219"	    	:course-professor "m zoubeidi"     )
 (:course-name "math 003a" :course-title	"intensive learn i"	:course-section "05" :course-code	 "40560"  :course-credit	"4"	:course-type "sem" :course-notes "97"	        		:course-capacity "21/25"	    							:course-location "dh 219"	    	:course-professor "m zoubeidi"     )
@@ -251,5 +250,5 @@
 (:course-name "math 299" :course-title	"masters thesis"	:course-section "04" :course-code	"43865"  :course-credit	"2"	:course-type "sup"	:course-capacity "0/10"						:course-days "tba"	:course-time "tba"	    :course-dates "08/22/12-12/10/12"                                                              )
 (:course-name "math 299" :course-title	"masters thesis"	:course-section "07" :course-code	"43866"  :course-credit	"3"	:course-type "sup"	:course-capacity "0/10"						:course-days "tba"	:course-time "tba"	    :course-dates "08/22/12-12/10/12"                                                              )
 (:course-name "math 299" :course-title	"masters thesis"	:course-section "08" :course-code	"43867"  :course-credit	"3"	:course-type "sup"	:course-capacity "0/10"						:course-days "tba"	:course-time "tba"	    :course-dates "08/22/12-12/10/12"                                                              )
-)
+
 
