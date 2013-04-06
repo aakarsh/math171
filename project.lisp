@@ -119,7 +119,6 @@ str between them."
                  :course-location (ass/val :course-location ls)
                  :course-professor (ass/val :course-professor ls)))
 
-
 (defun professor-coures-map (courses)
   (loop for course in courses
         for prof = (course-professor course)
@@ -142,9 +141,6 @@ str between them."
 (defun make-empty-node (name)
  (make-instance 'node :name name))
 
-(defun nodes->edges (g)
-  
-)
 (defun make-flow (n)
   (make-array (list n n)))
 
@@ -380,7 +376,6 @@ str between them."
                                         (edge-capacity cur_node neighbour graph) 
                                         (edge-flow cur_node neighbour graph)
                                         (edge-flow-to-capacity cur_node neighbour  graph)))                      
-
                       (bfs-enqueue! neighbour queue)
                       (format t "bfs-queue[~a] ~%" (node-names queue))
                       (push-node-and-predecessor! neighbour cur_node  path)))))))
