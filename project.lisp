@@ -1,21 +1,3 @@
-(defvar *pt-faculty*
-  (list "Ahmed" "Arabhi" "Bodas" "DeSousa" "Fan" "Fish" "Hillard" "Huynh"
-        "Jensen" "Jiru" "Jordan" "Kovaleva" "Low" "Lum" "Newball" "A. Nguyen"
-        "T Nguyen" "V Nguyen" "Papay" "Rigers" "Rober" "Sega" "Smith" "Strong"
-        "Talebi" "Tanniru" "A. Tran" "Trubey" "Van der Poel" "Varitanian" "Verga"
-        "Wang" "Zabric" "Zoubeidi")
-  "List of part time faculty")
-
-(defvar *ft-faculty*
-  (list "Alperin" "Becker" "Beason" "Blockus" "Dodd" "Foster"
-        "Hsu" "Jackson" "Katsura" "Kellum" "Kubelka" "Ng" "Obaid" "Pence"
-        "Peterson" "Pfifer" "Rivera" "Roddic" "Saleem" "Schmeichel" "Shubin"
-        "Sliva-Spitzer" "So" "Stanley")
-  "List of full time faculty")
-
-(defvar *ass-faculty*
-  (list "Bremer" "Cayco" "Crunk" "Gottlieb" "Koev" "Lee" "Maruskin" "Simic")
-        "List of Associate or Assistant Professors")
 
 (defvar *sample-graph-file*
   "/home/aakarsh/src/prv/common-lisp/clisp-sample/sample-graph.lisp")
@@ -23,7 +5,9 @@
 (defvar *tg* "/home/aakarsh/src/prv/common-lisp/graphs/simple.txt")
 
 (defun hash-keys (hash-table)
-  (loop for key being the hash-keys of hash-table collect key))
+  (loop for key being
+        the hash-keys of hash-table
+        collect key))
 
 (defun take(n ls)
   (loop for i from 0 to n
@@ -31,21 +15,24 @@
         while (< i n)
         collect (car l)))
 
+(defun split-by-char (str &optional (c #\Space))
+  (when (and str (> (length str) 0))
+    (loop for i = 0 then (1+ j)
+          as j = (position c str :start i)
+          collect (subseq str i j)
+          while j)))
+
 (defun str/split-by-one-space (str)
     "Returns a list of substrs of str divided by ONE space each.
 Note: Two consecutive spaces will be seen as if there were an empty
 str between them."
-    (when (and str (> (length str) 0))
-    (loop for i = 0 then (1+ j)
-          as j = (position #\Space str :start i)
-          collect (subseq str i j)
-          while j)))
+    (split-by-char str #\Space))
+
 
 (defun str/join-words(words &optional (sep " "))
   (loop for word in words
         for result = word then (concatenate 'string result sep word)
        finally (return result)))
-
 
 (defclass edge()
   ((start :initarg :start-node :accessor edge-start)
@@ -69,41 +56,48 @@ str between them."
    (capacity :initarg :capacity :initform 0)
    (flow :initarg :flow :initform 0)))
 
+(defclass time-interval ()
+  ((start  :initarg :start :initform 0 :accessor interval-start)
+   (end  :initarg :end :initform 0  :accessor interval-end)))
+
+
+
+(defun string->time-interval (str)
+  (if (and  str (> (length str) 0) (not (string=  "tba" str)) )
+      (let* ((str-pair (split-by-char str #\-))
+             (start   (parse-integer (first str-pair)))
+             (end     (parse-integer (second str-pair))))    
+        (make-instance 'time-interval :start start :end end))))
+
+
 (defclass graph()
   ((nodes :initarg :nodes :accessor graph-nodes)
    (edges :initarg :edges :accessor graph-edges)
    (flow :initarg :flow :accessor graph-flow)))
-;; Simplify
-(defclass course-data ()
-  ((name :initarg :course-name 
-         :accessor course-name)
-   (title :initarg :course-title
-          :accessor course-title)
-   (section :initarg :course-section
-            :accessor course-section)
-   (code :initarg :course-code
-         :accessor course-code)
-   (type :initarg :course-type
-         :accessor course-type)
-   (time :initarg :course-time
-         :accessor course-time)
-   (notes :initarg :course-notes
-          :accessor course-notes)
-   (capacity :initarg :course-capacity
-             :accessor course-capacity)
-   (dates :initarg :course-dates
-          :accessor course-dates)
-   (location :initarg :course-location
-             :accessor course-location)
-   (professor :initarg :course-professor
-              :accessor course-professor)))
+
+(defun string->name (name)
+  (let* ((names (str/split-by-one-space name))
+         (first-name "")
+         (last-name "")
+         (name nil))    
+    (if (> (length names) 0)
+        (setq name 
+              (make-instance 'name
+                             :first (first names)
+                             :last (second names)))
+      (setq name
+            (make-instance 'name
+                           :first ""
+                           :last (first names))))
+    name))
+
+
 
 
 (defun ass/val (key ls)
   (let ((pair (assoc key ls)))
     (if pair
-        (cadr pair)
-      nil)))
+        (cadr pair) nil)))
 
 (defun assoc->course (ls)
   (make-instance 'course-data
@@ -115,9 +109,13 @@ str between them."
                  :course-notes (ass/val :course-notes ls)
                  :course-capacity (ass/val :course-capacity ls)
                  :course-dates (ass/val :course-dates ls)
-                 :course-time (ass/val :course-time ls)
+                 :course-days (ass/val :course-days ls)
+                 :course-time (string->time-interval (ass/val :course-time ls))
                  :course-location (ass/val :course-location ls)
                  :course-professor (ass/val :course-professor ls)))
+
+(defun professor-map->names(map)
+  (hash-keys *professor-map*))
 
 (defun professor-coures-map (courses)
   (loop for course in courses
@@ -245,7 +243,8 @@ str between them."
                (node->index v2 g)) inc))
 
 (defun edge-flow-increment(e inc g)
-  (edge-print e g)
+  (if nil
+      (edge-print e g))
   (incf (aref (graph-flow g)
                (node-name->index(edge-start e) g)
                (node-name->index (edge-end e) g)) inc))
@@ -297,7 +296,7 @@ str between them."
 (defmacro push-node-and-predecessor!(node prev path)
   `(progn      
      (push  (list ,node ,prev) ,path)
-     (if debug
+     (if nil
          (format t "Pushed (~a ~a) -> [~a] ~%" 
                  (node-name ,node) 
                  (node-name ,prev)
@@ -322,9 +321,10 @@ str between them."
         for node = (car elem)
         for pred = (cadr elem)        
         for result = (str/join-words (list result           
-                                           (format nil "(~a ~a)"  (node-name node)  (node-name pred))))
+                                           (format nil "(~a ~a)"  
+                                                   (node-name node)  
+                                                   (node-name pred))))
         finally (return result)))
-
 
 (defun node-not-equals (n1 n2)
   (not (node-equals n1 n2)))
@@ -377,7 +377,7 @@ str between them."
                                         (edge-flow cur_node neighbour graph)
                                         (edge-flow-to-capacity cur_node neighbour  graph)))                      
                       (bfs-enqueue! neighbour queue)
-                      (format t "bfs-queue[~a] ~%" (node-names queue))
+                      (if debug (format t "bfs-queue[~a] ~%" (node-names queue)))
                       (push-node-and-predecessor! neighbour cur_node  path)))))))
 
 
@@ -404,13 +404,12 @@ str between them."
 (defun path-flow-increment(path inc g )
   (path->edges path  g 
                #'(lambda(e) 
-                   (format t "Before ~a ~%" (edge->string e g))
+                   (if nil (format t "Before ~a ~%" (edge->string e g)))
                    (edge-flow-increment e inc g)
-                   (format t "After  ~a ~%" (edge->string e g))))  
+                   (if nil (format t "After  ~a ~%" (edge->string e g)))))  
   (path->on_vertex_pair (reverse path) g
              #'(lambda(v1 v2) 
                  (node-pair-flow-increment v1 v2 (- inc) g))))
-
 
 (defvar *max-increment* 1000000000)
 
@@ -448,7 +447,6 @@ str between them."
 (defun edges->nodes(edges)
   (let ((nodes '()))
     (add-nodes-from-edges edges nodes)))
-
 
 (defun edges->node-names(edges)
   (let ((node-names '()))
@@ -513,11 +511,11 @@ str between them."
 
 (defun print-edge(edge)
   (if edge 
-      (format t "(~a)->(~a) [~a] ~%" 
-              (edge-start edge)
-              (edge-end edge)
-              (edge-capacity1 edge))))
-
+      (if nil
+          (format t "(~a)->(~a) [~a] ~%" 
+                  (edge-start edge)
+                  (edge-end edge)
+                  (edge-capacity1 edge)))))
 
 (defun print-graph-edges(g)
   (mapcar #'print-edge (graph-edges g)))
@@ -532,20 +530,13 @@ str between them."
          for max_flow = increment then (+ max_flow increment)
          finally (return max_flow)
          do 
-         (format t "Path ~a increment ~a ~%" (path->string path) increment)
+         (if nil (format t "Path ~a increment ~a ~%" (path->string path) increment))
          (path-flow-increment path increment g)))
-
-(defparameter *g* (parse-graph *tg*))
-(defparameter es (graph-edges *g*))
-(defparameter *courses* (read-course-data "data.lisp"))
-
-(defun test-max-flow()
-  (eql 23 (max-flow "s" "t" *g*)))
 
 (defun maximal-matching (pair-list)
   (let* ((matching-graph (pair-list->matching-graph pair-list))
         (match-size 0)
-        (nodes (graph-nodes matchinnng-graph))
+        (nodes (graph-nodes matching-graph))
         (num_nodes (length nodes))
         (matching '()))
     (setq match-size (max-flow "Source" "Sink" matching-graph))    
@@ -559,6 +550,142 @@ str between them."
                      (push (list (node-name n1) (node-name n2))  matching))))
     matching))
 
+(defclass name ()
+((first-name :initarg :first :accessor first-name)
+ (last-name  :initarg :last  :accessor last-name)))
+
+
+(defclass course-data ()
+  ((name :initarg :course-name 
+         :accessor course-name)
+   (title :initarg :course-title
+          :accessor course-title)
+   (section :initarg :course-section
+            :accessor course-section)
+   (code :initarg :course-code
+         :accessor course-code)
+   (type :initarg :course-type
+         :accessor course-type)
+   (time :initarg :course-time
+         :accessor course-time)
+   (notes :initarg :course-notes
+          :accessor course-notes)
+   (capacity :initarg :course-capacity
+             :accessor course-capacity)
+   (dates :initarg :course-dates
+          :accessor course-dates)
+   (days :initarg :course-days
+          :accessor course-days)
+   (location :initarg :course-location
+             :accessor course-location)
+   (professor :initarg :course-professor
+              :accessor course-professor)))
+
+
+(defun course-intersectp (course1 course2)
+  (and 
+   (time-interval-intersects (course-time course1) 
+                             (course-time course2))
+   (days-intersect  (course-days course1) 
+                    (course-days course2))))
+
+(defparameter *pt-faculty* 
+           '("s ahmed" "s arabhi" "m bodas" "s desousa" "c fan"
+             "t fish" "t huynh" "k jensen" "a jiru"
+              "j jordan" "o kovaleva" "r low" "j lum"
+              "w newball" "l papay" "l sega" "t smith" "a strong" 
+              "a talebi" "p tanniru" "j trubey" "j wang"
+              "e zabric" "m zoubeidi" "s vergara"   "varitanian"
+              "m van der poel"   "a tran"   "rober"   "rigers"
+              "v nguyen" "t nguyen"   "a nguyen"   "hillard")
+           "List of part time faculty")
+
+(defparameter *ft-faculty*
+          '("j becker" "m blockus" "r dodd" "l foster"
+            "t hsu" "k kellum" "r kubelka" "h ng"
+            "s obaid" "b pence" "b peterson" "f rivera"
+            "m saleem" "e schmeichel" "w so" "m stanley" 
+            "c roddick" "sliva-spitzer" "shubin"  "pfifer"
+            "katsura" "jackson" "beason" "alperin")
+          "List of full time faculty")
+
+(defparameter *ass-faculty*
+           '( "s crunk" "a gottlieb" "p koev" "b lee"
+              "j maruskin" "s simic"  "m cayco-gajic"  "bremer" )
+           "List of Associate or Assistant Professors")
+
+(defparameter *g* (parse-graph *tg*))
+(defparameter es (graph-edges *g*))
+(defparameter *courses* (read-course-data "data.lisp"))
+(defparameter *professor-map* (professor-coures-map *courses*))
+
+
+(defun betweenp (a i1 i2)
+  (and (>= a i1)  (<= a i2)))
+
+(defun interval-contains (a ti)
+  (betweenp a (interval-start ti) (interval-end ti)))
+
+(defun string->list (str)
+  (concatenate 'list str))
+
+(defun list-intersect(ls1 ls2)
+  (loop for l in ls1
+        do
+        (if (member l ls2)
+            (return t))))
+
+(defun days-intersect(d1 d2)
+  (list-intersect (string->list d1)
+                  (string->list d2)))
+
+
+(defun get-professor-courses (prof prof_map)
+  (gethash prof prof_map))
+
+(defun professor-overlapping-coursesp (prof1 prof2 map)
+  (let ((prof1-courses  (get-professor-courses prof1 map))
+        (prof2-courses  (get-professor-courses prof2 map )))
+    (loop named outer for course1 in prof1-courses
+          do
+          (loop for course2 in prof2-courses
+                do
+                (if (course-intersectp course1 course2)
+                    (return-from outer  t))))))
+
+
+(defun time-interval-intersects (t1 t2)
+  (if (or  (not t1) (not t2))
+      nil      
+    (or 
+     (or    
+      (interval-contains (interval-start t2) t1)
+      (interval-contains (interval-end  t2) t1))
+     (or    
+      (interval-contains (interval-start t1) t2)
+      (interval-contains (interval-end  t1) t2)))))
+
+
+(defun professor-supervisable (prof1 prof2 map)
+  (not (professor-overlapping-coursesp prof1 prof2 map)))
+
+(defun professor-mapping (ls1 ls2 map)
+  (loop for prof1 in ls1
+        with mapping = '()
+        finally (return mapping)
+        do
+        (loop for prof2 in ls2
+              do
+              (if (professor-supervisable prof1 prof2 map )
+                  (push (list prof1 prof2) mapping)))))
+
+
+(defun day-time-overlap(day1 time1 day2 time2 )
+  (and  (days-intersect day1 day2) 
+        (time-interval-intersects time1 time2)))
+
+(defun test-max-flow()
+  (eql 23 (max-flow "s" "t" *g*)))
 
 (defun test-maximal-matching ()
   (eql 6 (length  (maximal-matching '(("A" "d") ("A" "h") ("A" "t")
@@ -567,3 +694,26 @@ str between them."
                                       ("D" "h")   ("D" "p")   ("D" "t")  
                                       ("E" "a")   ("E" "c")   ("E" "d")  
                                       ("F" "c")   ("F" "d")   ("F" "p"))))))
+(defun print-matching (matching)
+  (loop for match in matching
+        for  f = (first match)
+        for  s = (second match)
+        do
+        (format t "~a -> ~a ~%" f s)))
+
+
+(defun print-professor-groups(group1 group2 map)
+  (let* ((avialable-matches
+          (professor-mapping group1 group2  map))
+         (matches (maximal-matching avialable-matches)))
+    (print-matching matches)))
+
+(defun print-final-mapping ()
+  (format t "-------------------------------------- ~%")
+  (format t "Full Time Mapping ~%")
+  (format t "---------------------------------------- ~%")
+  (print-professor-groups *ft-faculty* *pt-faculty* *professor-map*)
+  (format t "---------------------------------------- ~%")
+  (format t "Part Time Mapping ~%")
+  (format t "---------------------------------------- ~%")
+  (print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
