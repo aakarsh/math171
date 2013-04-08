@@ -1,0 +1,39 @@
+* (print-final-mapping)
+-------------------------------------- 
+Full Time Mapping 
+---------------------------------------- 
+w so -> a talebi 
+t hsu -> rigers 
+sliva-spitzer -> s vergara 
+shubin -> a strong 
+s obaid -> varitanian 
+r kubelka -> a tran 
+r dodd -> t nguyen 
+pfifer -> t smith 
+m stanley -> j lum 
+m saleem -> p tanniru 
+m blockus -> a nguyen 
+l foster -> v nguyen 
+katsura -> l sega 
+k kellum -> rober 
+jackson -> w newball 
+j becker -> hillard 
+h ng -> m van der poel 
+f rivera -> j wang 
+e schmeichel -> l papay 
+c roddick -> e zabric 
+beason -> r low 
+b peterson -> j trubey 
+b pence -> m zoubeidi 
+alperin -> o kovaleva 
+---------------------------------------- 
+Part Time Mapping 
+---------------------------------------- 
+t huynh -> p koev 
+t fish -> b lee 
+s desousa -> s crunk 
+s arabhi -> m cayco-gajic 
+s ahmed -> bremer 
+m bodas -> j maruskin 
+j lum -> a gottlieb 
+c fan -> s simic 
