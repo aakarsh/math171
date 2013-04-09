@@ -72,7 +72,7 @@
          (first-name "")
          (last-name "")
          (name nil))    
-    (if (> (length names) 0)
+    (if (> (length names) 1)
         (setq name 
               (make-instance 'name
                              :first (first names)
@@ -82,9 +82,6 @@
                            :first ""
                            :last (first names))))
     name))
-
-
-
 
 (defun assoc->course (ls)
   (make-instance 'course-data
@@ -163,7 +160,6 @@
                 (if (course-intersectp course1 course2)
                     (return-from outer  t))))))
 
-
 (defun time-interval-intersects (t1 t2)
   (if (or  (not t1) (not t2))
       nil      
@@ -192,7 +188,6 @@
 (defun day-time-overlap(day1 time1 day2 time2 )
   (and  (days-intersect day1 day2) 
         (time-interval-intersects time1 time2)))
-
 
 (defun print-matching-pairs (matching)
   (loop for match in matching
@@ -229,3 +224,5 @@
   (format t "Part Time Mapping ~%")
   (format t "---------------------------------------- ~%")
   (print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
+
+(print-final-mapping)

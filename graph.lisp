@@ -46,6 +46,11 @@
 (defun make-flow (n)
   (make-array (list n n)))
 
+(defun graph-set-flow-zero (g)
+  (loop for e in (graph-edges g)
+        do 
+        (graph-flow-setf (edge-start e) (edge-end e) 0 g)))
+
 (defun graph-find-edge(v1 v2 g)
   (dolist (edge (graph-edges g))
     (if (and (string=  (edge-start edge) (node-name v1))
@@ -233,12 +238,13 @@
 
 (defun bfs(start end graph)
   (let* ((nodes (graph-nodes graph))
-        (start_node (find-node start nodes))
-        (end_node   (find-node end nodes))
-        (queue      '())
-        (path        (list (list start_node nil))))
+         (start_node (find-node start nodes))
+         (end_node   (find-node end nodes))
+         (queue      '())
+         (path        (list (list start_node nil))))
+
     (nodes-set-white nodes)    
-    (bfs-enqueue! start_node queue)
+    (bfs-enqueue! start_node queue)    
     (loop for node in nodes
           with debug = nil
           for prev = nil then cur_node
@@ -270,8 +276,7 @@
                 do 
                 (if (and 
                      (node-color= neighbour :white)
-                     (edge-flow-to-capacity cur_node neighbour graph))
-                    
+                     (edge-flow-to-capacity cur_node neighbour graph))                    
                     (progn
                       (if debug (format t "~%Enqueue Neighbour: [~a] <c:~a> <f:~a> accessible:~a " 
                                         (node-name neighbour) 
@@ -303,11 +308,9 @@
             (funcall f e))))
 
 (defun path-flow-increment(path inc g )
-  (path->edges path  g 
-               #'(lambda(e) 
-                   (if nil (format t "Before ~a ~%" (edge->string e g)))
-                   (edge-flow-increment e inc g)
-                   (if nil (format t "After  ~a ~%" (edge->string e g)))))  
+  (path->on_vertex_pair path g
+               #'(lambda(v1 v2) 
+                   (node-pair-flow-increment v1 v2 inc g)))
   (path->on_vertex_pair (reverse path) g
              #'(lambda(v1 v2) 
                  (node-pair-flow-increment v1 v2 (- inc) g))))
@@ -324,6 +327,8 @@
                   (setf min cur-min)))) 
     min))
 
+
+
 (defun node-list-neighbours(node-name g)
   (node-names (node-neighbours (find-node node-name (graph-nodes g)))))
 
@@ -336,17 +341,20 @@
              (push ,n ,nodes)))
        ,n)))
 
-(defun add-nodes-from-edges(edges nodes)
-  (loop for edge in edges 
-        for cur_node = (make-node-if-none (edge-start edge) nodes)
-        for end_node = (make-node-if-none (edge-end edge) nodes) 
-        finally (return (sort nodes  #'string< :key #'node-name))
+(defun sort-nodes (nodes)
+  (sort nodes  #'string< :key #'node-name))
+
+(defun edges->nodes-conditionally(edges nodes)
+  (loop
+     for edge in edges 
+     for cur_node = (make-node-if-none (edge-start edge) nodes)
+     for end_node = (make-node-if-none (edge-end edge) nodes) 
+     finally (return (sort-nodes nodes))
         do
         (node-add-neighbour cur_node end_node)))
 
 (defun edges->nodes(edges)
-  (let ((nodes '()))
-    (add-nodes-from-edges edges nodes)))
+  (edges->nodes-conditionally edges '()))
 
 (defun edges->node-names(edges)
   (let ((node-names '()))
@@ -359,10 +367,6 @@
   (let ((ls (str/split-by-one-space line)))
     (when (eql (length ls) 3)
       (make-edge (first ls ) (second ls) (parse-integer (third ls))))))
-;;      (push (make-edge-string-list l) edges)))  
-;;  )
-;;(defun make-edge-string-list(ls)
-;;  (make-edge (first ls ) (second ls) (parse-integer (third ls))))
 
 (defun read-edge-file(file-name)
   (let ((in (open file-name :if-does-not-exist nil))
@@ -376,29 +380,28 @@
       (close in))
     (nreverse edges)))
 
-
 (defun parse-graph(file-name)
   (let* ((edges (read-edge-file file-name))
          (nodes (edges->nodes edges)))
     (make-graph-simple nodes edges)))
 
-(defun make-edges-from-pairs (pair-list)
+(defun pairs->edges (pair-list)
   (loop for (v1 v2) in pair-list
         collect (make-edge v1 v2 1)))
 
 (defun pair-list->matching-graph (pairs &optional
                                           (source_name "Source")
                                           (sink_name "Sink"))
-  (let* ((edges  (make-edges-from-pairs pairs))
+  (let* ((edges  (pairs->edges pairs))
          (nodes (edges->nodes edges))
          (new-edges '()))    
     (loop for edge in edges
           for l = (edge-start edge)
           for r = (edge-end edge)
           do 
-          (push (make-edge  source_name l 1) new-edges)
+          (push (make-edge source_name l 1) new-edges)
           (push (make-edge  r sink_name 1) new-edges))
-    (setq nodes (add-nodes-from-edges new-edges nodes))
+    (setq nodes (edges->nodes-conditionally new-edges nodes))
     (make-graph-simple nodes (concatenate 'list edges new-edges))))
 
 (defun print-edge(edge)
@@ -413,9 +416,7 @@
   (mapcar #'print-edge (graph-edges g)))
 
 (defun max-flow(start end g)
-  (loop for e in (graph-edges g)
-        do 
-        (graph-flow-setf (edge-start e) (edge-end e) 0 g))
+  (graph-set-flow-zero g)
    (loop for path = (bfs start end g)
          while path
          for increment =  (find-path-increment path g)
