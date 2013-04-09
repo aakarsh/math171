@@ -19,11 +19,12 @@
 (defclass node()
   ((name :initarg :name )
    (color :initarg :color :initform :white :accessor node-color)
-   (neighbours :initarg :adj :initform '() :accessor node-neighbours)))
+   (neighbours :initarg :adj :initform '() :accessor node-neighbours)
+   (neighbours2 :initarg :adj :initform '() :accessor node-neighbours2)))
+
 
 (defun make-edge (start end capacity)
   (make-instance 'edge :start-node start  :end-node end :capacity capacity))
-
 
 (defun node-name(node)
   (if node
@@ -31,8 +32,21 @@
 
 (defclass node-neighbour ()
   ((node :initarg :node)
-   (capacity :initarg :capacity :initform 0)
+   (capacity :initarg :capacity :initform 0 )
    (flow :initarg :flow :initform 0)))
+
+(defun node-find-neighbour (node neighbour)
+  (loop for nb in (node-neighbours2 node)
+        when (eql nb neighbour)
+        do
+         (return nb)))
+
+(defun node-find-neighbour-by-name (node neighbour-name)
+  (loop for nb in (node-neighbours2 node)
+        for nb-node = (slot-value nb 'node)       
+        when (string= (node-name nb-node) neighbour-name)
+        do
+         (return nb)))
 
 (defun make-graph-simple (nodes edges)
   (make-instance 'graph 
@@ -68,12 +82,13 @@
   (node-name->index (node-name node) g))
 
 (defun find-node(name nodes)
-  (loop 
-     for node in nodes 
-     for k = nil do 
+  (loop for node in nodes 
+     do 
      (if (string= name (node-name node))
-         (progn
-           (return node)))))
+         (return node))))
+
+(defun find-node-in-graph (g)
+  (find-node name (graph-nodes g)))
 
 (defun node-color=(n c)
   (eql (node-color n) c))
@@ -94,10 +109,9 @@
   (mapcar #'node-set-white nodes))
 
 (defun node-names(nodes)
-  (loop 
-    for node in nodes
-    when node
-    collect (node-name node)))
+  (loop for node in nodes
+     when node
+     collect (node-name node)))
 
 (defun node-count(g)
   (length (graph-nodes g)))
@@ -111,10 +125,6 @@
 (defun node-has-neighbourp(node neighbour)  
   (position (node-name neighbour) (node-neighbours node)
             :test #'string= :key #'node-name))
-
-(defun node-add-neighbour(node neighbour)
-  (if (not (node-has-neighbourp node neighbour))
-        (push neighbour (node-neighbours node))))
 
 (defun edge-capacity(v1 v2 g)
   (let ((edge (graph-find-edge v1 v2 g)))
@@ -161,7 +171,6 @@
          (if (string= n (edge-start e ))
                (push (edge-end e) adjv)))
     (remove-duplicates adjv :test #'string=)))
-
 
 (defun edge-flow-increment(e inc g)
   (if nil
@@ -327,10 +336,8 @@
                   (setf min cur-min)))) 
     min))
 
-
-
 (defun node-list-neighbours(node-name g)
-  (node-names (node-neighbours (find-node node-name (graph-nodes g)))))
+  (node-names (node-neighbours (find-node-in-graph node-name g))))
 
 (defmacro make-node-if-none (node_name nodes)
   (let ((n (gensym "n"))) 
@@ -344,6 +351,16 @@
 (defun sort-nodes (nodes)
   (sort nodes  #'string< :key #'node-name))
 
+(defun node-add-neighbour(node neighbour &optional (capacity 1) (flow 0))
+  (if (not (node-has-neighbourp node neighbour))
+      (progn 
+        (push neighbour (node-neighbours node))
+        (push (make-instance 'node-neighbour
+                             :node neighbour
+                             :capacity capacity
+                             :flow flow)  (node-neighbours2 node)))))
+
+
 (defun edges->nodes-conditionally(edges nodes)
   (loop
      for edge in edges 
@@ -351,7 +368,7 @@
      for end_node = (make-node-if-none (edge-end edge) nodes) 
      finally (return (sort-nodes nodes))
         do
-        (node-add-neighbour cur_node end_node)))
+       (node-add-neighbour cur_node end_node (edge-capacity1 edge))))
 
 (defun edges->nodes(edges)
   (edges->nodes-conditionally edges '()))
@@ -441,9 +458,6 @@
                           (>  (edge-flow n1 n2 matching-graph) 0))                     
                      (push (list (node-name n1) (node-name n2))  matching))))
     matching))
-
-
-
 
 (defparameter *sample-graph-file*  "sample-graph.lisp")
 (defparameter *tg* "simple.txt")

@@ -34,7 +34,6 @@ str between them."
     (if pair
         (cadr pair) nil)))
 
-
 (defun string->list (str)
   (concatenate 'list str))
 
