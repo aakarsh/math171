@@ -16,7 +16,6 @@
    (flow :initarg :flow :initform 0)
    (capacity :initarg :capacity :initform 0 :accessor edge-capacity1)))
 
-
 (defclass node()
   ((name :initarg :name )
    (color :initarg :color :initform :white :accessor node-color)
@@ -25,8 +24,6 @@
 (defun make-edge (start end capacity)
   (make-instance 'edge :start-node start  :end-node end :capacity capacity))
 
-(defun make-edge-string-list(ls)
-  (make-edge (first ls ) (second ls) (parse-integer (third ls))))
 
 (defun node-name(node)
   (if node
@@ -99,6 +96,9 @@
 
 (defun node-count(g)
   (length (graph-nodes g)))
+
+(defun edge-count(g)
+  (length (graph-edges g)))
 
 (defun node-not-terminal(node)
   (> (length (node-neighbours node)) 0))
@@ -355,16 +355,24 @@
       (push (edge-end e) node-names))
     (remove-duplicates node-names :test #'string= )))
 
+(defun string->edge (line)
+  (let ((ls (str/split-by-one-space line)))
+    (when (eql (length ls) 3)
+      (make-edge (first ls ) (second ls) (parse-integer (third ls))))))
+;;      (push (make-edge-string-list l) edges)))  
+;;  )
+;;(defun make-edge-string-list(ls)
+;;  (make-edge (first ls ) (second ls) (parse-integer (third ls))))
 
 (defun read-edge-file(file-name)
   (let ((in (open file-name :if-does-not-exist nil))
         (edges '()))
     (when in
       (loop for line = (read-line in nil)
-         while line do 
-           (let ((l (str/split-by-one-space line)))
-             (when (eql (length l) 3)
-               (push (make-edge-string-list l) edges))))
+         while line
+         for edge = (string->edge line)
+         when edge
+         do  (push edge edges))      
       (close in))
     (nreverse edges)))
 
@@ -441,6 +449,13 @@
 
 (defparameter *g* (parse-graph *tg*))
 (defparameter es (graph-edges *g*))
+
+(defun test-num-nodes()
+  (eql 6 (node-count *g*)))
+
+(defun test-num-edges()
+  (eql 10 (edge-count *g*)))
+
 (defun test-max-flow()
   (eql 23 (max-flow "s" "t" *g*)))
 

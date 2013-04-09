@@ -1,6 +1,5 @@
 (in-package :com.bovinasancta.util)
 
-
 (defun hash-keys (hash-table)
   (loop for key being
         the hash-keys of hash-table
@@ -24,7 +23,6 @@
 Note: Two consecutive spaces will be seen as if there were an empty
 str between them."
     (split-by-char str #\Space))
-
 
 (defun str/join-words(words &optional (sep " "))
   (loop for word in words
