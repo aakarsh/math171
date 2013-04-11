@@ -18,21 +18,17 @@
       (slot-value node 'name)))
 
 (defun node-neighbours (node)
-  (loop for ne in (node-edges node)
-       collect (node-edge-node ne)))
+  (mapcar #'node-edge-node (node-edges node)))
 
 (defun node-find-edge (node neighbour)
-  (loop for ne in (node-edges node)
-     when (eql (node ne) neighbour)
-        do
-         (return ne)))
+  (find neighbour (node-edges node)
+        :key #'node-edge-node :test #'node-equals ))
 
 (defun node-find-node-edge-by-name (node neighbour-name)
-  (loop for ne in (node-edges node)
-        for ne-node = (slot-value ne 'node)       
-        when (string= (node-name ne-node) neighbour-name)
-        do
-         (return ne)))
+   (find neighbour-name (node-edges node)
+         :key #'(lambda (ne)
+                  (node-name (node-edge-node ne)))
+         :test #'string=))
 
 (defun make-graph-simple (nodes edges)
   (make-instance 'graph 
@@ -62,10 +58,7 @@
   (node-name->index (node-name node) g))
 
 (defun find-node(name nodes)
-  (loop for node in nodes 
-     do 
-     (if (string= name (node-name node))
-         (return node))))
+  (find name nodes :test #'string= :key #'node-name))
 
 (defun find-node-in-graph (name g)
   (find-node name (graph-nodes g)))
@@ -89,13 +82,10 @@
   (mapcar #'node-set-white nodes))
 
 (defun node-names(nodes)
-  (loop for node in nodes
-     when node
-     collect (node-name node)))
+  (mapcar #'node-name nodes))
 
 (defun node-count(g)
   (length (graph-nodes g)))
-
 
 (defun node-not-terminal(node)
   (> (length (node-neighbours node)) 0))
@@ -105,10 +95,7 @@
             :test #'string= :key #'node-name))
 
 (defun edge-capacity (v1 v2)
-  (loop for ne in  (node-edges v1)
-     do
-       (if (string= (node-name v2) (node-name (node-edge-node ne)))
-           (return  (node-edge-capacity ne)))))
+  (node-edge-capacity (node-find-edge v1 v2)))
 
 (defun edge-flow(v1 v2 g)
   (let ((flow (graph-flow g))
