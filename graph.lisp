@@ -57,13 +57,14 @@
 (defun make-empty-node (name)
  (make-instance 'node :name name))
 
+(defun make-2d-array (n)
+  (make-array (list n n) ))
+
 (defun make-flow (n)
-  (make-array (list n n)))
+  (make-2d-array n))
 
 (defun graph-set-flow-zero (g)
-  (loop for e in (graph-edges g)
-        do 
-        (graph-flow-setf (edge-start e) (edge-end e) 0 g)))
+  (setf (graph-flow g) (make-flow (length (graph-nodes g)))))
 
 (defun graph-find-edge(v1 v2 g)
   (dolist (edge (graph-edges g))
@@ -149,10 +150,6 @@
               (node-name->index v1 g) 
               (node-name->index v2 g)) inc))
 
-(defun graph-flow-setf(v1 v2 i g)
-  (setf (aref (graph-flow g) 
-              (node-name->index v1 g) 
-              (node-name->index v2 g)) i))
 
 (defun node-pair-flow-increment(v1 v2 inc g)
  (incf (aref (graph-flow g)
@@ -179,8 +176,6 @@
 
 (defun available-capacity (v1 v2 g)
   (- (node-edge-capacity-1 v1 v2 g)  ( edge-flow v1 v2 g)))
-
-
 
 (defun edge-flow-to-capacity(v1 v2 g)
   (> (- (edge-capacity v1 v2 ) (edge-flow v1 v2 g)) 0))
