@@ -7,7 +7,6 @@
 (defclass node()
   ((name :initarg :name )
    (color :initarg :color :initform :white :accessor node-color)
-   (neighbours :initarg :adj :initform '() :accessor node-neighbours)
    (node-edges :initarg :adj :initform '() :accessor node-edges)))
 
 (defclass node-edge ()
@@ -17,6 +16,11 @@
 (defun node-name(node)
   (if node
       (slot-value node 'name)))
+
+(defun node-neighbours (node)
+  (loop for ne in (node-edges node)
+       collect (node-edge-node ne)))
+
 
 (defun node-find-edge (node neighbour)
   (loop for ne in (node-edges node)
@@ -295,7 +299,6 @@
 (defun node-add-neighbour(node neighbour &optional (capacity 1) (flow 0))
   (if (not (node-has-neighbourp node neighbour))
       (progn 
-        (push neighbour (node-neighbours node))
         (push (make-instance 'node-edge
                              :node neighbour
                              :capacity capacity)
