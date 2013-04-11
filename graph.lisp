@@ -21,10 +21,9 @@
   (loop for ne in (node-edges node)
        collect (node-edge-node ne)))
 
-
 (defun node-find-edge (node neighbour)
   (loop for ne in (node-edges node)
-        when (eql ne neighbour)
+     when (eql (node ne) neighbour)
         do
          (return ne)))
 
@@ -249,15 +248,6 @@
         do
         (if (and v1 v2)
             (funcall f v1 v2))))
-
-(defun path->node-edges(path g f)
-  (loop for ls = path then (cdr ls)
-        for (v1 v2) = (take 2 ls)
-        for e = (node-find-edge v1 v2 )
-        while (and v1 v2)
-        do
-        (if e
-            (funcall f e))))
 
 (defun path-flow-increment(path inc g )
   (path->on_vertex_pair path g
