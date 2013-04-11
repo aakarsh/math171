@@ -12,9 +12,8 @@
 
 (defclass node-edge ()
   ((node :initarg :node :accessor node-edge-node )
-   (capacity :initarg :capacity :initform 0 :accessor node-edge-capacity )
-  ;;(flow :initarg :flow :initform 0)) ;; flow is a 2-d array on the graph
-  ))
+   (capacity :initarg :capacity :initform 0 :accessor node-edge-capacity )))
+
 
 (defun node-name(node)
   (if node
@@ -300,9 +299,8 @@
         (push neighbour (node-neighbours node))
         (push (make-instance 'node-edge
                              :node neighbour
-                             :capacity capacity
-                             ;;:flow flow Currently flow resides on the graph
-                             )
+                             :capacity capacity)
+              
               (node-edges node)))))
 
 
