@@ -21,6 +21,3 @@
   (:use :common-lisp
         :com.bovinasancta.util
         :com.bovinasancta.graph))
-
-
-

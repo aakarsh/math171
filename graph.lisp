@@ -1,20 +1,8 @@
-(defpackage :com.bovinasancta.graph
-(:use :common-lisp
-      :com.bovinasancta.util)
-(:export :maximal-matching))
-
 (in-package :com.bovinasancta.graph)
 
 (defclass graph()
   ((nodes :initarg :nodes :accessor graph-nodes)
-   (edges :initarg :edges :accessor graph-edges)
    (flow :initarg :flow :accessor graph-flow)))
-
-(defclass edge()
-  ((start :initarg :start-node :accessor edge-start)
-   (end :initarg :end-node :accessor edge-end )
-   (flow :initarg :flow :initform 0)
-   (capacity :initarg :capacity :initform 0 :accessor edge-capacity1)))
 
 (defclass node()
   ((name :initarg :name )
@@ -25,15 +13,12 @@
 (defclass node-edge ()
   ((node :initarg :node :accessor node-edge-node )
    (capacity :initarg :capacity :initform 0 :accessor node-edge-capacity )
-   (flow :initarg :flow :initform 0)))
-
-(defun make-edge (start end capacity)
-  (make-instance 'edge :start-node start  :end-node end :capacity capacity))
+  ;;(flow :initarg :flow :initform 0)) ;; flow is a 2-d array on the graph
+  ))
 
 (defun node-name(node)
   (if node
       (slot-value node 'name)))
-
 
 (defun node-find-edge (node neighbour)
   (loop for ne in (node-edges node)
@@ -51,7 +36,6 @@
 (defun make-graph-simple (nodes edges)
   (make-instance 'graph 
                  :nodes nodes
-                 :edges edges
                  :flow (make-flow (length nodes))))
 
 (defun make-empty-node (name)
@@ -65,12 +49,6 @@
 
 (defun graph-set-flow-zero (g)
   (setf (graph-flow g) (make-flow (length (graph-nodes g)))))
-
-(defun graph-find-edge(v1 v2 g)
-  (dolist (edge (graph-edges g))
-    (if (and (string=  (edge-start edge) (node-name v1))
-             (string= (edge-end edge)  (node-name v2)))
-        (return edge))))
 
 (defun node-index->node (i g)
   (nth i (graph-nodes g)))
@@ -117,8 +95,6 @@
 (defun node-count(g)
   (length (graph-nodes g)))
 
-(defun edge-count(g)
-  (length (graph-edges g)))
 
 (defun node-not-terminal(node)
   (> (length (node-neighbours node)) 0))
@@ -139,35 +115,15 @@
          (i2  (node->index v2 g)))
     (aref flow i1 i2)))
 
-(defun edge->flow(e g)
-  (let ((flow (graph-flow g))
-         (i1  (node-name->index (edge-start e) g))
-         (i2  (node-name->index (edge-end e) g)))
-    (aref flow i1 i2)))
-
 (defun edge-flow-inc(v1 v2 inc g)
   (incf (aref (graph-flow g) 
               (node-name->index v1 g) 
               (node-name->index v2 g)) inc))
 
-
 (defun node-pair-flow-increment(v1 v2 inc g)
  (incf (aref (graph-flow g)
                (node->index v1 g)
                (node->index v2 g)) inc))
-
-(defun edge->node-edge (e g)
-  (node-find-node-edge-by-name (find-node-in-graph (edge-start e) g)
-                                (edge-end e)))
-
-(defun edge-capacity2 (e g)
-  (node-edge-capacity (edge->node-edge e g)))
-
-(defun edge-available-capacity(e g)
-  (- (edge-capacity2 e g) (edge->flow e g)))
-
-(defun node-edge-available-capacity (ne g)
-  (- (node-edge-capacity ne) (edge->flow e g)))
 
 
 (defun node-edge-capacity-1 (v1 v2 g)
@@ -179,22 +135,6 @@
 
 (defun edge-flow-to-capacity(v1 v2 g)
   (> (- (edge-capacity v1 v2 ) (edge-flow v1 v2 g)) 0))
-
-(defun edge->string(e g)
-  (format nil "(~a)->(~a) [c:~a] [f:~a] <~a>" 
-          (edge-start e) 
-          (edge-end e) 
-          (edge-capacity2 e g)  
-          (edge->flow e g)
-          (edge-available-capacity e g)))
-
-(defun edge-print(e g)
-  (format t "~a~%"  (edge->string e g)))
-
-(defun edges-funcall(g f)
-  (loop for e in (graph-edges)
-        do 
-        (funcall f e)))
 
 (defmacro bfs-enqueue!(n q)
   `(progn 
@@ -330,7 +270,6 @@
 (defun find-path-increment(path g)
   (let* ((min *max-increment*)
          (cur-min min))
-
     (path->on_vertex_pair path g
                           #'(lambda (v1 v2)
                               (setf cur-min (available-capacity v1 v2 g))
@@ -338,10 +277,10 @@
                                   (setf min cur-min))))    
     min))
 
-
-
 (defun node-list-neighbours(node-name g)
-  (node-names (node-neighbours (find-node-in-graph node-name g))))
+  (node-names
+   (node-neighbours
+    (find-node-in-graph node-name g))))
 
 (defmacro make-node-if-none (node_name nodes)
   (let ((n (gensym "n"))) 
@@ -362,34 +301,28 @@
         (push (make-instance 'node-edge
                              :node neighbour
                              :capacity capacity
-                             :flow flow)
+                             ;;:flow flow Currently flow resides on the graph
+                             )
               (node-edges node)))))
 
 
 (defun edges->nodes-conditionally(edges nodes)
   (loop
      for edge in edges 
-     for cur_node = (make-node-if-none (edge-start edge) nodes)
-     for end_node = (make-node-if-none (edge-end edge) nodes) 
+     for cur_node = (make-node-if-none (first edge) nodes)
+     for end_node = (make-node-if-none (second edge) nodes) 
+     for capacity = (third edge)
      finally (return (sort-nodes nodes))
         do
-       (node-add-neighbour cur_node end_node
-                           (edge-capacity1 edge))))
+       (node-add-neighbour cur_node end_node capacity)))
 
 (defun edges->nodes(edges)
   (edges->nodes-conditionally edges '()))
 
-(defun edges->node-names(edges)
-  (let ((node-names '()))
-    (dolist (e edges)
-      (push (edge-start e) node-names)
-      (push (edge-end e) node-names))
-    (remove-duplicates node-names :test #'string= )))
-
 (defun string->edge (line)
   (let ((ls (str/split-by-one-space line)))
     (when (eql (length ls) 3)
-      (make-edge (first ls ) (second ls) (parse-integer (third ls))))))
+      (list (first ls) (second ls) (parse-integer (third ls))))))
 
 (defun read-edge-file(file-name)
   (let ((in (open file-name :if-does-not-exist nil))
@@ -410,7 +343,7 @@
 
 (defun pairs->edges (pair-list)
   (loop for (v1 v2) in pair-list
-        collect (make-edge v1 v2 1)))
+        collect (list v1 v2 1)))
 
 (defun pair-list->matching-graph (pairs &optional
                                           (source_name "Source")
@@ -419,11 +352,11 @@
          (nodes (edges->nodes edges))
          (new-edges '()))    
     (loop for edge in edges
-          for l = (edge-start edge)
-          for r = (edge-end edge)
+          for l = (first edge)
+          for r = (second edge)
           do 
-          (push (make-edge source_name l 1) new-edges)
-          (push (make-edge  r sink_name 1) new-edges))
+          (push (list source_name l 1) new-edges)
+          (push (list  r sink_name 1) new-edges))
     (setq nodes (edges->nodes-conditionally new-edges nodes))
     (make-graph-simple nodes (concatenate 'list edges new-edges))))
 
@@ -458,13 +391,9 @@
 (defparameter *tg* "simple.txt")
 
 (defparameter *g* (parse-graph *tg*))
-(defparameter es (graph-edges *g*))
 
 (defun test-num-nodes()
   (eql 6 (node-count *g*)))
-
-(defun test-num-edges()
-  (eql 10 (edge-count *g*)))
 
 (defun test-max-flow()
   (eql 23 (max-flow "s" "t" *g*)))
@@ -479,3 +408,11 @@
 
 (defun test-maximal-matching ()
   (eql 6 (length  (maximal-matching *max-matching-test-data* ))))
+
+
+(if (not (and
+          (test-num-nodes)
+          (test-maximal-matching)
+          (test-max-flow)))
+    (error "Failing tests"))
+
