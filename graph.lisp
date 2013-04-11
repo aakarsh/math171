@@ -14,7 +14,6 @@
   ((node :initarg :node :accessor node-edge-node )
    (capacity :initarg :capacity :initform 0 :accessor node-edge-capacity )))
 
-
 (defun node-name(node)
   (if node
       (slot-value node 'name)))
