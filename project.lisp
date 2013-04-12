@@ -149,10 +149,14 @@
                 (if (course-intersectp course1 course2)
                     (return-from outer  t))))))
 
+(defun interval->pair (t2)
+  (list (interval-start t1) (interval-end t1)))
+
 (defun interval-end-points-in (t1 t2)
   (or
    (interval-contains (interval-start t1) t2)
    (interval-contains (interval-end t1) t2)))
+
 
 (defun time-interval-intersects (t1 t2)
   (if (or  (not t1) (not t2))
@@ -221,9 +225,8 @@
       (t2  (make-instance 'time-interval  :start 1 :end 10))
       (t3  (make-instance 'time-interval  :start 2 :end 8))
       (t4  (make-instance 'time-interval  :start 0 :end 2)))  
-  (if (not (and
-            (time-interval-intersects t1 t2)
-            (time-interval-intersects t2 t1)
-            (time-interval-intersects t1 t3)
-            (time-interval-intersects t1 t4)))      
-    (error "Failing test")))
+  (assert (time-interval-intersects t1 t2))
+  (assert (time-interval-intersects t2 t1))
+  (assert (time-interval-intersects t1 t3))
+  (assert (time-interval-intersects t1 t4)))
+

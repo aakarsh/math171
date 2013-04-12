@@ -126,14 +126,13 @@
                (node->index v1 g)
                (node->index v2 g)) inc))
 
-
 (defun node-edge-capacity-1 (v1 v2 g)
   (let ((ne  (node-find-node-edge-by-name
               (find-node-in-graph (node-name v1) g) (node-name v2))))
     (node-edge-capacity ne)))
 
 (defun available-capacity (v1 v2 g)
-  (- (node-edge-capacity-1 v1 v2 g)  ( edge-flow v1 v2 g)))
+  (- (node-edge-capacity-1 v1 v2 g) (edge-flow v1 v2 g)))
 
 (defun edge-flow-to-capacity(v1 v2 g)
   (> (- (edge-capacity v1 v2 ) (edge-flow v1 v2 g)) 0))
@@ -162,28 +161,27 @@
                  (bfs-pred-path->string ,path)))
      ,path))
 
-
 (defun reconstruct-path(pred_list start end)  
   (loop with path = '() 
-        for prev = end then (cadr pair)
-        for pair = (assoc (node-name prev) pred_list :key #'node-name :test #'string=)
-        for cur =  (car pair)
-        while cur
-        with debug = nil
-        finally (return path)        
-        do
-        (if debug (format t "cur:~a,prev:~a ~%" cur prev))
-        (push cur path)))
+     for prev = end then (cadr pair)
+     for pair = (assoc (node-name prev) pred_list :key #'node-name :test #'string=)
+     for cur =  (car pair)
+     while cur
+     with debug = nil
+     finally (return path)        
+     do
+       (if debug (format t "cur:~a,prev:~a ~%" cur prev))
+       (push cur path)))
 
 (defun bfs-pred-path->string(path)
   (loop for elem in path
-        for node = (car elem)
-        for pred = (cadr elem)        
-        for result = (str/join-words (list result           
-                                           (format nil "(~a ~a)"  
-                                                   (node-name node)  
-                                                   (node-name pred))))
-        finally (return result)))
+     for node = (car elem)
+     for pred = (cadr elem)
+     for result = (str/join-words (list result
+                                        (format nil "(~a ~a)"
+                                                (node-name node)
+                                                (node-name pred))))
+     finally (return result)))
 
 (defun bfs(start end graph)
   (let* ((nodes (graph-nodes graph))
@@ -191,7 +189,6 @@
          (end_node   (find-node end nodes))
          (queue      '())
          (path        (list (list start_node nil))))
-
     (nodes-set-white nodes)    
     (bfs-enqueue! start_node queue)    
     (loop for node in nodes
@@ -199,7 +196,7 @@
           for prev = nil then cur_node
           for cur_node = (bfs-dequeue! queue)
           while  (and cur_node (node-not-equals cur_node end_node)) 
-          finally (if (node-not-equals cur_node end_node)
+          finally (if (node-not-equals cur_node end_node)                      
                       (progn 
                         (if debug
                             (format t "Returning on ~a Queue ~a " 
@@ -220,7 +217,6 @@
                                                 (edge-flow cur_node neighbour  graph)
                                                 (edge-flow-to-capacity cur_node neighbour  graph)))
                                     (node-neighbours cur_node))))
-
           (loop for neighbour  in (node-neighbours cur_node)
                 do 
                 (if (and 
@@ -255,16 +251,14 @@
              #'(lambda(v1 v2) 
                  (node-pair-flow-increment v1 v2 (- inc) g))))
 
-(defvar *max-increment* 1000000000)
-
 (defun find-path-increment(path g)
-  (let* ((min *max-increment*)
-         (cur-min min))
+  (let* ((min nil))    
     (path->on_vertex_pair path g
                           #'(lambda (v1 v2)
-                              (setf cur-min (available-capacity v1 v2 g))
-                              (if (< cur-min min)
-                                  (setf min cur-min))))    
+                              (let ((cur-min (available-capacity v1 v2 g)))
+                                (if (or (not min) 
+                                        (< cur-min min)) 
+                                    (setf min cur-min)))))
     min))
 
 (defun node-list-neighbours(node-name g)
@@ -330,9 +324,7 @@
   (loop for (v1 v2) in pair-list
         collect (list v1 v2 1)))
 
-(defun pair-list->matching-graph (pairs &optional
-                                          (source_name "Source")
-                                          (sink_name "Sink"))
+(defun pair-list->matching-graph (pairs &optional (source_name "Source") (sink_name "Sink"))
   (let* ((edges  (pairs->edges pairs))
          (nodes (edges->nodes edges))
          (new-edges '()))    
@@ -349,7 +341,7 @@
   (graph-set-flow-zero g)
    (loop for path = (bfs start end g)
          while path
-         for increment =  (find-path-increment path g)
+         for increment = (find-path-increment path g)
          for max_flow = increment then (+ max_flow increment)
          finally (return max_flow)
          do 
@@ -357,19 +349,21 @@
          (path-flow-increment path increment g)))
 
 (defun maximal-matching (pair-list)
-  (let* ((matching-graph (pair-list->matching-graph pair-list))
-        (match-size 0)
-        (nodes (graph-nodes matching-graph))
-        (matching '()))
-    (setq match-size (max-flow "Source" "Sink" matching-graph))    
+  (let* ((source-name "Source")
+         (sink-name "Sink")
+         (matching-graph (pair-list->matching-graph pair-list source-name sink-name))
+         (match-size 0)
+         (nodes (graph-nodes matching-graph))
+         (matching '()))
+    (setq match-size (max-flow source-name sink-name matching-graph))    
     (loop for n1 in nodes
           do 
           (loop for n2 in nodes
                  do
-                 (if (and (not (string= "Source" (node-name n1)))
-                          (not (string= "Sink" (node-name n2)))
+                 (if (and (not (string= source-name (node-name n1)))
+                          (not (string= sink-name (node-name n2)))
                           (>  (edge-flow n1 n2 matching-graph) 0))                     
-                     (push (list (node-name n1) (node-name n2))  matching))))
+                     (push (node-names (list n1 n2))  matching))))
     matching))
 
 (defparameter *sample-graph-file*  "sample-graph.lisp")
@@ -394,11 +388,6 @@
 (defun test-maximal-matching ()
   (eql 6 (length  (maximal-matching *max-matching-test-data* ))))
 
-
-(if (not (and
-          (test-num-nodes)
-          (test-maximal-matching)
-          (test-max-flow)
-          ))
-    (error "Failing tests"))
-
+(assert (test-num-nodes))
+(assert (test-maximal-matching))
+(assert (test-max-flow))
