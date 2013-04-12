@@ -72,28 +72,26 @@
 (defun node-color=(n c)
   (eql (node-color n) c))
 
-(defun node-setter-name (color &optional (plural nil))
-  (let ((prefix "node-set-"))
-    (if plural
-        (setf prefix "nodes-set-"))  
-    (concatenate 'string prefix (symbol-name color))))
-
 (defun node-setter-symbol (color &optional (plural nil))
-  (intern (node-setter-name color plural )))
+  (let ((prefix "NODE-SET-"))
+    (if plural
+        (setf prefix "NODES-SET-"))    
+    (intern (concatenate 'string prefix (string-upcase (symbol-name color))))))
 
 ;; unnecessary complexity
-(defmacro define-node-color-setters ()
-   "Define node-set-color setters as node-set-white"
+(defmacro define-node-color-setters (colors)
   `(progn ,@(mapcar
              (lambda (color)
-               (let ((color-setter (node-setter-symbol color)))                 
-                 `(defun ,color-setter (node)
-                    (setf (node-color node) ',color))             
-                 `(defun ,(node-setter-symbol color t) (nodes)
-                    (mapcar #',color-setter nodes))))                
-             '(:white :black :gray))))
+               (let* ((setter-symbol (node-setter-symbol color nil))
+                     (setters-symbol (node-setter-symbol color t)))                 
+                 `(progn
+                   (defun ,setter-symbol (node)
+                      (setf (node-color node) ,color))
+                   (defun ,setters-symbol  (nodes)
+                     (mapcar (function ,setter-symbol) nodes)))))
+             colors)))
 
-(define-node-color-setters)
+(define-node-color-setters  (list :white :black :gray))
 
 (defun node-names(nodes)
   (mapcar #'node-name nodes))
