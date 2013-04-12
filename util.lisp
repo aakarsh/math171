@@ -53,3 +53,24 @@ str between them."
         (reduce #'(lambda (v f) (funcall f v))
                 rest
                 :initial-value (apply fn1 args)))))
+
+(defmacro str/concat (&rest args)
+  `(concatenate 'string ,@args))
+
+
+(defmacro define-default-class (class props)
+  `(progn 
+     (defclass ,class ()
+       (,@(mapcar 
+           #'(lambda (prop)             
+             (let* ((prefix (symbol-name class))
+                    (prop-name (symbol-name prop))
+                    (prop-sym (intern prop-name))
+                    (prop-kw (intern prop-name "KEYWORD"))
+                    (accessor-name   (str/concat prefix "-"  prop-name))
+                    (accessor-sym (intern accessor-name ))
+                    (accessor-kw (intern accessor-name "KEYWORD")))
+               `(,prop-sym :initarg ,prop-kw :accessor ,accessor-sym)))            
+           props)))))
+
+

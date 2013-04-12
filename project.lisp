@@ -56,37 +56,14 @@
 (assert (string= "" (first-name (string->name "bar"))))
 (assert (string= "bar" (last-name (string->name "foo bar"))))
 
-(defclass course-data ()
-  ((name :initarg :course-name 
-         :accessor course-name)
-   (title :initarg :course-title
-          :accessor course-title)
-   (section :initarg :course-section
-            :accessor course-section)
-   (code :initarg :course-code
-         :accessor course-code)
-   (credit :initarg :course-credit
-         :accessor course-credit)
-   (type :initarg :course-type
-         :accessor course-type)
-   (time :accessor course-time)   
-   (notes :initarg :course-notes
-          :accessor course-notes)
-   (capacity :initarg :course-capacity
-             :accessor course-capacity)
-   (dates :initarg :course-dates
-          :accessor course-dates)
-   (days :initarg :course-days
-          :accessor course-days)
-   (location :initarg :course-location
-             :accessor course-location)
-   (professor :accessor course-professor)))
+(define-default-class course (name title section code credit type time
+                              notes capacity dates days location professor))
 
-(defmethod initialize-instance :before ((obj course-data)  &key course-professor course-time   &allow-other-keys)
+(defmethod initialize-instance :after ((obj course)  &key professor time   &allow-other-keys)
   (if nil
-      (format t "Before :Creating course-data name [~a] time[~a] ~%" course-professor course-time ))
-  (setf (slot-value obj 'professor) (string->name course-professor))
-  (setf (slot-value obj 'time) (string->time-interval course-time)))
+      (format t "Before :Creating course-data name [~a] time[~a] ~%" professor time ))
+  (setf (slot-value obj 'professor) (string->name professor))
+  (setf (slot-value obj 'time) (string->time-interval time)))
 
 (defun professor-map->names(map)
   (hash-keys *professor-map*))
@@ -123,7 +100,7 @@
          for course-data = (pre-process-term term)
          while term
          do      
-           (push (apply #'make-instance 'course-data course-data) parsed-data))      
+           (push (apply #'make-instance 'course course-data) parsed-data))      
       (close in))    
     parsed-data))
 

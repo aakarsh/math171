@@ -1,17 +1,13 @@
 (in-package :com.bovinasancta.graph)
 
-(defclass graph()
-  ((nodes :initarg :nodes :accessor graph-nodes)
-   (flow :initarg :flow :accessor graph-flow)))
+(define-default-class graph (nodes flow))
 
 (defclass node()
   ((name :initarg :name )
    (color :initarg :color :initform :white :accessor node-color)
    (node-edges :initarg :adj :initform '() :accessor node-edges)))
 
-(defclass node-edge ()
-  ((node :initarg :node :accessor node-edge-node )
-   (capacity :initarg :capacity :initform 0 :accessor node-edge-capacity )))
+(define-default-class node-edge (node capacity))
 
 (defun node-name(node)
   (if node

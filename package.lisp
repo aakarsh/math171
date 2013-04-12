@@ -12,7 +12,8 @@
          :str/join-words
          :betweenp
          :compose
-         ))
+         :str/concat
+         :define-default-class))
 
 (defpackage :com.bovinasancta.graph
   (:use :common-lisp
