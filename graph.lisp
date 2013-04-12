@@ -81,7 +81,7 @@
 (defun nodes-setter-symbol (color)
   (intern (concatenate 'string (symbol-name 'nodes-set-) (symbol-name color))))
 
-;; unneccearry complexity
+;; unnecessary complexity
 (defmacro define-node-color-setters ()
    "Define node-set-color setters as node-set-white"
   `(progn ,@(mapcar
