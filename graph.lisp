@@ -77,16 +77,17 @@
 (defmacro define-node-color-setters (colors)
   `(progn ,@(mapcar
              (lambda (color)
-               (let* ((setter-symbol (node-setter-symbol color nil))
+               (let* ((color-kw  (intern (symbol-name color) "KEYWORD"))
+                      (setter-symbol (node-setter-symbol color nil))
                      (setters-symbol (node-setter-symbol color t)))                 
                  `(progn
                    (defun ,setter-symbol (node)
-                      (setf (node-color node) ,color))
+                      (setf (node-color node) ,color-kw))
                    (defun ,setters-symbol  (nodes)
                      (mapcar (function ,setter-symbol) nodes)))))
              colors)))
 
-(define-node-color-setters  (list :white :black :gray))
+(define-node-color-setters (white black gray))
 
 (defun node-names(nodes)
   (mapcar #'node-name nodes))
