@@ -72,21 +72,28 @@
 (defun node-color=(n c)
   (eql (node-color n) c))
 
-(defun node-setter-symbol (color)
-  (intern (concatenate 'string (symbol-name 'node-set-) (symbol-name color))))
+(defun node-setter-name (color)
+  (concatenate 'string (symbol-name 'node-set-) (symbol-name color)))
 
+(defun node-setter-symbol (color)
+  (intern (node-setter-name color)))
+
+(defun nodes-setter-symbol (color)
+  (intern (concatenate 'string (symbol-name 'nodes-set-) (symbol-name color))))
+
+;; unneccearry complexity
 (defmacro define-node-color-setters ()
    "Define node-set-color setters as node-set-white"
   `(progn ,@(mapcar
              (lambda (color)
-               `(defun ,(node-setter-symbol color) (node)
-                  (setf (node-color node) ',color)))
+               (let ((color-setter (node-setter-symbol color)))                 
+                 `(defun ,color-setter (node)
+                    (setf (node-color node) ',color))             
+                 `(defun ,(nodes-setter-symbol color) (nodes)
+                    (mapcar #',color-setter nodes))))                
              '(:white :black :gray))))
 
 (define-node-color-setters)
-
-(defun nodes-set-white (nodes)
-  (mapcar #'node-set-white nodes))
 
 (defun node-names(nodes)
   (mapcar #'node-name nodes))
@@ -393,6 +400,7 @@
 (if (not (and
           (test-num-nodes)
           (test-maximal-matching)
-          (test-max-flow)))
+          (test-max-flow)
+          ))
     (error "Failing tests"))
 
