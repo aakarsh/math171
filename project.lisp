@@ -149,16 +149,17 @@
                 (if (course-intersectp course1 course2)
                     (return-from outer  t))))))
 
+(defun interval-end-points-in (t1 t2)
+  (or
+   (interval-contains (interval-start t1) t2)
+   (interval-contains (interval-end t1) t2)))
+
 (defun time-interval-intersects (t1 t2)
   (if (or  (not t1) (not t2))
       nil      
     (or 
-     (or    
-      (interval-contains (interval-start t2) t1)
-      (interval-contains (interval-end  t2) t1))
-     (or    
-      (interval-contains (interval-start t1) t2)
-      (interval-contains (interval-end  t1) t2)))))
+     (interval-end-points-in t1 t2)
+     (interval-end-points-in t2 t1))))
 
 (defun professor-supervisable (prof1 prof2 map)
   (not (professor-overlapping-coursesp prof1 prof2 map)))
@@ -213,3 +214,16 @@
   (print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
 
 (print-final-mapping)
+
+
+;;; Tests
+(let ((t1  (make-instance 'time-interval  :start 1 :end 10))
+      (t2  (make-instance 'time-interval  :start 1 :end 10))
+      (t3  (make-instance 'time-interval  :start 2 :end 8))
+      (t4  (make-instance 'time-interval  :start 0 :end 2)))  
+  (if (not (and
+            (time-interval-intersects t1 t2)
+            (time-interval-intersects t2 t1)
+            (time-interval-intersects t1 t3)
+            (time-interval-intersects t1 t4)))      
+    (error "Failing test")))
