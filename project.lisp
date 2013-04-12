@@ -30,42 +30,17 @@
   ((start  :initarg :start :initform 0 :accessor interval-start)
    (end  :initarg :end :initform 0  :accessor interval-end)))
 
-(defclass name()
-((first-name :initarg :first :accessor first-name)
- (last-name  :initarg :last  :accessor last-name)))
-
-(defclass course-data ()
-  ((name :initarg :course-name 
-         :accessor course-name)
-   (title :initarg :course-title
-          :accessor course-title)
-   (section :initarg :course-section
-            :accessor course-section)
-   (code :initarg :course-code
-         :accessor course-code)
-   (type :initarg :course-type
-         :accessor course-type)
-   (time :initarg :course-time
-         :accessor course-time)
-   (notes :initarg :course-notes
-          :accessor course-notes)
-   (capacity :initarg :course-capacity
-             :accessor course-capacity)
-   (dates :initarg :course-dates
-          :accessor course-dates)
-   (days :initarg :course-days
-          :accessor course-days)
-   (location :initarg :course-location
-             :accessor course-location)
-   (professor :initarg :course-professor
-              :accessor course-professor)))
-
 (defun string->time-interval (str)
   (if (and  str (> (length str) 0) (not (string=  "tba" str)) )
       (let* ((str-pair (split-by-char str #\-))
              (start   (parse-integer (first str-pair)))
              (end     (parse-integer (second str-pair))))    
         (make-instance 'time-interval :start start :end end))))
+
+(defclass name()
+((first-name :initarg :first :accessor first-name)
+ (last-name  :initarg :last  :accessor last-name)))
+
 
 (defun string->name (name)
   (let* ((names (str/split-by-one-space name))
@@ -83,20 +58,39 @@
                            :last (first names))))
     name))
 
-(defun assoc->course (ls)
-  (make-instance 'course-data
-                 :course-name (ass/val :course-name ls)
-                 :course-title (ass/val :course-title ls)
-                 :course-section (ass/val :course-section ls)
-                 :course-code (ass/val :course-code ls)
-                 :course-type (ass/val :course-type ls)
-                 :course-notes (ass/val :course-notes ls)
-                 :course-capacity (ass/val :course-capacity ls)
-                 :course-dates (ass/val :course-dates ls)
-                 :course-days (ass/val :course-days ls)
-                 :course-time (string->time-interval (ass/val :course-time ls))
-                 :course-location (ass/val :course-location ls)
-                 :course-professor (ass/val :course-professor ls)))
+
+(defclass course-data ()
+  ((name :initarg :course-name 
+         :accessor course-name)
+   (title :initarg :course-title
+          :accessor course-title)
+   (section :initarg :course-section
+            :accessor course-section)
+   (code :initarg :course-code
+         :accessor course-code)
+   (credit :initarg :course-credit
+         :accessor course-credit)
+   (type :initarg :course-type
+         :accessor course-type)
+   (time :accessor course-time)   
+   (notes :initarg :course-notes
+          :accessor course-notes)
+   (capacity :initarg :course-capacity
+             :accessor course-capacity)
+   (dates :initarg :course-dates
+          :accessor course-dates)
+   (days :initarg :course-days
+          :accessor course-days)
+   (location :initarg :course-location
+             :accessor course-location)
+   (professor :accessor course-professor)))
+
+(defmethod initialize-instance :before ((obj course-data)  &key course-professor course-time   &allow-other-keys)
+  (if nil
+      (format t "Before :Creating course-data name [~a] time[~a] ~%" course-professor course-time ))
+  (setf (slot-value obj 'professor) (string->name course-professor))
+  (setf (slot-value obj 'time) (string->time-interval course-time)))
+
 
 (defun professor-map->names(map)
   (hash-keys *professor-map*))
@@ -114,22 +108,27 @@
               (setf (gethash prof map) '())))        
         (push course (gethash prof map))))
 
+(defun pre-process-term (term)
+  (loop with course-data = '()
+     for ls = term then (cddr ls)
+     for p1 = (car ls)
+     for p2 = (string-trim '(#\Space) (cadr ls))
+     for pair = (list p1 p2)
+     while (first pair)
+     finally (return course-data)
+     do 
+       (setq course-data (append pair course-data))))
+
+
 (defun read-course-data(file-name)
   (let ((in (open file-name :if-does-not-exist nil))
         (parsed-data '()))
     (when in
       (loop for term =  (read in nil)
-            for course-data = '()
+            for course-data = (pre-process-term term)
             while term
-            do
-            (loop for ls = term then (cddr ls)
-                  for p1 = (car ls)
-                  for p2 = (string-trim '(#\Space) (cadr ls))
-                  for pair = (list p1 p2)
-                  while (first pair)
-                  do 
-                  (push pair course-data))      
-            (push (assoc->course course-data) parsed-data))      
+         do      
+            (push (apply #'make-instance 'course-data course-data) parsed-data))      
             (close in))    
     parsed-data))
 
