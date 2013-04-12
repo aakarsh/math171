@@ -17,12 +17,18 @@
   (if node
       (slot-value node 'name)))
 
+(defun node= (n1 n2)
+  (string= (node-name n1) (node-name n2) ))
+
+(defun node-not-equals (n1 n2)
+  (not (node= n1 n2)))
+
 (defun node-neighbours (node)
   (mapcar #'node-edge-node (node-edges node)))
 
 (defun node-find-edge (node neighbour)
   (find neighbour (node-edges node)
-        :key #'node-edge-node :test #'node-equals ))
+        :key #'node-edge-node :test #'node= ))
 
 (defun node-find-node-edge-by-name (node neighbour-name)
    (find neighbour-name (node-edges node)
@@ -66,17 +72,18 @@
 (defun node-color=(n c)
   (eql (node-color n) c))
 
-(defun node-equals (n1 n2)
-  (string= (node-name n1) (node-name n2) ))
+(defun node-setter-symbol (color)
+  (intern (concatenate 'string (symbol-name 'node-set-) (symbol-name color))))
 
-(defun node-set-white (node)
-  (setf (node-color node) :white))
+(defmacro define-node-color-setters ()
+   "Define node-set-color setters as node-set-white"
+  `(progn ,@(mapcar
+             (lambda (color)
+               `(defun ,(node-setter-symbol color) (node)
+                  (setf (node-color node) ',color)))
+             '(:white :black :gray))))
 
-(defun node-set-gray (node)
-  (setf (node-color node) :gray))
-
-(defun node-set-black (node)
-  (setf (node-color node) :black))
+(define-node-color-setters)
 
 (defun nodes-set-white (nodes)
   (mapcar #'node-set-white nodes))
@@ -104,7 +111,8 @@
     (aref flow i1 i2)))
 
 (defun edge-flow-inc(v1 v2 inc g)
-  (incf (aref (graph-flow g) 
+  (incf 
+   (aref (graph-flow g) 
               (node-name->index v1 g) 
               (node-name->index v2 g)) inc))
 
@@ -115,7 +123,8 @@
 
 
 (defun node-edge-capacity-1 (v1 v2 g)
-  (let ((ne  (node-find-node-edge-by-name (find-node-in-graph (node-name v1) g) (node-name v2))))
+  (let ((ne  (node-find-node-edge-by-name
+              (find-node-in-graph (node-name v1) g) (node-name v2))))
     (node-edge-capacity ne)))
 
 (defun available-capacity (v1 v2 g)
@@ -170,9 +179,6 @@
                                                    (node-name node)  
                                                    (node-name pred))))
         finally (return result)))
-
-(defun node-not-equals (n1 n2)
-  (not (node-equals n1 n2)))
 
 (defun bfs(start end graph)
   (let* ((nodes (graph-nodes graph))
@@ -275,13 +281,10 @@
 
 (defun node-add-neighbour(node neighbour &optional (capacity 1) (flow 0))
   (if (not (node-has-neighbourp node neighbour))
-      (progn 
         (push (make-instance 'node-edge
                              :node neighbour
                              :capacity capacity)
-              
-              (node-edges node)))))
-
+              (node-edges node))))
 
 (defun edges->nodes-conditionally(edges nodes)
   (loop
