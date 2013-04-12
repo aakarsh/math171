@@ -38,26 +38,18 @@
         (make-instance 'time-interval :start start :end end))))
 
 (defclass name()
-((first-name :initarg :first :accessor first-name)
- (last-name  :initarg :last  :accessor last-name)))
-
+  ((first-name :initarg :first :accessor first-name)
+   (last-name  :initarg :last  :accessor last-name)))
 
 (defun string->name (name)
   (let* ((names (str/split-by-one-space name))
          (first-name "")
-         (last-name "")
-         (name nil))    
+         (last-name (first names)))
     (if (> (length names) 1)
-        (setq name 
-              (make-instance 'name
-                             :first (first names)
-                             :last (second names)))
-      (setq name
-            (make-instance 'name
-                           :first ""
-                           :last (first names))))
-    name))
-
+        (progn
+          (setq first-name (first names))
+          (setq last-name (second names)))) 
+    (make-instance 'name :first first-name :last last-name)))
 
 (defclass course-data ()
   ((name :initarg :course-name 
@@ -91,7 +83,6 @@
   (setf (slot-value obj 'professor) (string->name course-professor))
   (setf (slot-value obj 'time) (string->time-interval course-time)))
 
-
 (defun professor-map->names(map)
   (hash-keys *professor-map*))
 
@@ -119,17 +110,16 @@
      do 
        (setq course-data (append pair course-data))))
 
-
 (defun read-course-data(file-name)
   (let ((in (open file-name :if-does-not-exist nil))
         (parsed-data '()))
     (when in
       (loop for term =  (read in nil)
-            for course-data = (pre-process-term term)
-            while term
+         for course-data = (pre-process-term term)
+         while term
          do      
-            (push (apply #'make-instance 'course-data course-data) parsed-data))      
-            (close in))    
+           (push (apply #'make-instance 'course-data course-data) parsed-data))      
+      (close in))    
     parsed-data))
 
 (defun course-intersectp (course1 course2)
@@ -189,11 +179,9 @@
         (time-interval-intersects time1 time2)))
 
 (defun print-matching-pairs (matching)
-  (loop for match in matching
-        for  f = (first match)
-        for  s = (second match)
+  (loop for pair in matching
         do
-        (format t "~a -> ~a ~%" f s)))
+       (format t "~a -> ~a ~%" (first  pair) (second  pair))))
 
 (defun print-basic-course-data (course)
   (format t "~%")
