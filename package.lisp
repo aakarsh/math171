@@ -10,7 +10,9 @@
          :split-by-char 
          :str/split-by-one-space 
          :str/join-words
-         :betweenp))
+         :betweenp
+         :compose
+         ))
 
 (defpackage :com.bovinasancta.graph
   (:use :common-lisp

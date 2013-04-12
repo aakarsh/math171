@@ -32,8 +32,7 @@
 
 (defun node-find-node-edge-by-name (node neighbour-name)
    (find neighbour-name (node-edges node)
-         :key #'(lambda (ne)
-                  (node-name (node-edge-node ne)))
+         :key (compose #'node-name #'node-edge-node)
          :test #'string=))
 
 (defun make-graph-simple (nodes edges)
@@ -109,33 +108,17 @@
 (defun edge-capacity (v1 v2)
   (node-edge-capacity (node-find-edge v1 v2)))
 
-(defun edge-flow(v1 v2 g)
-  (let ((flow (graph-flow g))
-         (i1  (node->index v1 g))
-         (i2  (node->index v2 g)))
-    (aref flow i1 i2)))
-
-(defun edge-flow-inc(v1 v2 inc g)
-  (incf 
-   (aref (graph-flow g) 
-              (node-name->index v1 g) 
-              (node-name->index v2 g)) inc))
+(defmacro edge-flow(v1 v2 g)
+  `(aref (graph-flow ,g) (node->index ,v1 ,g) (node->index ,v2 ,g)))
 
 (defun node-pair-flow-increment(v1 v2 inc g)
- (incf (aref (graph-flow g)
-               (node->index v1 g)
-               (node->index v2 g)) inc))
-
-(defun node-edge-capacity-1 (v1 v2 g)
-  (let ((ne  (node-find-node-edge-by-name
-              (find-node-in-graph (node-name v1) g) (node-name v2))))
-    (node-edge-capacity ne)))
+ (incf (edge-flow v1 v2 g)  inc))
 
 (defun available-capacity (v1 v2 g)
-  (- (node-edge-capacity-1 v1 v2 g) (edge-flow v1 v2 g)))
+  (- (edge-capacity v1 v2) (edge-flow v1 v2 g)))
 
-(defun edge-flow-to-capacity(v1 v2 g)
-  (> (- (edge-capacity v1 v2 ) (edge-flow v1 v2 g)) 0))
+(defun avaiable-capacityp(v1 v2 g)
+  (> (available-capacity v1 v2 g) 0))
 
 (defmacro bfs-enqueue!(n q)
   `(progn 
@@ -168,7 +151,7 @@
      for cur =  (car pair)
      while cur
      with debug = nil
-     finally (return path)        
+     finally (return path)
      do
        (if debug (format t "cur:~a,prev:~a ~%" cur prev))
        (push cur path)))
@@ -215,19 +198,19 @@
                                                 (node-name neighbour)
                                                 (edge-capacity cur_node neighbour)
                                                 (edge-flow cur_node neighbour  graph)
-                                                (edge-flow-to-capacity cur_node neighbour  graph)))
+                                                (avaiable-capacityp cur_node neighbour  graph)))
                                     (node-neighbours cur_node))))
           (loop for neighbour  in (node-neighbours cur_node)
                 do 
                 (if (and 
                      (node-color= neighbour :white)
-                     (edge-flow-to-capacity cur_node neighbour graph))                    
+                     (avaiable-capacityp cur_node neighbour graph))                    
                     (progn
                       (if debug (format t "~%Enqueue Neighbour: [~a] <c:~a> <f:~a> accessible:~a " 
                                         (node-name neighbour) 
                                         (edge-capacity cur_node neighbour) 
                                         (edge-flow cur_node neighbour graph)
-                                        (edge-flow-to-capacity cur_node neighbour  graph)))                      
+                                        (avaiable-capacityp cur_node neighbour  graph)))                      
                       (bfs-enqueue! neighbour queue)
                       (if debug (format t "bfs-queue[~a] ~%" (node-names queue)))
                       (push-node-and-predecessor! neighbour cur_node  path)))))))

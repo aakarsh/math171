@@ -45,3 +45,11 @@ str between them."
 
 (defun betweenp (a i1 i2)
   (and (>= a i1)  (<= a i2)))
+
+
+(defun compose (&rest fns)
+  (destructuring-bind (fn1 . rest) (reverse fns)
+    #'(lambda (&rest args)
+        (reduce #'(lambda (v f) (funcall f v))
+                rest
+                :initial-value (apply fn1 args)))))

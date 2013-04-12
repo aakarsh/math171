@@ -7,7 +7,7 @@
               "w newball" "l papay" "l sega" "t smith" "a strong" 
               "a talebi" "p tanniru" "j trubey" "j wang"
               "e zabric" "m zoubeidi" "s vergara"   "varitanian"
-              "m van der poel"   "a tran"   "rober"   "rigers"
+              "m van-der-poel"   "a tran"   "rober"   "rigers"
               "v nguyen" "t nguyen"   "a nguyen"   "hillard")
            "List of part time faculty")
 
@@ -25,31 +25,36 @@
               "j maruskin" "s simic"  "m cayco-gajic"  "bremer" )
            "List of Associate or Assistant Professors")
 
-
 (defclass time-interval ()
   ((start  :initarg :start :initform 0 :accessor interval-start)
    (end  :initarg :end :initform 0  :accessor interval-end)))
 
+
 (defun string->time-interval (str)
   (if (and  str (> (length str) 0) (not (string=  "tba" str)) )
-      (let* ((str-pair (split-by-char str #\-))
-             (start   (parse-integer (first str-pair)))
-             (end     (parse-integer (second str-pair))))    
+      (destructuring-bind (start end)
+          (mapcar #'parse-integer (split-by-char str #\-))
         (make-instance 'time-interval :start start :end end))))
+
+(assert (eql 900 (interval-start (string->time-interval "0900-1000"))))
+(assert (eql 1000 (interval-end (string->time-interval "0900-1000"))))
 
 (defclass name()
   ((first-name :initarg :first :accessor first-name)
    (last-name  :initarg :last  :accessor last-name)))
 
 (defun string->name (name)
-  (let* ((names (str/split-by-one-space name))
-         (first-name "")
-         (last-name (first names)))
-    (if (> (length names) 1)
-        (progn
-          (setq first-name (first names))
-          (setq last-name (second names)))) 
-    (make-instance 'name :first first-name :last last-name)))
+  (if name
+      (destructuring-bind (first-name  &optional (last-name nil) &rest args) (str/split-by-one-space name)
+        (if (not last-name)
+            (progn
+              (setq last-name first-name)
+              (setq first-name "")))
+        (make-instance 'name :first first-name :last last-name))))
+
+(assert (string= "foo" (first-name (string->name "foo bar"))))
+(assert (string= "" (first-name (string->name "bar"))))
+(assert (string= "bar" (last-name (string->name "foo bar"))))
 
 (defclass course-data ()
   ((name :initarg :course-name 
@@ -157,7 +162,6 @@
    (interval-contains (interval-start t1) t2)
    (interval-contains (interval-end t1) t2)))
 
-
 (defun time-interval-intersects (t1 t2)
   (if (or  (not t1) (not t2))
       nil      
@@ -177,7 +181,6 @@
               do
               (if (professor-supervisable prof1 prof2 map )
                   (push (list prof1 prof2) mapping)))))
-
 
 (defun day-time-overlap(day1 time1 day2 time2 )
   (and  (days-intersect day1 day2) 
@@ -218,7 +221,6 @@
   (print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
 
 (print-final-mapping)
-
 
 ;;; Tests
 (let ((t1  (make-instance 'time-interval  :start 1 :end 10))
