@@ -1,4 +1,4 @@
-(defvar **class-list** (list 
+(defvar *class-list* (quote (
 (:name "math 003a" :title	"intensive learn i"	:section "01" :code	 "41565"  :credit	"4"	:type "sem" :notes "97"	        		:capacity "21/25"	    							:location "dh 303"	    	:professor "t fish"         )
 (:name "math 003a" :title	"intensive learn i"	:section "02" :code	 "40558"  :credit	"4"	:type "sem" :notes "97"	        		:capacity "12/25"	    							:location "dh 219"	    	:professor "m zoubeidi"     )
 (:name "math 003a" :title	"intensive learn i"	:section "05" :code	 "40560"  :credit	"4"	:type "sem" :notes "97"	        		:capacity "21/25"	    							:location "dh 219"	    	:professor "m zoubeidi"     )
@@ -250,4 +250,5 @@
 (:name "math 299" :title	"masters thesis"	:section "03" :code	"43864"  :credit	"2"	:type "sup"	:capacity "0/10"						:days "tba"	:time "tba"	    :dates "08/22/12-12/10/12"                                                              )
 (:name "math 299" :title	"masters thesis"	:section "04" :code	"43865"  :credit	"2"	:type "sup"	:capacity "0/10"						:days "tba"	:time "tba"	    :dates "08/22/12-12/10/12"                                                              )
 (:name "math 299" :title	"masters thesis"	:section "07" :code	"43866"  :credit	"3"	:type "sup"	:capacity "0/10"						:days "tba"	:time "tba"	    :dates "08/22/12-12/10/12"                                                              )
-(:name "math 299" :title	"masters thesis"	:section "08" :code	"43867"  :credit	"3"	:type "sup"	:capacity "0/10"						:days "tba"	:time "tba"	    :dates "08/22/12-12/10/12"                                                              )))
+(:name "math 299" :title	"masters thesis"	:section "08" :code	"43867"  :credit	"3"	:type "sup"	:capacity "0/10"						:days "tba"	:time "tba"	    :dates "08/22/12-12/10/12"                                                              )
+)))

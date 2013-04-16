@@ -1,5 +1,7 @@
 (in-package :com.bovinasancta.project)
 
+(load "data.lisp")
+
 (defparameter *pt-faculty* 
            '("s ahmed" "s arabhi" "m bodas" "s desousa" "c fan"
              "t fish" "t huynh" "k jensen" "a jiru"
@@ -91,6 +93,15 @@
      finally (return course-data)
      do 
        (setq course-data (append pair course-data))))
+
+(defun classlist->course-data (class-list)
+  (loop for term in class-list
+     for course-data = (pre-process-term term)
+     with parsed-data = '()
+     finally (return parsed-data)
+     while term
+     do      
+       (push (apply #'make-instance 'course course-data) parsed-data)))
 
 (defun read-course-data(file-name)
   (let ((in (open file-name :if-does-not-exist nil))
@@ -184,7 +195,9 @@
          (matches (maximal-matching avialable-matches)))
     (print-matching-pairs matches)))
 
-(defparameter *courses* (read-course-data "data.lisp"))
+;; (read-course-data "data.lisp")
+(defparameter *courses*  (classlist->course-data *class-list*))
+
 (defparameter *professor-map* (professor-coures-map *courses*))
 
 (defun print-final-mapping ()
