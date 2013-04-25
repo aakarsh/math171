@@ -201,14 +201,27 @@
 (defparameter *professor-map* (professor-coures-map *courses*))
 
 (defun print-final-mapping ()
-  (format t "-------------------------------------- ~%")
-  (format t "Full Time Mapping ~%")
-  (format t "---------------------------------------- ~%")
-  (print-professor-groups *ft-faculty* *pt-faculty* *professor-map*)
-  (format t "---------------------------------------- ~%")
-  (format t "Part Time Mapping ~%")
-  (format t "---------------------------------------- ~%")
-  (print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
+  (let* ((m-ft-pt (professor-mapping *ft-faculty* *pt-faculty* *professor-map*))
+           	 (m-ft-ass (professor-mapping
+					(set-difference *ft-faculty* m-ft-pt
+									:test #'(lambda (a b) (equal (first b) a)))
+					*ass-faculty* *professor-map*))
+		 (m-res-ass (professor-mapping
+					 (union *ft-faculty* *pt-faculty*)
+					 (set-difference *ass-faculty* m-ft-ass
+									 :test #'(lambda (a b) (equal (first b) a)))
+					*professor-map*)))
+	(format t "-------------------------------------- ~%")
+	(format t "Full Time Mapping ~%")
+	(format t "---------------------------------------- ~%")
+;	(print-professor-groups *ft-faculty* *pt-faculty* *professor-map*)
+	(print-matching-pairs m-ft-pt)
+	(format t "---------------------------------------- ~%")
+	(format t "Part Time Mapping ~%")
+	(format t "---------------------------------------- ~%")
+;	(print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
+	(print-matching-pairs m-ft-ass)
+	(print-matching-pairs m-res-ass)))
 
 (print-final-mapping)
 
