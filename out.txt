@@ -1,0 +1,421 @@
+-- Professor To Assosciate------------- 
+bremer <- j becker 
+m cayco-gajic <- m stanley 
+s crunk <- t hsu 
+a gottlieb <- r dodd 
+p koev <- l foster 
+b lee <- sliva-spitzer 
+j maruskin <- m blockus 
+s simic <- b pence 
+-- Prof+Ass to All Part timers------------- 
+s ahmed <- h katsuura 
+s arabhi <- sliva-spitzer 
+m bodas <- m stanley 
+s desousa <- m beeson 
+c fan <- c roddick 
+t fish <- b lee 
+j hilliard <- e schmeichel 
+t huynh <- r pfiefer 
+k jensen <- r kubelka 
+a jiru <- f rivera 
+j jordan <- s simic 
+o kovaleva <- m cayco-gajic 
+r low <- s obaid 
+j lum <- a gottlieb 
+w newball <- p koev 
+a nguyen <- m beeson 
+v nguyen <- w so 
+t nguyen <- j maruskin 
+l papay <- s crunk 
+rigers <- e schmeichel 
+l roper <- b pence 
+l sega <- r pfiefer 
+t smith <- bremer 
+a strong <- h katsuura 
+a talebi <- b peterson 
+p tanniru <- s obaid 
+a tran <- c roddick 
+j trubey <- k kellum 
+m van-der-poel <- h ng 
+m vartanian <- f rivera 
+s vergara <- bremer 
+j wang <- r kubelka 
+e zabric <- m saleem 
+m zoubeidi <- j maruskin 
+Supervisor -> Supervisee : [h katsuura] -> [s ahmed] 
+[h katsuura] Courses:  
+calculus iii   [tr]  [1500 - 1615]  
+calculus iii   [tr]  [1030 - 1145]  
+calc for bus-aviat   [tr]  [900 - 1015]  
+calculus iii   [tr]  [1630 - 1745]  
+[s ahmed]Courses: 
+calc for bus-aviat   [tr]  [1330 - 1445]  
+cal i with precal   [mwf]  [1030 - 1150]  
+Supervisor -> Supervisee : [sliva-spitzer] -> [s arabhi] 
+[sliva-spitzer] Courses:  
+[s arabhi]Courses: 
+precalculus   [mtwr]  [900 - 1005]  
+Supervisor -> Supervisee : [m stanley] -> [m bodas] 
+[m stanley] Courses:  
+linear algebra i   [tr]  [1330 - 1445]  
+linear algebra i   [tr]  [1500 - 1615]  
+calculus ii workshop   [tr]  [1030 - 1145]  
+calculus ii workshop   [tr]  [1200 - 1315]  
+linear algebra ii   [tr]  [1730 - 1845]  
+[m bodas]Courses: 
+calculus ii   [mwf]  [730 - 840]  
+calc for bus-aviat   [mw]  [900 - 1015]  
+college algebra   [mw]  [1030 - 1145]  
+Supervisor -> Supervisee : [j becker] -> [bremer] 
+[j becker] Courses:  
+precalculus workshop   [mw]  [1030 - 1145]  
+discrete math wksp   [tr]  [1330 - 1445]  
+[bremer]Courses: 
+Supervisor -> Supervisee : [m stanley] -> [m cayco-gajic] 
+[m stanley] Courses:  
+linear algebra i   [tr]  [1330 - 1445]  
+linear algebra i   [tr]  [1500 - 1615]  
+calculus ii workshop   [tr]  [1030 - 1145]  
+calculus ii workshop   [tr]  [1200 - 1315]  
+linear algebra ii   [tr]  [1730 - 1845]  
+[m cayco-gajic]Courses: 
+calculus ii   [mwf]  [1030 - 1140]  
+appl math comp&stat proj   [tr]  [830 - 920]  
+coll algebra wkshp   [mw]  [1330 - 1445]  
+precalculus workshop   [mw]  [730 - 845]  
+Supervisor -> Supervisee : [t hsu] -> [s crunk] 
+[t hsu] Courses:  
+precalculus   [mwf]  [1200 - 1320]  
+precalculus workshop   [mw]  [1330 - 1445]  
+intro to proofs   [mw]  [1030 - 1145]  
+precalculus workshop   [mw]  [1630 - 1745]  
+[s crunk]Courses: 
+coll algebra wkshp   [tr]  [1030 - 1145]  
+time series   [tr]  [1730 - 1845]  
+stat consulting   [tr]  [1900 - 2015]  
+precalculus workshop   [tr]  [1200 - 1315]  
+Supervisor -> Supervisee : [m beeson] -> [s desousa] 
+[m beeson] Courses:  
+calculus i   [mw]  [1200 - 1315]  
+calculus i   [mw]  [1030 - 1145]  
+ord diff eq   [mw]  [900 - 1015]  
+calculus i workshop   [mw]  [1800 - 1915]  
+calc wkshp bus-avi   [mw]  [1500 - 1615]  
+[s desousa]Courses: 
+entry level math   [-]  [- - -]  
+statway 1   [mtwr]  [1330 - 1445]  
+Supervisor -> Supervisee : [c roddick] -> [c fan] 
+[c roddick] Courses:  
+calculus i workshop   [mw]  [1630 - 1745]  
+calculus i workshop   [mw]  [1500 - 1615]  
+concepts in math   [mw]  [1030 - 1145]  
+concepts in math   [mw]  [900 - 1015]  
+[c fan]Courses: 
+calculus iii   [mw]  [1330 - 1445]  
+Supervisor -> Supervisee : [b lee] -> [t fish] 
+[b lee] Courses:  
+calculus ii workshop   [tr]  [1500 - 1615]  
+categorical data   [mw]  [1730 - 1845]  
+applied stats i   [mw]  [1330 - 1445]  
+calculus i workshop   [tr]  [1200 - 1315]  
+[t fish]Courses: 
+intensive learn i   [mtwr]  [800 - 850]  
+finite math   [mw]  [900 - 1015]  
+Supervisor -> Supervisee : [r dodd] -> [a gottlieb] 
+[r dodd] Courses:  
+ord diff eq   [tr]  [1500 - 1615]  
+ord diff eq   [tr]  [1330 - 1445]  
+ord diff eq   [tr]  [1800 - 1915]  
+precalculus workshop   [tr]  [900 - 1015]  
+precalculus workshop   [tr]  [1030 - 1145]  
+[a gottlieb]Courses: 
+probability theory   [mw]  [1330 - 1445]  
+probability theory   [mw]  [1600 - 1715]  
+precalculus workshop   [mw]  [1200 - 1315]  
+calc wkshp bus-avi   [mw]  [1030 - 1145]  
+Supervisor -> Supervisee : [e schmeichel] -> [j hilliard] 
+[e schmeichel] Courses:  
+calculus i workshop   [tr]  [730 - 845]  
+precalculus workshop   [tr]  [900 - 1015]  
+discrete math   [tr]  [1030 - 1145]  
+intro to comb   [tr]  [1600 - 1715]  
+discrete math   [tr]  [1200 - 1315]  
+[j hilliard]Courses: 
+writing workshop   [mw]  [1330 - 1445]  
+Supervisor -> Supervisee : [r pfiefer] -> [t huynh] 
+[r pfiefer] Courses:  
+precalculus   [mwf]  [1030 - 1150]  
+mod geom & trans   [mw]  [1330 - 1445]  
+precalculus   [mwf]  [900 - 1020]  
+[t huynh]Courses: 
+calc for bus-aviat   [mw]  [1800 - 1915]  
+Supervisor -> Supervisee : [r kubelka] -> [k jensen] 
+[r kubelka] Courses:  
+calculus i workshop   [mw]  [900 - 1015]  
+ord diff eq   [mw]  [1200 - 1315]  
+ord diff eq   [mw]  [1030 - 1145]  
+calc wkshp bus-avi   [mw]  [1330 - 1445]  
+[k jensen]Courses: 
+precalculus   [mtwr]  [1500 - 1605]  
+math for gen ed   [mw]  [1630 - 1745]  
+college algebra   [tr]  [1330 - 1445]  
+Supervisor -> Supervisee : [f rivera] -> [a jiru] 
+[f rivera] Courses:  
+precalculus workshop   [mw]  [1030 - 1145]  
+coll algebra wkshp   [mw]  [1200 - 1315]  
+sec school math   [t]  [1600 - 1845]  
+[a jiru]Courses: 
+college algebra   [mw]  [1630 - 1745]  
+precalculus   [mwr]  [1500 - 1620]  
+Supervisor -> Supervisee : [s simic] -> [j jordan] 
+[s simic] Courses:  
+calculus i workshop   [mw]  [1200 - 1315]  
+calculus i workshop   [mw]  [1030 - 1145]  
+differential geom   [tr]  [1330 - 1445]  
+[j jordan]Courses: 
+calc for bus-aviat   [mw]  [1630 - 1745]  
+Supervisor -> Supervisee : [l foster] -> [p koev] 
+[l foster] Courses:  
+calculus iii wkshp   [mw]  [1030 - 1145]  
+calc for bus-aviat   [mw]  [1200 - 1315]  
+calc for bus-aviat   [mw]  [1330 - 1445]  
+precalculus workshop   [mw]  [900 - 1015]  
+num analy sci comp   [mw]  [1900 - 2015]  
+[p koev]Courses: 
+calculus iii   [tr]  [1200 - 1315]  
+adv numerical analysis   [tr]  [1730 - 1845]  
+calculus iii   [tr]  [1330 - 1445]  
+Supervisor -> Supervisee : [m cayco-gajic] -> [o kovaleva] 
+[m cayco-gajic] Courses:  
+calculus ii   [mwf]  [1030 - 1140]  
+appl math comp&stat proj   [tr]  [830 - 920]  
+coll algebra wkshp   [mw]  [1330 - 1445]  
+precalculus workshop   [mw]  [730 - 845]  
+[o kovaleva]Courses: 
+applied stats i   [tr]  [1200 - 1315]  
+applied stats i   [mw]  [1200 - 1315]  
+applied stats ii   [tr]  [1030 - 1145]  
+Supervisor -> Supervisee : [sliva-spitzer] -> [b lee] 
+[sliva-spitzer] Courses:  
+[b lee]Courses: 
+calculus ii workshop   [tr]  [1500 - 1615]  
+categorical data   [mw]  [1730 - 1845]  
+applied stats i   [mw]  [1330 - 1445]  
+calculus i workshop   [tr]  [1200 - 1315]  
+Supervisor -> Supervisee : [s obaid] -> [r low] 
+[s obaid] Courses:  
+cal i with precal   [mtwr]  [900 - 1005]  
+calculus ii   [mtwr]  [1330 - 1420]  
+adv calc i   [mw]  [1200 - 1315]  
+[r low]Courses: 
+calculus ii   [mtwr]  [1430 - 1520]  
+calculus ii   [mtwr]  [1530 - 1620]  
+calculus ii   [mwr]  [1800 - 1910]  
+Supervisor -> Supervisee : [a gottlieb] -> [j lum] 
+[a gottlieb] Courses:  
+probability theory   [mw]  [1330 - 1445]  
+probability theory   [mw]  [1600 - 1715]  
+precalculus workshop   [mw]  [1200 - 1315]  
+calc wkshp bus-avi   [mw]  [1030 - 1145]  
+[j lum]Courses: 
+calculus ii   [mtwr]  [730 - 820]  
+Supervisor -> Supervisee : [m blockus] -> [j maruskin] 
+[m blockus] Courses:  
+calc wkshp bus-avi   [tr]  [1330 - 1445]  
+abstract algebra i   [tr]  [1030 - 1145]  
+discrete math   [mw]  [900 - 1015]  
+discrete math   [mw]  [1030 - 1145]  
+[j maruskin]Courses: 
+precalculus workshop   [tr]  [1800 - 1915]  
+linear algebra i   [mw]  [1730 - 1845]  
+lin nonlin optim   [mw]  [1600 - 1715]  
+precalculus workshop   [tr]  [1630 - 1745]  
+Supervisor -> Supervisee : [p koev] -> [w newball] 
+[p koev] Courses:  
+calculus iii   [tr]  [1200 - 1315]  
+adv numerical analysis   [tr]  [1730 - 1845]  
+calculus iii   [tr]  [1330 - 1445]  
+[w newball]Courses: 
+number systems   [mw]  [1200 - 1315]  
+cal i with precal   [mtwr]  [1500 - 1605]  
+precalculus   [mwf]  [730 - 850]  
+Supervisor -> Supervisee : [j maruskin] -> [t nguyen] 
+[j maruskin] Courses:  
+precalculus workshop   [tr]  [1800 - 1915]  
+linear algebra i   [mw]  [1730 - 1845]  
+lin nonlin optim   [mw]  [1600 - 1715]  
+precalculus workshop   [tr]  [1630 - 1745]  
+[t nguyen]Courses: 
+intensive learn ii   [mtwr]  [1130 - 1220]  
+intensive learn ii   [mtwr]  [900 - 950]  
+intensive learn i   [mtwr]  [1030 - 1120]  
+Supervisor -> Supervisee : [w so] -> [v nguyen] 
+[w so] Courses:  
+calculus iii wkshp   [mw]  [900 - 1015]  
+linear algebra i   [mw]  [1200 - 1315]  
+linear algebra i   [mw]  [1330 - 1445]  
+adv matrix theory   [mw]  [1730 - 1845]  
+precalculus workshop   [mw]  [1500 - 1615]  
+[v nguyen]Courses: 
+math for gen ed   [tr]  [1030 - 1145]  
+math for gen ed   [tr]  [900 - 1015]  
+math for gen ed   [tr]  [730 - 845]  
+Supervisor -> Supervisee : [m beeson] -> [a nguyen] 
+[m beeson] Courses:  
+calculus i   [mw]  [1200 - 1315]  
+calculus i   [mw]  [1030 - 1145]  
+ord diff eq   [mw]  [900 - 1015]  
+calculus i workshop   [mw]  [1800 - 1915]  
+calc wkshp bus-avi   [mw]  [1500 - 1615]  
+[a nguyen]Courses: 
+precalculus   [mtwr]  [1630 - 1735]  
+Supervisor -> Supervisee : [s crunk] -> [l papay] 
+[s crunk] Courses:  
+coll algebra wkshp   [tr]  [1030 - 1145]  
+time series   [tr]  [1730 - 1845]  
+stat consulting   [tr]  [1900 - 2015]  
+precalculus workshop   [tr]  [1200 - 1315]  
+[l papay]Courses: 
+finite math   [mw]  [1330 - 1445]  
+finite math   [mw]  [1200 - 1315]  
+Supervisor -> Supervisee : [e schmeichel] -> [rigers] 
+[e schmeichel] Courses:  
+calculus i workshop   [tr]  [730 - 845]  
+precalculus workshop   [tr]  [900 - 1015]  
+discrete math   [tr]  [1030 - 1145]  
+intro to comb   [tr]  [1600 - 1715]  
+discrete math   [tr]  [1200 - 1315]  
+[rigers]Courses: 
+Supervisor -> Supervisee : [b pence] -> [l roper] 
+[b pence] Courses:  
+intuitive geometry   [tr]  [900 - 1030]  
+explor in algebra   [tr]  [1600 - 1715]  
+intuitive geometry   [tr]  [1030 - 1145]  
+[l roper]Courses: 
+calculus ii workshop   [mw]  [730 - 845]  
+calculus ii workshop   [mw]  [1200 - 1315]  
+number systems   [tr]  [1200 - 1315]  
+calculus ii workshop   [mw]  [900 - 1015]  
+number systems   [tr]  [1330 - 1445]  
+calculus ii workshop   [mw]  [1030 - 1145]  
+Supervisor -> Supervisee : [r pfiefer] -> [l sega] 
+[r pfiefer] Courses:  
+precalculus   [mwf]  [1030 - 1150]  
+mod geom & trans   [mw]  [1330 - 1445]  
+precalculus   [mwf]  [900 - 1020]  
+[l sega]Courses: 
+precalculus   [mwr]  [1630 - 1750]  
+math for gen ed   [tr]  [1330 - 1445]  
+math for gen ed   [tr]  [1200 - 1315]  
+Supervisor -> Supervisee : [b pence] -> [s simic] 
+[b pence] Courses:  
+intuitive geometry   [tr]  [900 - 1030]  
+explor in algebra   [tr]  [1600 - 1715]  
+intuitive geometry   [tr]  [1030 - 1145]  
+[s simic]Courses: 
+calculus i workshop   [mw]  [1200 - 1315]  
+calculus i workshop   [mw]  [1030 - 1145]  
+differential geom   [tr]  [1330 - 1445]  
+Supervisor -> Supervisee : [bremer] -> [t smith] 
+[bremer] Courses:  
+[t smith]Courses: 
+precalculus   [mtwr]  [1030 - 1135]  
+calculus ii   [mtwr]  [830 - 920]  
+calculus ii   [mtwr]  [1230 - 1320]  
+Supervisor -> Supervisee : [h katsuura] -> [a strong] 
+[h katsuura] Courses:  
+calculus iii   [tr]  [1500 - 1615]  
+calculus iii   [tr]  [1030 - 1145]  
+calc for bus-aviat   [tr]  [900 - 1015]  
+calculus iii   [tr]  [1630 - 1745]  
+[a strong]Courses: 
+cal i with precal   [mtwr]  [1200 - 1305]  
+calculus iii   [mw]  [1500 - 1615]  
+calculus iii   [mw]  [1030 - 1145]  
+Supervisor -> Supervisee : [b peterson] -> [a talebi] 
+[b peterson] Courses:  
+calculus ii   [mtwr]  [1130 - 1220]  
+cal i with precal   [mtwr]  [1330 - 1435]  
+theory of num i   [tr]  [900 - 1015]  
+[a talebi]Courses: 
+precalculus   [mtr]  [1800 - 1920]  
+discrete math   [tr]  [1630 - 1745]  
+Supervisor -> Supervisee : [s obaid] -> [p tanniru] 
+[s obaid] Courses:  
+cal i with precal   [mtwr]  [900 - 1005]  
+calculus ii   [mtwr]  [1330 - 1420]  
+adv calc i   [mw]  [1200 - 1315]  
+[p tanniru]Courses: 
+entry level math i   [tr]  [800 - 850]  
+math for gen ed   [mw]  [1030 - 1145]  
+entry level math i   [tr]  [1230 - 1320]  
+Supervisor -> Supervisee : [c roddick] -> [a tran] 
+[c roddick] Courses:  
+calculus i workshop   [mw]  [1630 - 1745]  
+calculus i workshop   [mw]  [1500 - 1615]  
+concepts in math   [mw]  [1030 - 1145]  
+concepts in math   [mw]  [900 - 1015]  
+[a tran]Courses: 
+intensive learn i   [mtwr]  [1230 - 1320]  
+intensive learn i   [mtwr]  [1330 - 1420]  
+Supervisor -> Supervisee : [k kellum] -> [j trubey] 
+[k kellum] Courses:  
+diff eq and linear alg   [mw]  [1200 - 1315]  
+calculus i workshop   [mw]  [1330 - 1445]  
+calculus ii   [mtwr]  [930 - 1020]  
+calculus ii   [mtwr]  [1030 - 1120]  
+[j trubey]Courses: 
+number systems   [mw]  [1600 - 1715]  
+Supervisor -> Supervisee : [h ng] -> [m van-der-poel] 
+[h ng] Courses:  
+calculus ii workshop   [tr]  [1630 - 1745]  
+programming in sas   [tr]  [730 - 845]  
+programming in sas   [tr]  [1330 - 1445]  
+calculus i workshop   [tr]  [900 - 1015]  
+calc for bus-aviat   [tr]  [1200 - 1315]  
+[m van-der-poel]Courses: 
+math for gen ed   [mw]  [1500 - 1615]  
+precalculus   [mwf]  [1330 - 1450]  
+Supervisor -> Supervisee : [f rivera] -> [m vartanian] 
+[f rivera] Courses:  
+precalculus workshop   [mw]  [1030 - 1145]  
+coll algebra wkshp   [mw]  [1200 - 1315]  
+sec school math   [t]  [1600 - 1845]  
+[m vartanian]Courses: 
+cal i with precal   [mtwr]  [730 - 835]  
+calculus i   [tr]  [900 - 1015]  
+Supervisor -> Supervisee : [bremer] -> [s vergara] 
+[bremer] Courses:  
+[s vergara]Courses: 
+calculus i   [tr]  [1330 - 1445]  
+statway i   [mtwr]  [1030 - 1145]  
+statway i   [mtwr]  [1200 - 1315]  
+Supervisor -> Supervisee : [r kubelka] -> [j wang] 
+[r kubelka] Courses:  
+calculus i workshop   [mw]  [900 - 1015]  
+ord diff eq   [mw]  [1200 - 1315]  
+ord diff eq   [mw]  [1030 - 1145]  
+calc wkshp bus-avi   [mw]  [1330 - 1445]  
+[j wang]Courses: 
+finite math   [tr]  [900 - 1015]  
+precalculus   [mtwr]  [730 - 835]  
+Supervisor -> Supervisee : [m saleem] -> [e zabric] 
+[m saleem] Courses:  
+calculus ii workshop   [mw]  [1500 - 1615]  
+calculus iii   [mw]  [900 - 1015]  
+calculus ii workshop   [mw]  [1630 - 1745]  
+vector calculus   [mw]  [730 - 845]  
+[e zabric]Courses: 
+precalculus   [mtwr]  [1200 - 1305]  
+precalculus   [mtwr]  [1330 - 1435]  
+calc for bus-aviat   [tr]  [1030 - 1145]  
+Supervisor -> Supervisee : [j maruskin] -> [m zoubeidi] 
+[j maruskin] Courses:  
+precalculus workshop   [tr]  [1800 - 1915]  
+linear algebra i   [mw]  [1730 - 1845]  
+lin nonlin optim   [mw]  [1600 - 1715]  
+precalculus workshop   [tr]  [1630 - 1745]  
+[m zoubeidi]Courses: 
+intensive learn i   [mtwr]  [930 - 1020]  
+intensive learn i   [mtwr]  [830 - 920]  
+intensive learn ii   [mtwr]  [1230 - 1320]  
