@@ -1,4 +1,6 @@
+;;(load "util.lisp")
 (in-package :com.bovinasancta.graph)
+
 
 (define-default-class graph (nodes flow))
 
@@ -52,6 +54,7 @@
   (nth i (graph-nodes g)))
 
 (defun node-name->index(name g)
+;;  (format t "Graph ~a: [~a] ~%" name g)
   (position name (graph-nodes g) 
             :test #'string= :key #'node-name))
 
@@ -300,41 +303,72 @@
          (nodes (edges->nodes edges)))
     (make-graph-simple nodes edges)))
 
-(defun pairs->edges (pair-list)
-  (loop for (v1 v2) in pair-list
-        collect (list v1 v2 1)))
+(defun default-capacity-function (x y )
+  1)
 
-(defun pair-list->matching-graph (pairs &optional (source_name "Source") (sink_name "Sink"))
-  (let* ((edges  (pairs->edges pairs))
+(defun pairs->edges (pair-list &optional (capacity-function #'default-capacity-function))
+  (loop for (v1 v2) in pair-list
+        collect (list v1 v2
+                      (apply capacity-function (list v1 v2)))))
+
+(pairs->edges '(("A" "B")))
+(pairs->edges '(("A" "A"))
+              #'(lambda (x y  )
+                  (if (string= x y ) -1 1)))
+
+;; Need to modify this so that we take into account the edge weights
+;; 
+(defun pair-list->matching-graph (pairs
+                                  &optional
+                                  (source_name "Source")
+                                  (sink_name "Sink")
+                                  (capacity-function #'default-capacity-function))  
+  (let* ((edges  (pairs->edges pairs capacity-function))
          (nodes (edges->nodes edges))
          (new-edges '()))    
     (loop for edge in edges
           for l = (first edge)
           for r = (second edge)
           do 
-          (push (list source_name l 1) new-edges)
-          (push (list  r sink_name 1) new-edges))
-    (setq nodes (edges->nodes-conditionally new-edges nodes))
+          (push (list source_name l (apply capacity-function (list  l r))) new-edges)
+          (push (list  r sink_name (apply capacity-function (list l r))) new-edges))    
+    (setq nodes (edges->nodes-conditionally new-edges nodes))    
     (make-graph-simple nodes (concatenate 'list edges new-edges))))
+
+
+(let ((g 
+       (pair-list->matching-graph '(( "A" "A")
+                                    ("B" "C")) "Src"  "Snk"                                    
+                                    #'(lambda (x y)
+                                        (if (string= x y ) -1 1)))))
+  (assert (eql -1   (edge-capacity (find-node "A" (graph-nodes g))
+                                       (find-node "A" (graph-nodes g))))))
+
+
 
 (defun max-flow(start end g)
   (graph-set-flow-zero g)
    (loop for path = (bfs start end g)
-         while path
          for increment = (find-path-increment path g)
+         while (and  path (> increment 0)) 
          for max_flow = increment then (+ max_flow increment)
          finally (return max_flow)
          do 
          (if nil (format t "Path ~a increment ~a ~%" (path->string path) increment))
          (path-flow-increment path increment g)))
 
-(defun maximal-matching (pair-list)
+(defun maximal-matching (pair-list
+                         &optional (capacity-function #'default-capacity-function))
   (let* ((source-name "Source")
          (sink-name "Sink")
-         (matching-graph (pair-list->matching-graph pair-list source-name sink-name))
+         (matching-graph
+          (pair-list->matching-graph pair-list
+                                     source-name sink-name
+                                     capacity-function))
          (match-size 0)
          (nodes (graph-nodes matching-graph))
          (matching '()))
+;;    (format t "Graph Nodes:[~a] ~%" (node-names (graph-nodes matching-graph)))
     (setq match-size (max-flow source-name sink-name matching-graph))    
     (loop for n1 in nodes
           do 
@@ -358,16 +392,38 @@
   (eql 23 (max-flow "s" "t" *g*)))
 
 (defparameter *max-matching-test-data*
-  '(("A" "d") ("A" "h") ("A" "t")
+  '(("A" "d") ("A" "h") ("A" "t")  
     ("B" "g")  ("B" "p") ("B" "t")
     ("C" "a")   ("C" "g")   ("C" "h")  
     ("D" "h")   ("D" "p")   ("D" "t")  
-    ("E" "a")   ("E" "c")   ("E" "d")  
+    ("E" "a")   ("E" "c")   ("E" "d") 
     ("F" "c")   ("F" "d")   ("F" "p")))
 
+(defun blacklisting-capacity (n1 n2 black-list)
+  (if (and black-list
+           (member n1 black-list :test #'string= )
+           (member n2 black-list :test #'string= ))
+      0 1))
+
+(assert (eql 0 (blacklisting-capacity "a" "a"   '("a"))))
+
+
+
+(let ((black-list '("F" "c"))) 
+  (maximal-matching
+   *max-matching-test-data*
+   #'(lambda (a b)                       
+       (blacklisting-capacity a b black-list))))
+
+
+
 (defun test-maximal-matching ()
-  (eql 6 (length  (maximal-matching *max-matching-test-data* ))))
+  (eql 6 (length  (maximal-matching *max-matching-test-data*))))
+
+;; (("F" "c") ("E" "a") ("D" "h") ("C" "g") ("B" "p") ("A" "d"))
+;;(maximal-matching *max-matching-test-data* )
 
 (assert (test-num-nodes))
 (assert (test-maximal-matching))
 (assert (test-max-flow))
+

@@ -3,23 +3,38 @@
 (load "data.lisp")
 
 (defparameter *pt-faculty* 
-           '("s ahmed" "s arabhi" "m bodas" "s desousa" "c fan"
-             "t fish" "t huynh" "k jensen" "a jiru"
-              "j jordan" "o kovaleva" "r low" "j lum"
-              "w newball" "l papay" "l sega" "t smith" "a strong" 
-              "a talebi" "p tanniru" "j trubey" "j wang"
-              "e zabric" "m zoubeidi" "s vergara"   "varitanian"
-              "m van-der-poel"   "a tran"   "rober"   "rigers"
-              "v nguyen" "t nguyen"   "a nguyen"   "hillard")
+           '("s ahmed" "s arabhi"
+             "m bodas" "s desousa"
+             "c fan"   "t fish"
+             "j hilliard" "t huynh"
+             "k jensen" "a jiru"
+             "j jordan" "o kovaleva"
+             "r low"    "j lum"
+             "w newball" "a nguyen"
+             "t nguyen"  "v nguyen"
+             "l papay" "rigers"
+             "l roper" "l sega"
+             "t smith" "a strong"
+             "a talebi" "p tanniru"
+             "a tran"   "q tran"
+             "j trubey" "m van-der-poel"
+             "m vartanian" "s vergara"
+             "j wang" "e zabric"
+             "m zoubeidi")           
            "List of part time faculty")
 
-(defparameter *ft-faculty*
+(defparameter *prof-faculty*
           '("j becker" "m blockus" "r dodd" "l foster"
             "t hsu" "k kellum" "r kubelka" "h ng"
             "s obaid" "b pence" "b peterson" "f rivera"
             "m saleem" "e schmeichel" "w so" "m stanley" 
-            "c roddick" "sliva-spitzer" "shubin"  "pfifer"
-            "katsura" "jackson" "beason" "alperin")
+            "c roddick" "sliva-spitzer"   "r pfiefer"
+            "h katsuura"  "m beeson"
+
+;;            "shubin"
+;;            "jackson"
+;;            "alperin"
+            )
           "List of full time faculty")
 
 (defparameter *ass-faculty*
@@ -54,6 +69,18 @@
               (setq first-name "")))
         (make-instance 'name :first first-name :last last-name))))
 
+(defun name->string (name)
+  (if (not name)
+      ""  
+    (let ((fname (first-name name))
+          (lname (last-name name)))
+      (if (not fname)
+          (setq fname ""))
+      (if (not lname)
+          (setq lname ""))
+      (str/concat fname " " lname))))
+
+(assert ( string= "foo bar" (name->string (string->name "foo bar"))))
 (assert (string= "foo" (first-name (string->name "foo bar"))))
 (assert (string= "" (first-name (string->name "bar"))))
 (assert (string= "bar" (last-name (string->name "foo bar"))))
@@ -64,7 +91,7 @@
 (defmethod initialize-instance :after ((obj course)  &key professor time   &allow-other-keys)
   (if nil
       (format t "Before :Creating course-data name [~a] time[~a] ~%" professor time ))
-  (setf (slot-value obj 'professor) (string->name professor))
+  (setf (slot-value obj 'professor)  (string->name professor))  
   (setf (slot-value obj 'time) (string->time-interval time)))
 
 (defun professor-map->names(map)
@@ -72,8 +99,8 @@
 
 (defun professor-coures-map (courses)
   (loop for course in courses
-        for prof = (course-professor course)
-        with map = (make-hash-table :test 'equal)        
+        for prof = (name->string (course-professor course))
+        with map = (make-hash-table :test 'equal)
         for map-slot = (gethash prof map)
         while course
         finally (return map)
@@ -177,53 +204,121 @@
 (defun print-matching-pairs (matching)
   (loop for pair in matching
         do
-       (format t "~a -> ~a ~%" (first  pair) (second  pair))))
+       (format t "~a <- ~a ~%" (second  pair) (first  pair))))
 
 (defun print-basic-course-data (course)
-  (format t "~%")
-  (format t "Course Title[~a]~%Course Professor[~a]~%Course Days [~a]~%Course Time[~a-~a]~%" 
-          (course-title course)
-          (course-professor course)
-          (course-days course)
-          (interval-start (course-time course))
-          (interval-end (course-time course)))  
+;;  (format t "~%")
+  (format t "~a   [~a]  [~a - ~a]  "
+          (course-title course)          
+          (if (slot-boundp  course 'days)
+              (course-days course)
+            "-")
+          (if (and  (slot-boundp course 'time) (course-time course)) 
+              (interval-start (course-time course))
+            "-")
+
+          (if (and (slot-boundp course 'time) (course-time course))
+              (interval-end (course-time course))
+            "-"))  
   (format t "~%"))
 
+
+(defun print-professor-courses (prof map)
+  (loop for course in  (professor-find-courses prof map)
+        do 
+        (print-basic-course-data course)))
+
+(defun match-professor-groups(group1 group2 map)
+  (let* ((matchable-professors 
+            (professor-mapping group1 group2 map)))
+    (maximal-matching matchable-professors)))
+
+
+
 (defun print-professor-groups(group1 group2 map)
-  (let* ((avialable-matches
-          (professor-mapping group1 group2  map))
-         (matches (maximal-matching avialable-matches)))
+  (let* ((matches (match-professor-groups group1 group2 map)))
+    (format t "Matching Size : ~a ~%" (length  matches))
     (print-matching-pairs matches)))
 
-;; (read-course-data "data.lisp")
 (defparameter *courses*  (classlist->course-data *class-list*))
 
 (defparameter *professor-map* (professor-coures-map *courses*))
 
-(defun print-final-mapping ()
-  (let* ((m-ft-pt (professor-mapping *ft-faculty* *pt-faculty* *professor-map*))
-           	 (m-ft-ass (professor-mapping
-					(set-difference *ft-faculty* m-ft-pt
-									:test #'(lambda (a b) (equal (first b) a)))
-					*ass-faculty* *professor-map*))
-		 (m-res-ass (professor-mapping
-					 (union *ft-faculty* *pt-faculty*)
-					 (set-difference *ass-faculty* m-ft-ass
-									 :test #'(lambda (a b) (equal (first b) a)))
-					*professor-map*)))
-	(format t "-------------------------------------- ~%")
-	(format t "Full Time Mapping ~%")
-	(format t "---------------------------------------- ~%")
-;	(print-professor-groups *ft-faculty* *pt-faculty* *professor-map*)
-	(print-matching-pairs m-ft-pt)
-	(format t "---------------------------------------- ~%")
-	(format t "Part Time Mapping ~%")
-	(format t "---------------------------------------- ~%")
-;	(print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
-	(print-matching-pairs m-ft-ass)
-	(print-matching-pairs m-res-ass)))
 
-(print-final-mapping)
+(defun sort-matching-by-last-name (matching)
+  (sort (copy-list matching) #'string-lessp
+        :key  #'(lambda (s)
+                ;;  (format t "[~a:~a]~%" s (last-name (string->name ( cadr s))))
+                  (last-name (string->name  (cadr s)))  ))
+  )
+(print-matching)
+(defun print-matching ()
+  (let* ((prof-ass-matching
+          (sort-matching-by-last-name
+           (match-professor-groups *prof-faculty* *ass-faculty* *professor-map*)))
+
+         (prof-pt-matching
+          (sort-matching-by-last-name
+           (match-professor-groups 
+            (union  (set-difference *prof-faculty* (mapcar #'car prof-ass-matching) :test #'string=) *ass-faculty*)
+            *pt-faculty* *professor-map*)))
+       
+         (prof-rest-matching
+          (sort-matching-by-last-name
+           (match-professor-groups 
+            (union *prof-faculty* *ass-faculty*)
+            (set-difference *pt-faculty* (mapcar #'cadr prof-pt-matching) :test #'string=)  *professor-map*)))       
+         (full-mapping (sort-matching-by-last-name (union prof-ass-matching (union prof-pt-matching prof-rest-matching)))))
+  
+    (format t "-- Professor To Assosciate------------- ~%")  
+    (print-matching-pairs prof-ass-matching)
+    ;; (format t "-- Unassigned Proffessor  + Ass to Part timers------------- ~%")  
+    ;; (print-matching-pairs prof-pt-matching)
+    ;; (format t "-- Prof+Ass to Remaining Part timers------------- ~%")  
+    ;; (print-matching-pairs prof-rest-matching)
+    (format t "-- Prof+Ass to All Part timers------------- ~%")  
+    (print-matching-pairs (sort-matching-by-last-name (union prof-pt-matching prof-rest-matching)))
+    (format t "--- Final Mapping ------ ~%")
+    (print-matching-pairs full-mapping)
+  
+    (loop for m in  full-mapping
+          for supervisor = (car m)
+          for supervisee = (cadr m)
+          do
+          (format t "Supervisor -> Supervisee : [~a] -> [~a] ~%" supervisor supervisee)
+          (format t "[~a] Courses:  ~%"  supervisor)
+          (print-professor-courses supervisor *professor-map*)        
+          (format t "[~a]Courses: ~%"  supervisee)
+          (print-professor-courses supervisee *professor-map*))))
+
+(print-matching)
+
+;; (defun print-final-mapping ()
+;;   (let* ((m-ft-pt (professor-mapping *prof-faculty* *pt-faculty* *professor-map*))
+;;          (m-ft-ass (professor-mapping
+;;                     (set-difference *prof-faculty* m-ft-pt 
+;;                                     :test #'(lambda (a b) (equal (first b) a)))
+;; 					*ass-faculty* *professor-map*))
+;;          (m-res-ass (professor-mapping (union *prof-faculty* *pt-faculty*)
+;;                                        (set-difference *ass-faculty* m-ft-ass :test #'(lambda (a b) (equal (first b) a)))
+;; 					*professor-map*)))
+;; 	(format t "-------------------------------------- ~%")
+;; 	(format t "Full Time Mapping ~%")
+;; 	(format t "---------------------------------------- ~%")
+;; ;	(print-professor-groups *prof-faculty* *pt-faculty* *professor-map*)
+;; 	(print-matching-pairs m-ft-pt)
+;; 	(format t "---------------------------------------- ~%")
+;; 	(format t "Part Time Mapping ~%")
+;; 	(format t "---------------------------------------- ~%")
+;; ;	(print-professor-groups *pt-faculty* *ass-faculty* *professor-map*))
+;; 	(print-matching-pairs m-ft-ass)
+;; 	(print-matching-pairs m-res-ass)))
+
+;;(assert (eql 8  (length *ass-faculty*)))
+;;(assert (eql 24  (length *prof-faculty*)))
+
+
+;;(print-final-mapping)
 
 ;;; Tests
 (let ((t1  (make-instance 'time-interval  :start 1 :end 10))
