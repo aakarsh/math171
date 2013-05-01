@@ -16,7 +16,7 @@ class Session:
 		if other.start <= self.end and self.end <= other.end: return 1
 		return 0
 	def __repr__(self):
-		return "%s %04d-%04d" %(self.day, self.start, self.end)
+		return "%s %04d-%04d" %(self.day.title(), self.start, self.end)
 
 class Person:
 	name = ""
