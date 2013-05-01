@@ -12,7 +12,7 @@
              "r low"    "j lum"
              "w newball" "a nguyen"
              "t nguyen"  "v nguyen"
-             "l papay" "rigers"
+             "l papay" "p rogers"
              "l roper" "l sega"
              "t smith" "a strong"
              "a talebi" "p tanniru"
@@ -30,17 +30,20 @@
             "m saleem" "e schmeichel" "w so" "m stanley" 
             "c roddick" "sliva-spitzer"   "r pfiefer"
             "h katsuura"  "m beeson"
-
-;;            "shubin"
-;;            "jackson"
+;;            professors without any classes are assumed to be on leave
+            "shubin"
+            "jackson"
 ;;            "alperin"
             )
           "List of full time faculty")
 
 (defparameter *ass-faculty*
            '( "s crunk" "a gottlieb" "p koev" "b lee"
-              "j maruskin" "s simic"  "m cayco-gajic"  "bremer" )
+              "j maruskin" "s simic"  "m cayco-gajic"
+              #|"bremer"|#  )
            "List of Associate or Assistant Professors")
+
+(+ (length *ass-faculty*) (length *pt-faculty*))
 
 (defclass time-interval ()
   ((start  :initarg :start :initform 0 :accessor interval-start)
@@ -159,15 +162,37 @@
 (defun professor-find-courses (prof prof_map)
   (gethash prof prof_map))
 
-(defun professor-overlapping-coursesp (prof1 prof2 map)
-  (let ((prof1-courses  (professor-find-courses prof1 map))
+;; Find a union of all the courses being
+;; watched by this professor in the current mappings
+;; @input prof1 professor name inputted
+;; @input map   complete mapping
+;; @input current-mappings mappings chosen
+(defun professor-find-watches(prof1 map current-mappings)
+;;find prof1 in mapping
+  (find prof1 current-mappings :test (lambda (prof1) (string= (
+;;get prof2
+;;get classes that prof2 is teaching
+;;return that
+  ;; (if (not current-mappings)
+  ;;     '()
+  ;;   (apply #'union
+  ;;          (list  (mapcar #'(lambda(prof2)
+  ;;                             (format t "---------- ~%" )
+  ;;                             (format t "~a ~%" prof2)
+  ;;                             (professor-find-courses prof2 map))
+  ;;                          (loop for pair in current-mappings
+  ;;                                when (string= prof1 (car pair))
+  ;;                                collect (cadr pair))
+  ;;                          )))))
+(defun professor-overlapping-coursesp (prof1 prof2 map &optional current-mappings)
+  (let ((prof1-courses  (union (professor-find-courses prof1 map) (professor-find-watches prof1 map current-mappings))))
         (prof2-courses  (professor-find-courses prof2 map )))
     (loop named outer for course1 in prof1-courses
           do
           (loop for course2 in prof2-courses
                 do
                 (if (course-intersectp course1 course2)
-                    (return-from outer  t))))))
+                    (return-from outer  t)))))
 
 (defun interval->pair (t2)
   (list (interval-start t1) (interval-end t1)))
@@ -184,17 +209,17 @@
      (interval-end-points-in t1 t2)
      (interval-end-points-in t2 t1))))
 
-(defun professor-supervisable (prof1 prof2 map)
-  (not (professor-overlapping-coursesp prof1 prof2 map)))
+(defun professor-supervisable (prof1 prof2 map &optional current-mappings)
+   (not (professor-overlapping-coursesp prof1 prof2 map current-mappings)))
 
-(defun professor-mapping (ls1 ls2 map)
+(defun professor-mapping (ls1 ls2 map &optional current-mappings)
   (loop for prof1 in ls1
         with mapping = '()
         finally (return mapping)
         do
         (loop for prof2 in ls2
               do
-              (if (professor-supervisable prof1 prof2 map )
+              (if (professor-supervisable prof1 prof2 map current-mappings )
                   (push (list prof1 prof2) mapping)))))
 
 (defun day-time-overlap(day1 time1 day2 time2 )
@@ -206,9 +231,9 @@
         do
        (format t "~a <- ~a ~%" (second  pair) (first  pair))))
 
-(defun print-basic-course-data (course)
+(defun print-basic-course-data (course &optional (out t))
 ;;  (format t "~%")
-  (format t "~a   [~a]  [~a - ~a]  "
+  (format out "~a   [~a]  [~a - ~a]  "
           (course-title course)          
           (if (slot-boundp  course 'days)
               (course-days course)
@@ -228,9 +253,10 @@
         do 
         (print-basic-course-data course)))
 
-(defun match-professor-groups(group1 group2 map)
+(defun match-professor-groups(group1 group2 map &optional current-mappings)
   (let* ((matchable-professors 
-            (professor-mapping group1 group2 map)))
+            (professor-mapping group1 group2 map current-mappings)))
+    
     (maximal-matching matchable-professors)))
 
 
@@ -244,54 +270,162 @@
 
 (defparameter *professor-map* (professor-coures-map *courses*))
 
-
 (defun sort-matching-by-last-name (matching)
   (sort (copy-list matching) #'string-lessp
         :key  #'(lambda (s)
                 ;;  (format t "[~a:~a]~%" s (last-name (string->name ( cadr s))))
-                  (last-name (string->name  (cadr s)))  ))
-  )
-(print-matching)
-(defun print-matching ()
-  (let* ((prof-ass-matching
-          (sort-matching-by-last-name
-           (match-professor-groups *prof-faculty* *ass-faculty* *professor-map*)))
+                  (last-name (string->name  (car s))))))
+;;;Temporary change: switched from mapping by visited to visitor
 
-         (prof-pt-matching
-          (sort-matching-by-last-name
-           (match-professor-groups 
-            (union  (set-difference *prof-faculty* (mapcar #'car prof-ass-matching) :test #'string=) *ass-faculty*)
-            *pt-faculty* *professor-map*)))
+
+
+;;;Step 1: Take professors and assistants, and match them
+(defun prof-ass-matching ()
+  (sort-matching-by-last-name
+   (match-professor-groups *prof-faculty* *ass-faculty* *professor-map*)))
+
+;;;Step 2: Take assistants, match them to part timers
+(defun ass-pt-matching ()
+  (sort-matching-by-last-name
+   (match-professor-groups *ass-faculty* *pt-faculty* *professor-map*)))
+
+;;;test code
+(length  (ass-pt-matching))
+;;;Step 3: Take remaining professors, match them to remaining part timers
+(defun rem-prof-rem-pt-matching ()
+  (sort-matching-by-last-name
+   (match-professor-groups 
+    (set-difference *prof-faculty*
+                    (mapcar #'car (prof-ass-matching)) :test #'string=)
+    (set-difference *pt-faculty*
+                    (mapcar #'cadr (ass-pt-matching)) :test #'string=)    
+     *professor-map*)))
+;;test
+(length (rem-prof-rem-pt-matching))
+(length *pt-faculty*)
+
+(professor-find-watches  "m beeson"
+                         *professor-map* (rem-prof-rem-pt-matching))
+
+;;;Step 4: Take second round of prof+as, match them to remaining part timers
+(defun rem-prof-rem-ass-rem-pt-matching ()
+  (sort-matching-by-last-name
+   (match-professor-groups
+    (union *prof-faculty* *ass-faculty*)
+    (set-difference  *pt-faculty* (union
+                                   (mapcar #'cadr (rem-prof-rem-pt-matching))
+                                   (mapcar #'cadr (ass-pt-matching))))
+    *professor-map*
+    (concatenate 'list (ass-pt-matching) (rem-prof-rem-pt-matching)))))
+
+(length  (rem-prof-rem-ass-rem-pt-matching))
+;; we get 41 matchings
+(concatenate 'list (prof-ass-matching)
+                      (ass-pt-matching)
+                      (rem-prof-rem-pt-matching)
+                      (rem-prof-rem-ass-rem-pt-matching))
+;; there should be 43 matchings
+(+ (length *ass-faculty*) (length *pt-faculty*))
+(set-difference (union *ass-faculty* *pt-faculty*)
+                (mapcar #'cadr
+                        (concatenate 'list (prof-ass-matching)
+                      (ass-pt-matching)
+                      (rem-prof-rem-pt-matching)
+                      (rem-prof-rem-ass-rem-pt-matching))))
+;;; => NIL
+(set-difference (union *prof-faculty* *ass-faculty*)
+                (mapcar #'car
+                        (concatenate 'list (prof-ass-matching)
+                      (ass-pt-matching)
+                      (rem-prof-rem-pt-matching)
+                      (rem-prof-rem-ass-rem-pt-matching))))
+;;; => NIL
+;;; All professors are used; all asssitants/part timers are watched
+(sort-matching-by-last-name (concatenate 'list (prof-ass-matching)
+                      (ass-pt-matching)
+                      (rem-prof-rem-pt-matching)
+                      (rem-prof-rem-ass-rem-pt-matching)))
+;;; working mark
+(maphash #'(lambda (h v)
+             (format t "~a -> (~a)~%" h
+                     (mapcar #'(lambda(course)
+                                 (format nil "~a   [~a]  [~a - ~a]  "
+                                         (course-title course)          
+                                         (if (slot-boundp  course 'days)
+                                             (course-days course)
+                                           "-")
+                                         (if (and  (slot-boundp course 'time) (course-time course)) 
+                                             (interval-start (course-time course))
+                                           "-")
+
+                                         (if (and (slot-boundp course 'time) (course-time course))
+                                             (interval-end (course-time course))
+                                           "-")))  
+                             v)))                   
+         *professor-map*)
+
+;; (defun prof-pt-matching ()
+;;   (sort-matching-by-last-name
+;;    (match-professor-groups 
+;;     (union
+;;      (set-difference *prof-faculty*
+;;                      (mapcar #'car (prof-ass-matching)) :test #'string=)
+;;      *ass-faculty*)
+;;     *pt-faculty* *professor-map*)))
+
+;; (prof-pt-matching)
+
+;; (length 
+;;  '(("b lee" "t fish") ("s simic" "j jordan") ("m cayco-gajic" "o kovaleva")
+;;    ("a gottlieb" "j lum") ("p koev" "w newball") ("w so" "v nguyen")
+;;    ("m beeson" "a nguyen") ("s crunk" "l papay") ("e schmeichel" "rigers")
+;;    ("r pfiefer" "l sega") ("h katsuura" "a strong") ("b peterson" "a talebi")
+;;    ("s obaid" "p tanniru") ("c roddick" "a tran") ("k kellum" "j trubey")
+;;    ("h ng" "m van-der-poel") ("f rivera" "m vartanian") ("bremer" "s vergara")
+;;    ("r kubelka" "j wang") ("m saleem" "e zabric") ("j maruskin" "m zoubeidi")))
+
+;; (defun print-matching ()
+;;   (let* ((prof-ass-matching
+;;           (sort-matching-by-last-name
+;;            (match-professor-groups *prof-faculty* *ass-faculty* *professor-map*)))
+         
+;;          (prof-pt-matching
+;;           (sort-matching-by-last-name
+;;            (match-professor-groups 
+;;             (union  (set-difference *prof-faculty* (mapcar #'car prof-ass-matching) :test #'string=) *ass-faculty*)
+;;             *pt-faculty* *professor-map*)))
        
-         (prof-rest-matching
-          (sort-matching-by-last-name
-           (match-professor-groups 
-            (union *prof-faculty* *ass-faculty*)
-            (set-difference *pt-faculty* (mapcar #'cadr prof-pt-matching) :test #'string=)  *professor-map*)))       
-         (full-mapping (sort-matching-by-last-name (union prof-ass-matching (union prof-pt-matching prof-rest-matching)))))
+;;          (prof-rest-matching
+;;           (sort-matching-by-last-name
+;;            (match-professor-groups 
+;;             (union *prof-faculty* *ass-faculty*)
+;;             (set-difference *pt-faculty* (mapcar #'cadr prof-pt-matching) :test #'string=)  *professor-map*)))       
+;;          (full-mapping (sort-matching-by-last-name (union prof-ass-matching (union prof-pt-matching prof-rest-matching)))))
   
-    (format t "-- Professor To Assosciate------------- ~%")  
-    (print-matching-pairs prof-ass-matching)
-    ;; (format t "-- Unassigned Proffessor  + Ass to Part timers------------- ~%")  
-    ;; (print-matching-pairs prof-pt-matching)
-    ;; (format t "-- Prof+Ass to Remaining Part timers------------- ~%")  
-    ;; (print-matching-pairs prof-rest-matching)
-    (format t "-- Prof+Ass to All Part timers------------- ~%")  
-    (print-matching-pairs (sort-matching-by-last-name (union prof-pt-matching prof-rest-matching)))
-    (format t "--- Final Mapping ------ ~%")
-    (print-matching-pairs full-mapping)
+;;     (format t "-- Professor To Assosciate------------- ~%")  
+;;     (print-matching-pairs prof-ass-matching)
+;;     ;; (format t "-- Unassigned Proffessor  + Ass to Part timers------------- ~%")  
+;;     ;; (print-matching-pairs prof-pt-matching)
+;;     ;; (format t "-- Prof+Ass to Remaining Part timers------------- ~%")  
+;;     ;; (print-matching-pairs prof-rest-matching)
+;;     (format t "-- Prof+Ass to All Part timers------------- ~%")  
+;;     (print-matching-pairs (sort-matching-by-last-name (union prof-pt-matching prof-rest-matching)))
+;;     (format t "--- Final Mapping ------ ~%")
+;;     (print-matching-pairs full-mapping)
   
-    (loop for m in  full-mapping
-          for supervisor = (car m)
-          for supervisee = (cadr m)
-          do
-          (format t "Supervisor -> Supervisee : [~a] -> [~a] ~%" supervisor supervisee)
-          (format t "[~a] Courses:  ~%"  supervisor)
-          (print-professor-courses supervisor *professor-map*)        
-          (format t "[~a]Courses: ~%"  supervisee)
-          (print-professor-courses supervisee *professor-map*))))
+;;     (loop for m in  full-mapping
+;;           for supervisor = (car m)
+;;           for supervisee = (cadr m)
+;;           do
+;;           (format t "Supervisor -> Supervisee : [~a] -> [~a] ~%" supervisor supervisee)
+;;           (format t "[~a] Courses:  ~%"  supervisor)
+;;           (print-professor-courses supervisor *professor-map*)        
+;;           (format t "[~a]Courses: ~%"  supervisee)
+;;           (print-professor-courses supervisee *professor-map*))))
 
-(print-matching)
+;; (print-matching)
+
+;; ;;(professor-mapping *prof-faculty* *pt-faculty* *professor-map*)
 
 ;; (defun print-final-mapping ()
 ;;   (let* ((m-ft-pt (professor-mapping *prof-faculty* *pt-faculty* *professor-map*))
@@ -314,11 +448,11 @@
 ;; 	(print-matching-pairs m-ft-ass)
 ;; 	(print-matching-pairs m-res-ass)))
 
-;;(assert (eql 8  (length *ass-faculty*)))
-;;(assert (eql 24  (length *prof-faculty*)))
+;; ;;(assert (eql 8  (length *ass-faculty*)))
+;; ;;(assert (eql 24  (length *prof-faculty*)))
 
 
-;;(print-final-mapping)
+;; (print-final-mapping)
 
 ;;; Tests
 (let ((t1  (make-instance 'time-interval  :start 1 :end 10))
