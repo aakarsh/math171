@@ -51,9 +51,9 @@ ptime = {}
 pfac = {}
 afac = {}
 
-for ptime_name in ptime_names: ptime[ptime_name] = Person(ptime_name, "Part-time")
-for pfac_name in pfac_names: pfac[pfac_name] = Person(pfac_name, "Professor")
-for afac_name in afac_names: afac[afac_name] = Person(afac_name, "Assistant")
+for ptime_name in ptime_names: ptime[ptime_name] = Person(ptime_name, "PT")
+for pfac_name in pfac_names: pfac[pfac_name] = Person(pfac_name, "Prof")
+for afac_name in afac_names: afac[afac_name] = Person(afac_name, "Asst")
 
 f = open("data.txt", "r")
 for line in f:

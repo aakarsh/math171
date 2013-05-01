@@ -8,7 +8,7 @@ graph1 = {}
 for target in targets:
 	graph1[target] = []
 	for watcher in watchers:
-		if watcher.pos == "Assistant" and target.pos == "Assistant": continue
+		if watcher.pos[0] == "A" and target.pos[0] == "A": continue
 		if watcher.canWatch(target):
 			graph1[target].append(watcher)
 
@@ -22,7 +22,7 @@ graph2 = {}
 for watcher in watchers:
 	graph2[watcher] = []
 	for target in unvisited_people:
-		if watcher.pos == "Assistant" and target.pos == "Assistant": continue
+		if watcher.pos[0] == "A" and target.pos[0] == "A": continue
 		if watcher.canWatch(target):
 			graph2[watcher].append(target)
 
@@ -37,5 +37,7 @@ for target in res2:
 	final.append( (watcher, target) )
 
 final.sort(key = lambda tup : tup[1].pos[1] + tup[1].name) # this is a terrible key
+print r"\begin{tabular}{lll}"
 for k,v in final:
-	print v,"\t",k,"\t",k.canWatch(v)
+	print v,"\t&\t",k,"\t&\t",k.canWatch(v),r"\\"
+print r"\end{tabular}"
