@@ -192,3 +192,4 @@
 "mtwr",	"0930-1020",		"m zoubeidi",
 "mtwr",	"0830-0920",			"m zoubeidi",
 "mtwr",	"1230-1320",			"m zoubeidi",
+"tr",	"1730-1845", "p rogers"

@@ -1,4 +1,4 @@
-ptime_names = ["s ahmed", "s arabhi", "m bodas", "s desousa", "c fan", "t fish", "j hilliard", "t huynh", "k jensen", "a jiru", "j jordan", "o kovaleva", "r low",    "j lum", "w newball", "a nguyen", "t nguyen",  "v nguyen", "l papay", "l roper", "l sega", "t smith", "a strong", "a talebi", "p tanniru", "a tran",   "q tran", "j trubey", "m van-der-poel", "m vartanian", "s vergara", "j wang", "e zabric", "m zoubeidi"]
+ptime_names = ["s ahmed", "s arabhi", "m bodas", "s desousa", "c fan", "t fish", "j hilliard", "t huynh", "k jensen", "a jiru", "j jordan", "o kovaleva", "r low",    "j lum", "w newball", "a nguyen", "t nguyen",  "v nguyen", "l papay", "l roper", "l sega", "t smith", "a strong", "a talebi", "p tanniru", "a tran",   "q tran", "j trubey", "m van-der-poel", "m vartanian", "s vergara", "j wang", "e zabric", "m zoubeidi", "p rogers"]
 
 pfac_names = ["j becker", "m blockus", "m beeson", "r dodd", "l foster", "d goldston", "t hsu", "k kellum", "r kubelka", "h ng", "s obaid", "b pence", "b peterson", "r pfiefer", "f rivera", "m saleem", "e schmeichel", "w so", "m stanley", "c roddick", "sliva-spitzer",  "h katsuura",  "m beeson"]
 
