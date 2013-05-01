@@ -28,7 +28,7 @@ class Person:
 		if " " in self.name:
 			self.name = self.name[2:] + " " + self.name[:1]
 	def __repr__(self):
-		return self.name.title() + " (" + self.pos + ")"
+		return "(" + self.pos + ") " + self.name.title() 
 	def addClass(self, days, time):
 		t_start = int(time[0:4])
 		t_end = int(time[5:9])

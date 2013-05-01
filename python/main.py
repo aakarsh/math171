@@ -37,7 +37,7 @@ for target in res2:
 	final.append( (watcher, target) )
 
 final.sort(key = lambda tup : tup[1].pos[1] + tup[1].name) # this is a terrible key
-print r"\begin{tabular}{lll}"
+# print r"\begin{tabular}{lll}"
 for k,v in final:
 	print v,"\t&\t",k,"\t&\t",k.canWatch(v),r"\\"
-print r"\end{tabular}"
+# print r"\end{tabular}"
